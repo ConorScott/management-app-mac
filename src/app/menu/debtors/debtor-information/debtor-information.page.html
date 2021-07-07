@@ -1,0 +1,226 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="/menu/tabs/debtors"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Account Information:</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+  <div *ngIf="!isLoading">
+    <ion-card>
+      <ion-segment [(ngModel)]="segment" value="information">
+        <ion-segment-button value="information"><ion-label>Account Information</ion-label></ion-segment-button>
+        <ion-segment-button value="payments"><ion-label>Payments</ion-label></ion-segment-button>
+      </ion-segment>
+      <ion-card-content>
+        <ion-grid *ngIf="segment === 'information'">
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="4">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Deceased Name:</ion-label>
+                <ion-label>{{debtor.deceasedName}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Responsible Name:</ion-label>
+                <ion-label>{{debtor.responsible}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Invoice Date:</ion-label>
+                <ion-label>{{debtor.invoiceDate | date: 'dd/MM/yyyy'}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <hr class="hr">
+
+          <ion-card-header>
+            <ion-card-subtitle class="card-title">Account Breakdown</ion-card-subtitle>
+          </ion-card-header>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="4">
+              <ion-item lines="none" lines="none">
+                <ion-label class="form-label">Default Entry Price:</ion-label>
+                <ion-label>€{{debtor.defaultEntryPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.coffinPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Coffin Details:</ion-label>
+                <ion-label>€{{debtor.coffinPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.casketCoverPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Casket cover:</ion-label>
+                <ion-label>€{{debtor.casketCoverPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.churchOfferringPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Church Offering:</ion-label>
+                <ion-label>€{{debtor.churchOfferringPrice}}</ion-label>
+                </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.sacristianPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Sacristian:</ion-label>
+                <ion-label>€{{debtor.sacristianPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.flowersPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Flowers:</ion-label>
+                <ion-label>€{{debtor.flowersPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.graveOpenPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Grave Open:</ion-label>
+                <ion-label>€{{debtor.graveOpenPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.gravePurchasePrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Grave Purchase to Council:</ion-label>
+                <ion-label>€{{debtor.gravePurchasePrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.graveMarkerPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Grave Marker:</ion-label>
+                <ion-label>€{{debtor.graveMarkerPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.graveMatsTimbersPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Grave Mats Timbers:</ion-label>
+                <ion-label>€{{debtor.graveMatsTimbersPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.clothsPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Cloths:</ion-label>
+                <ion-label>€{{debtor.clothsPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.radioNoticePrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Radio Death Notices:</ion-label>
+                <ion-label>€{{debtor.radioNoticePrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.paperNoticePrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Paper Death Notice:</ion-label>
+                <ion-label>€{{debtor.paperNoticePrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.organistPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Organist:</ion-label>
+                <ion-label>€{{debtor.organistPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.soloistPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Soloist:</ion-label>
+                <ion-label>€{{debtor.soloistPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.otherDetailsPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Other Details Price:</ion-label>
+                <ion-label>€{{debtor.otherDetailsPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" size-md="6" size-lg="4">
+            <ion-item lines="none">
+              <ion-label class="form-label">Total Balance:</ion-label>
+              <ion-label>€{{debtor.totalBalance}}</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-button color="success" type="submit" expand="block" (click)="presentModal()">
+                Make Payment
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid *ngIf="segment === 'payments'" class="payment-grid">
+          <ion-row>
+            <ion-col size="8">
+              <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+            </ion-col>
+            <ion-col size="2" class="ion-align-self-center ion-text-center">
+              <ion-button class="new-entry-button" routerLink="/menu/tabs/data-entry/deceased/new">
+                <ion-icon slot="start" name="add-outline"></ion-icon>
+                New Payment
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="card-details">
+
+              <ion-list *ngIf="!isLoading && payments?.length > 0">
+                <ion-item class="list-item th">
+                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    Name
+                  </ion-label>
+                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    Date
+                  </ion-label>
+                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    Amount
+                  </ion-label>
+                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    Method
+                  </ion-label>
+                  <ion-icon></ion-icon>
+                  <ion-icon></ion-icon>
+                </ion-item>
+                <div *ngIf="isLoading" class="ion-text-center">
+                  <ion-spinner color="primary"></ion-spinner>
+                </div>
+                <div class="ion-text-center" *ngIf="!isLoading && payments.length <= 0">
+                  <p>No Debtor Information Found!</p>
+                  <ion-button color="primary" routerLink="/menu/tabs/data-entry/deceased/new"
+                    >Create New entry</ion-button>
+                </div>
+                  <ion-item *ngFor="let payment of payments" class="ion-item list-item">
+                    <ion-label class="ion-label name">{{payment.payeeName}}</ion-label>
+                    <ion-label class="ion-label">{{payment.paymentDate | date: 'dd/MM/yyyy'}}</ion-label>
+                    <ion-label class="ion-label">€{{payment.amount}}</ion-label>
+                    <ion-label class="ion-label">{{payment.paymentMethod}}</ion-label>
+                    <ion-icon name="create" color="primary" ></ion-icon>
+                  <ion-icon name="trash" color="danger"></ion-icon>
+                  </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+</ion-content>

@@ -1,0 +1,49 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+    <ion-col size-lg="8" size-sm="12">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle class="card-title">Church List</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="8">
+                <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="card-details">
+                <div *ngIf="isLoading" class="ion-text-center no-info">
+                  <ion-spinner color="primary"></ion-spinner>
+                </div>
+                  <ion-item class="list-item th">
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Name
+                    </ion-label>
+                  </ion-item>
+                  <div class="ion-text-center no-info" *ngIf="!isLoading && filtered.length <= 0">
+                    <p>No church entries found!</p>
+                  </div>
+                  <div class="virtualScroll">
+                  <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && church.length > 0">
+                  <ion-item *ngFor="let church of filtered" class="ion-item list-item">
+                    <ion-label class="ion-label name">{{church.churchName}}</ion-label>
+                    <ion-icon name="create" color="primary" (click)="onEdit(church.id)"></ion-icon>
+                    <ion-icon name="trash" color="danger" (click)="onDeleteEntry(church.id)"></ion-icon>
+                  </ion-item>
+                  </cdk-virtual-scroll-viewport>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col size-lg="4" size-sm="12">
+      <app-new-church></app-new-church>
+    </ion-col>
+  </ion-row>
+  </ion-grid>
+</ion-content>

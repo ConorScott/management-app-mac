@@ -1,0 +1,237 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/tabs/data-entry/deceased"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit Deceased Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+  <form [formGroup]="form" *ngIf="!isLoading">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="card-title">
+          Deceased Information
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Deceased Name</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="deceasedName"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Date of Death</ion-label>
+                <ion-datetime class="form-input-date" formControlName="deathDate"></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Age</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="number" formControlName="age"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Place of Death</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="deathPlace"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="subtitle">
+              <ion-card-subtitle class="card-title">Address of Deceased</ion-card-subtitle>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Address Line 1</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="address1"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Address Line 2</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="address2"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Address Line 3</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="address3"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">County</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="county"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="card-title">
+          Family Contact Information
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <div formGroupName="contact">
+            <ion-row>
+              <ion-col size="12" size-md="6" size-lg="3.5">
+                <ion-item lines="none">
+                  <ion-label class="form-label" position="stacked">Responsible</ion-label>
+                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="responsible"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="4">
+                <ion-item lines="none">
+                  <ion-label class="form-label" position="stacked">Relation To Deceased</ion-label>
+                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="relationship"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3.5">
+                <ion-item lines="none">
+                  <ion-label class="form-label" position="stacked">Phone No.</ion-label>
+                  <ion-input class="form-input" autocomplete autocorrect type="number" formControlName="phoneNo"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="subtitle">
+                <ion-card-subtitle position="stacked" class="card-title">Address of Responsible</ion-card-subtitle>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label class="form-label" position="stacked">Address Line 1</ion-label>
+                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resAddress1"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label class="form-label" position="stacked">Address Line 2</ion-label>
+                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resAddress2"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label class="form-label" position="stacked">Address Line 3</ion-label>
+                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resAddress3"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label class="form-label" position="stacked">County</ion-label>
+                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resCounty"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="card-title">Funeral Arrangments</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Church</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="church"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3" class="cemetery-col">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Cemetery</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="cemetry"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Grave Details</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="grave"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Clergy</ion-label>
+                <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="clergy"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Removal Date</ion-label>
+                <ion-datetime class="form-input-date" formControlName="removalDate"></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Removal Time</ion-label>
+                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="removalTime">
+                </ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Leave Home Time</ion-label>
+                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="leaveHomeTime">
+                </ion-datetime>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Church Arrival Time</ion-label>
+                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="churchArrivalTime">
+                </ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Mass Date:</ion-label>
+                <ion-datetime class="form-input-date" formControlName="massDate"></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Mass Time</ion-label>
+                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="massTime"></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="onUpdateDeceased()"
+                [disabled]="!form?.valid">
+                Submit
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+  </form>
+</ion-content>

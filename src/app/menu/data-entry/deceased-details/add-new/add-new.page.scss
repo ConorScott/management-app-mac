@@ -1,0 +1,111 @@
+ion-item{
+  --ion-item-background:white;
+  border-radius: 8px;
+}
+ion-col{
+  padding: 16px;
+}
+.subtitle{
+  padding-bottom:0px;
+}
+ion-grid{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+ion-card-content{
+  padding: 0;
+}
+ion-grid{
+  padding: 0;
+}
+ion-card{
+  width: 85%;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom:16px;
+}
+ion-card-header{
+  padding-bottom: 0px;
+}
+ion-toolbar {
+  --ion-toolbar-background: rgba(0, 0, 0, 0.0);
+  --ion-toolbar-color: #1b3a57;
+}
+.selectForm::part(icon) {
+  color: #32325d;
+  opacity: 1;
+}
+.form-label{
+  color: #525f7f;
+  margin-bottom: .8rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+.form-input{
+  font-size: .875rem;
+    transition: all 1.15s ease-in-out;
+    height: calc(1.5em + 1.25rem + 5px);
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    box-shadow: 0 3px 2px rgba(233, 236, 239, 0.05);
+    width:100%;
+    font-weight: 500;
+    line-height: 1.5;
+    --placeholder-font-weight:500;
+    --padding-start:.625rem;
+    --font-weight: 500;
+}
+
+ion-item.item-has-focus > .form-input{
+  color: #525f7f !important;
+  border: 1px solid #3880ff;
+}
+.form-input-date{
+  font-size: .875rem;
+    transition: all 1.15s ease-in-out;
+
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    box-shadow: 0 3px 2px rgba(233, 236, 239, 0.05);
+    width:100%;
+    padding: .625rem .75rem;
+    font-weight: 500;
+    line-height: 1.5;
+    --placeholder-font-weight:500;
+    --padding-start:.625rem;
+    --font-weight: 500;
+    --background-hover:transparent;
+}
+.form-input-date::part(text){
+  color: #525f7f !important;
+}
+.form-input-select{
+  font-size: .875rem;
+    transition: all 1.15s ease-in-out;
+
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    box-shadow: 0 3px 2px rgba(233, 236, 239, 0.05);
+    width:100%;
+    font-weight: 500;
+    line-height: 1.5;
+    --placeholder-font-weight:500;
+    --padding-start:.625rem;
+    --font-weight: 500;
+    --background-hover:transparent;
+}
+.new-entry-button{
+  font-size: .875rem
+}
+.card-subtitle{
+  padding-left: 16px;
+  padding-top: 16px;
+}
+.contact{
+  color: #525f7f;
+
+  font-weight: 600;
+  font-size: 1rem;
+  padding-left: 32px;
+  padding-top: 16px;
+}

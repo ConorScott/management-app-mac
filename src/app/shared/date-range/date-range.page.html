@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Date Range Filter</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCancel()">close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content">
+      <ion-item>
+        <ion-label>Start Date</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY"  [(ngModel)]="startDate"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>End Date</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" [min]="startDate"  [(ngModel)]="endDate"></ion-datetime>
+      </ion-item>
+      <ion-button color="success" type="submit" expand="block" (click)="onSubmitDate()">
+        Submit Dates
+      </ion-button>
+</ion-content>

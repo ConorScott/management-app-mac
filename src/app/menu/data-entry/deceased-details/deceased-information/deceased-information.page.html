@@ -1,0 +1,170 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/tabs/data-entry/deceased"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Deceased Information</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+  <div *ngIf="!isLoading">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="card-title card-title-sub">
+          Deceased Information
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size-md="6" size-lg="6">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Deceased Name:</ion-label>
+                <ion-label>{{deceased.deceasedName}}</ion-label>
+              </ion-item>
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Date of Death:</ion-label>
+                <ion-label>{{deceased.deathDate | date: 'dd/mm/yyyy'}}</ion-label>
+              </ion-item>
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Age:</ion-label>
+                <ion-label>{{deceased.age}}</ion-label>
+              </ion-item>
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Place of Death:</ion-label>
+                <ion-label>{{deceased.deathPlace}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6" size-lg="6">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Address Line 1:</ion-label>
+                <ion-label>{{deceased.address1}}</ion-label>
+              </ion-item>
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Address Line 2:</ion-label>
+                <ion-label>{{deceased.address2}}</ion-label>
+              </ion-item>
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Address Line 3:</ion-label>
+                <ion-label>{{deceased.address3}}</ion-label>
+              </ion-item>
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">County:</ion-label>
+                <ion-label>{{deceased.county}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <hr class="hr">
+
+          <ion-card-header>
+            <ion-card-subtitle class="card-title">Family Contact Information</ion-card-subtitle>
+          </ion-card-header>
+
+              <div formGroupName="contact">
+                <ion-row>
+                  <ion-col size-md="6" size="6">
+                    <ion-item lines="none" class="ion-text-start">
+                      <ion-label class="form-label">Responsible:</ion-label>
+                      <ion-label>{{deceased.contact.responsible}}</ion-label>
+                    </ion-item>
+                    <ion-item lines="none" class="ion-text-start">
+                      <ion-label class="form-label">Relation To Deceased:</ion-label>
+                      <ion-label>{{deceased.contact.relationship}}</ion-label>
+                    </ion-item>
+                    <ion-item lines="none" class="ion-text-start">
+                      <ion-label class="form-label">Phone No.:</ion-label>
+                      <ion-label>{{deceased.contact.phoneNo}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size-md="6" size="6">
+                    <ion-item lines="none" class="ion-text-start">
+                      <ion-label class="form-label">Address Line 1:</ion-label>
+                      <ion-label>{{deceased.contact.resAddress1}}</ion-label>
+                    </ion-item>
+                    <ion-item lines="none" class="ion-text-start">
+                      <ion-label class="form-label">Address Line 3:</ion-label>
+                      <ion-label>{{deceased.contact.resAddress2}}</ion-label>
+                    </ion-item>
+                    <ion-item lines="none" class="ion-text-start">
+                      <ion-label class="form-label">Address Line 3</ion-label>
+                      <ion-label>{{deceased.contact.resAddress3}}</ion-label>
+                    </ion-item>
+                    <ion-item lines="none" class="ion-text-start">
+                      <ion-label class="form-label">County:</ion-label>
+                      <ion-label>{{deceased.contact.resCounty}}</ion-label>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </div>
+              <hr class="hr">
+              <ion-card-header>
+                <ion-card-subtitle class="card-title">Funeral Information</ion-card-subtitle>
+              </ion-card-header>
+              <ion-row>
+                <ion-col size-md="6" size="6">
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Church:</ion-label>
+                    <ion-label>{{deceased.church}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Cemetery:</ion-label>
+                    <ion-label>{{deceased.cemetry}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Grave Details:</ion-label>
+                    <ion-label>{{deceased.grave}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Clergy:</ion-label>
+                    <ion-label>{{deceased.clergy}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Removal Date:</ion-label>
+                    <ion-label>{{deceased.removalDate | date: "dd/MM/YYYY"}}</ion-label>
+                  </ion-item>
+                </ion-col>
+                <ion-col size-md="6" size="6">
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Removal Time:</ion-label>
+                    <ion-label>{{deceased.removalTime | date: "shortTime"}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Leave Home Time:</ion-label>
+                    <ion-label>{{deceased.leaveHomeTime | date: "shortTime"}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Church Arrival Time:</ion-label>
+                    <ion-label>{{deceased.churchArrivalTime | date: "shortTime"}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Mass Date:</ion-label>
+                    <ion-label>{{deceased.massDate | date: "dd/MM/YYYY"}}</ion-label>
+                  </ion-item>
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Mass Time:</ion-label>
+                    <ion-label>{{deceased.massTime | date: "shortTime"}}</ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+                  <ion-row>
+                    <ion-col size="12" size-md="6" size-lg="3">
+                      <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="onEdit(deceased.id)">
+                        Edit Information
+                      </ion-button>
+                    </ion-col>
+                  </ion-row>
+
+            </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+</ion-content>

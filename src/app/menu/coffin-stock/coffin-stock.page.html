@@ -1,0 +1,66 @@
+<ion-header class="ion-no-border">
+  <app-header [title]="title"></app-header>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row >
+      <ion-col size-lg="8" size-sm="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-item lines="none">
+              <ion-card-subtitle class="card-title">Coffin List</ion-card-subtitle>
+            </ion-item>
+
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="8">
+                  <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+                </ion-col>
+                <ion-col class="card-details">
+                  <div *ngIf="isLoading" class="ion-text-center">
+                    <ion-spinner color="primary"></ion-spinner>
+                  </div>
+                    <ion-item class="list-item th">
+                      <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                        Name
+                      </ion-label>
+                      <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                        Stock Level
+                      </ion-label>
+                      <ion-icon></ion-icon>
+                      <ion-icon></ion-icon>
+                    </ion-item>
+                    <div class="ion-text-center no-info" *ngIf="!isLoading && filtered.length <= 0">
+                      <p>No coffin entries found for search "{{searchTerm}}"!</p>
+                    </div>
+                    <div class="virtualScroll">
+                    <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && coffin.length > 0">
+                      <ion-item *cdkVirtualFor="let coffin of filtered" class="ion-item list-item">
+                        <ion-label class="ion-label name">{{coffin.coffinName}}</ion-label>
+                        <ion-label class="ion-label">{{coffin.stockLevel}}</ion-label>
+                        <ion-icon name="create" color="primary" (click)="onEdit(coffin.id)"></ion-icon>
+                        <ion-icon name="trash" color="danger" (click)="onDeleteEntry(coffin.id)"></ion-icon>
+                      </ion-item>
+                    </cdk-virtual-scroll-viewport>
+                  </div>
+
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size-lg="4" size-sm="12" >
+        <app-new-coffin></app-new-coffin>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+
+
+</ion-content>

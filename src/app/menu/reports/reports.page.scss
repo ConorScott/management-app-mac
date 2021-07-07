@@ -1,0 +1,17 @@
+nav a {
+  padding: 10px 16px;
+}
+a.mat-tab-link.mat-focus-indicator{
+  padding-left:0px;
+  padding-right:0px;
+  color:#1b3a57;
+  min-width:100px;
+}
+.mat-tab-label-active {
+  color: #3880ff !important;
+}
+
+nav{
+  margin-left:15px;
+  margin-right:15px;
+}

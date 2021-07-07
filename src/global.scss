@@ -24,3 +24,97 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/* Angular Calendar Import */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+@import "./theme/form.scss";
+
+.cal-modal {
+    --height: 80%;
+    --border-radius: 10px;
+    padding: 25px;
+}
+
+.new-filter-button{
+  border-color: #fff;
+  color: #3880ff;
+    box-shadow: 0, 4px, 6px rgb(50, 50, 93 / 0.11), 0, 1px, 3px rgb(0, 0, 0 / 0.08);
+    border-radius: .25rem;
+    font-size: .75em;
+    font-weight:600;
+    --background: transparent;
+    transition: all .15s ease;
+}
+.new-filter-button:hover{
+  box-shadow: 0, 7px, 14px rgb(50, 50, 93 / 0.10), 0, 3px, 6px rgb(0, 0, 0 / 0.08);
+    transform: translateY(-1px);
+    color: #32325d;
+}
+.new-entry-button {
+  font-size: .75em;
+  box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11), 0px 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: .25rem;
+    font-weight:600;
+
+    transition: all .15s ease;
+}
+.new-entry-button:hover{
+  box-shadow: 0px 7px 14px rgba(50, 50, 93, 0.10), 0px 3px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+
+}
+.no-info {
+  padding: 10px 0px;
+}
+.card-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #32325d;
+}
+.monthview-datetable tbody tr{
+  height: 106px;
+}
+.monthview-datetable tbody tr td div{
+  text-align:start;
+  font-size: .875rem;
+  font-weight: 600;
+  color: #67779d;
+}
+.monthview-datetable thead tr th{
+  text-align:left !important;
+}
+.monthview-datetable thead tr th small{
+  text-align:start;
+    font-size: .75rem;
+    font-weight: 600;
+    color: #8898aa;
+    text-transform: uppercase;
+}
+//forms
+.submit-button{
+  font-size: .875em;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: .25rem;
+    font-weight:600;
+
+    transition: all .15s ease;
+}
+.submit-button:hover{
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.10), 0 3px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+
+}
+.selectForm{
+  --placeholder-color:#32325d;
+  --placeholder-opacity: 1;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: .25rem;
+  font-weight:600;
+  transition: all .15s ease;
+}
+.selectForm:hover{
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.10), 0 3px 6px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+
+}

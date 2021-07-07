@@ -1,0 +1,31 @@
+<ion-content>
+  <ion-item lines="none">
+    <ion-label position="fixed">Title</ion-label>
+    <ion-input placeholder="Enter title here" class="ion-text-right" type="text" [(ngModel)]="event.title"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="fixed"  >Description</ion-label>
+    <ion-input placeholder="Enter description" class="ion-text-right" type="text" [(ngModel)]="event.desc"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label  >All Day</ion-label>
+    <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label >Start</ion-label>
+    <ion-datetime *ngIf="!event.allDay" displayFormat="MM/DD/YYYY HH:mm" pickerFormat="YYYY MMM D:HH:mm"
+      [(ngModel)]="event.startTime" [min]="minDate" [max]="maxDate" (ionChange)="updateMonth()"></ion-datetime>
+    <ion-datetime *ngIf="event.allDay" displayFormat="MM/DD/YYYY" pickerFormat="YYYY MMM D"
+      [(ngModel)]="event.startTime" [min]="minDate" [max]="maxDate" (ionChange)="updateMonth()"></ion-datetime>
+  </ion-item>
+
+  <ion-item *ngIf="!event.allDay" lines="none">
+    <ion-label>End</ion-label>
+    <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat=" YYYY MMM D:HH:mm" [(ngModel)]="event.endTime"
+      [min]="minDate" [max]="maxDate"></ion-datetime>
+  </ion-item>
+<ion-button (click)="saveEvent()">Submit</ion-button>
+</ion-content>

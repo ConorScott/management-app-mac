@@ -1,0 +1,17 @@
+<ion-header class="ion-no-border">
+  <app-header [title]="title"></app-header>
+</ion-header>
+
+<ion-content>
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link
+    *ngFor="let link of navLinks"
+    [routerLink]="['/menu', 'tabs', 'reports', link.link]"
+    routerLinkActive
+    #rla="routerLinkActive"
+    mat-tab-link
+    [active]="rla.isActive">
+   {{link.label}}
+  </a>
+  </nav>
+</ion-content>

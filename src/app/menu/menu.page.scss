@@ -1,0 +1,11 @@
+@media only screen and (min-width: 800px) {
+     /* hide it elsewhere */
+ }
+ @media screen and (min-width: 991px) {
+  ion-tab-bar{ display: none; }   /* hide it elsewhere */
+ }
+ ion-list {
+   background: black;
+ }
+
+

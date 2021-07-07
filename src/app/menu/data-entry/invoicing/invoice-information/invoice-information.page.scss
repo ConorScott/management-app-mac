@@ -1,0 +1,74 @@
+
+@media screen {
+  .invoice-printer{
+    display: none;
+  }
+}
+.hr{
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,.1);
+  margin-left: 1.8em;
+  margin-right: 1.8em;
+}
+ion-label{
+  font-size: 0.875rem !important;
+}
+ion-card{
+  width: 85%;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom:16px;
+  padding-top:16px;
+}
+ion-col{
+  padding: 0px 10px;
+}
+ion-grid{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+ion-card-content{
+  padding: 0;
+}
+ion-grid{
+  padding: 0;
+}
+ion-card-header{
+  padding-bottom: 0px;
+}
+ion-card-header:not(.card-title-sub){
+  padding-top: 0px !important;
+}
+ion-toolbar {
+  --ion-toolbar-background: rgba(0, 0, 0, 0.0);
+  --ion-toolbar-color: #1b3a57;
+}
+.new-entry-button{
+  font-size: .875rem;
+  margin-top: 16px;
+}
+.form-label{
+  color: #525f7f;
+  font-weight: 600;
+  font-size: .875rem;
+}
+.total-balance{
+  color: #525f7f;
+  font-weight: 600;
+  font-size: 1rem;
+}
+.entry-label{
+  margin-bottom: 1.375rem;
+
+  color: #525f7f;
+  font-weight: 600;
+  font-size: .875rem;
+}
+.entry-textarea{
+  font-size: .850rem;
+}

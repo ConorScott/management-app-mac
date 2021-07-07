@@ -1,0 +1,47 @@
+.header {
+  padding-bottom: 5px;
+  border-bottom: solid black 1pt;
+}
+.header p{
+  padding: 0px 20px;
+}
+.items-group{
+  padding: 3pt 3pt 3pt 3pt;
+  margin: 9pt 0 9pt 0;
+  border-bottom: solid black 1pt;
+}
+p {
+  font-size: 12pt;
+}
+
+h1{
+  font-size:28px;
+}
+.main-heading{
+  font-size: 34px;
+  font-weight: 400;
+}
+.date-death{
+  font-size:26px;
+}
+.price{
+  text-align: center;
+}
+.items-group .entry{
+  border-top: solid lightgray 1pt;
+}
+.row{
+  line-height: 20px;
+}
+.entry-div{
+  height: 2em;
+  line-height: 2em;
+}
+@media screen {
+  :host {
+    display:none;
+  }
+}
+
+
+

@@ -1,0 +1,31 @@
+
+  <form [formGroup]="form">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="card-title">
+          New Church Entry
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label class="form-label" position="stacked">Church Name</ion-label>
+                <ion-input class="form-input" placeholder="Church Name" type="text" formControlName="churchName">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-col>
+              <ion-button class="submit-button" type="submit" expand="block" (click)="onCreateChurch()">
+                Submit
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </form>
