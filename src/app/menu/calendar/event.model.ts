@@ -1,12 +1,10 @@
-export class Calendar {
+export class Event {
   constructor(
-    public id?: string,
-    public title?: string,
-    public desc?: string,
-    public startTime?: any,
-    public endTime?: any,
-    public allDay?: boolean
-
-
+    public id: string,
+    public title: string,
+    public start: Date,
+    public end: Date,
+    public color,
+    public allDay: boolean,
   ){}
 }

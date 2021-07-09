@@ -12,10 +12,10 @@ const routes: Routes = [
     path: 'new-entry',
     loadChildren: () => import('./new-entry/new-entry.module').then( m => m.NewEntryPageModule)
   },
-  {
-    path: 'cal-modal/:eventId/:startDate',
-    loadChildren: () => import('./cal-modal/cal-modal.module').then( m => m.CalModalPageModule)
-  }
+  // {
+  //   path: 'cal-moda',
+  //   loadChildren: () => import('./cal-modal/cal-modal.module').then( m => m.CalModalPageModule)
+  // }
 ];
 
 @NgModule({

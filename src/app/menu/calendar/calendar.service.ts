@@ -1,16 +1,17 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable arrow-body-style */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Calendar } from './event.model';
+import { Event } from './event.model';
 
 interface EventData {
   title: string;
-  desc: string;
   startTime: Date;
   endTime: Date;
+  color;
   allDay: boolean;
 }
 
@@ -18,7 +19,7 @@ interface EventData {
   providedIn: 'root',
 })
 export class CalendarService {
-  private _calendar = new BehaviorSubject<Calendar[]>([]);
+  private _calendar = new BehaviorSubject<Event[]>([]);
 
   get calendar() {
     return this._calendar.asObservable();
@@ -28,45 +29,70 @@ export class CalendarService {
 
   addEvent(
     title: string,
-    desc: string,
-    startTime: Date,
-    endTime: Date,
+    start: Date,
+    end: Date,
+    color,
     allDay: boolean
   ) {
-    console.log(title);
-    const newEvent = new Calendar(
-      Math.random().toString(),
-      title,
-      desc,
-      startTime,
-      endTime,
-      allDay
+    let generateId: string;
+    let newCalendar: Event;
+    let fetchedUserId: string;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error('No user id found!');
+        }
+        fetchedUserId = userId;
+        return this.authService.token;
+      }),
+      take(1),
+      switchMap((token) => {
+        // newCalendar = events;
+        newCalendar = new Event(
+          Math.random().toString(),
+          title,
+          start,
+          end,
+          color,
+          allDay
+        );
+        return this.http.post<{ name: string }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
+          { ...newCalendar, id: null }
+        );
+      }),
+      switchMap((resData) => {
+        generateId = resData.name;
+        return this.calendar;
+      }),
+      take(1),
+      tap((calendar) => {
+        newCalendar.id = generateId;
+        this._calendar.next(calendar.concat(newCalendar));
+      })
     );
-
-     return this.http
-      .post(
-        'https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/calendar.json',
-        { ...newEvent, id: null }
-      );
   }
 
   fetchEvents() {
-    return this.http
-      .get<{ [key: string]: EventData }>(
-        'https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/calendar.json'
-      )
-      .pipe(
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: EventData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`
+        );
+      }),
         map((resData) => {
           const calendar = [];
           for (const key in resData) {
             if (resData.hasOwnProperty(key)) {
               calendar.push(
-                new Calendar(
+                new Event(
                   key,
                   resData[key].title,
-                  resData[key].desc,
                   resData[key].startTime,
                   resData[key].endTime,
+                  resData[key].color,
                   resData[key].allDay
                 )
               );
@@ -76,6 +102,7 @@ export class CalendarService {
         }),
         tap((calendar) => {
           this._calendar.next(calendar);
+          console.log(calendar);
         })
       );
   }
@@ -89,14 +116,14 @@ export class CalendarService {
         );
       }),
       map((resData) => {
-        return new Calendar(
+        return new Event(
           id,
           resData.title,
-          resData.desc,
           resData.startTime,
           resData.endTime,
+          resData.color,
           resData.allDay
-        );
+          );
       })
     );
   }

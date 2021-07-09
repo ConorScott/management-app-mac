@@ -1,5 +1,5 @@
 <ion-header>
-  <app-header></app-header>
+  <app-header [title]="title"></app-header>
 </ion-header>
 <ion-content>
   <div class="row text-center">
@@ -66,7 +66,7 @@
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarView.Month"
       [viewDate]="viewDate"
-      [events]="events"
+      [events]="calendar"
       [refresh]="refresh"
       [activeDayIsOpen]="activeDayIsOpen"
       (dayClicked)="dayClicked($event.day)"
@@ -97,7 +97,7 @@
 
   <h3>
     Edit events
-    <button class="btn btn-primary float-right" (click)="addEvent()">
+    <button class="btn btn-primary float-right" (click)="openCalModal()">
       Add new
     </button>
     <div class="clearfix"></div>

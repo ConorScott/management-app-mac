@@ -23,6 +23,7 @@ export class DebtorsPage implements OnInit, OnDestroy {
   filtered = [];
   searchTerm: string;
   isVisible: boolean;
+  totalBalance: number;
   startDate;
   endDate;
   filterSelected = false;

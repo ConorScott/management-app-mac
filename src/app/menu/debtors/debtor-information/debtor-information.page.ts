@@ -67,7 +67,7 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
           return;
         }
         console.log(modalData.data.paymentData.paymentMethod);
-        this.newBalance = this.debtor.totalBalance - modalData.data.paymentData.amount;
+        // this.newBalance = this.debtor.totalBalance - modalData.data.paymentData.amount;
         this.debtorService.updateDebtor(
           this.debtorId,
           this.newBalance,

@@ -93,7 +93,6 @@ export class EditCemetryPage implements OnInit {
   //     });
   // }
   onUpdateCemetery(){
-    console.log(this.form.value.cemeteryName);
     this.modal.dismiss(
       {
         editCemetery: {

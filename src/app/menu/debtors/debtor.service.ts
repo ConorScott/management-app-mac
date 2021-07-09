@@ -129,7 +129,6 @@ export class DebtorService {
         organistPrice,
         soloistPrice,
         otherDetailsPrice,
-        totalBalance
       );
       return this.http
         .put<{ name: string }>(
@@ -186,7 +185,6 @@ export class DebtorService {
               resData[key].organistPrice,
               resData[key].soloistPrice,
               resData[key].otherDetailsPrice,
-              resData[key].totalBalance
             )
           );
         }
@@ -263,7 +261,6 @@ export class DebtorService {
           resData.organistPrice,
           resData.soloistPrice,
           resData.otherDetailsPrice,
-          resData.totalBalance
         );
       })
     );
@@ -338,7 +335,6 @@ export class DebtorService {
           oldDebtor.organistPrice,
           oldDebtor.soloistPrice,
           oldDebtor.otherDetailsPrice,
-          totalBalance
         );
         this.addPayment(payments, debtorId, fetchedToken);
         return this.http.put<Debtor>(
@@ -377,29 +373,30 @@ export class DebtorService {
     paperNoticePrice: number,
     organistPrice: number,
     soloistPrice: number,
-    otherDetailsPrice: number
+    otherDetailsPrice: number,
+    totalBalance: number
   ) {
-    const totalBalance =
-    servicesPrice +
-    coffinPrice +
-    casketCoverPrice +
-    coronerDoctorCertPrice +
-    cremationPrice +
-    urnPrice +
-    churchOfferringPrice +
-    sacristianPrice +
-    flowersPrice +
-    graveOpenPrice +
-    gravePurchasePrice +
-    graveMarkerPrice +
-    graveMatsTimbersPrice +
-    clothsPrice +
-    hairdresserPrice +
-    radioNoticePrice +
-    paperNoticePrice +
-    organistPrice +
-    soloistPrice +
-    otherDetailsPrice;
+    // const totalBalance =
+    // servicesPrice +
+    // coffinPrice +
+    // casketCoverPrice +
+    // coronerDoctorCertPrice +
+    // cremationPrice +
+    // urnPrice +
+    // churchOfferringPrice +
+    // sacristianPrice +
+    // flowersPrice +
+    // graveOpenPrice +
+    // gravePurchasePrice +
+    // graveMarkerPrice +
+    // graveMatsTimbersPrice +
+    // clothsPrice +
+    // hairdresserPrice +
+    // radioNoticePrice +
+    // paperNoticePrice +
+    // organistPrice +
+    // soloistPrice +
+    // otherDetailsPrice;
     let updateDebtor: Debtor[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -450,7 +447,6 @@ export class DebtorService {
           organistPrice,
           soloistPrice,
           otherDetailsPrice,
-          totalBalance
         );
         return this.http.put<Debtor>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${invoiceId}.json?auth=${fetchedToken}`,
