@@ -9,8 +9,8 @@ import { Event } from './event.model';
 
 interface EventData {
   title: string;
-  startTime: Date;
-  endTime: Date;
+  start: Date;
+  end: Date;
   color;
   allDay: boolean;
 }
@@ -74,6 +74,53 @@ export class CalendarService {
     );
   }
 
+  addReposeEvent(
+    title: string,
+    start: Date,
+    end: Date,
+    color,
+  ) {
+    let generateId: string;
+    let newCalendar: Event;
+    let fetchedUserId: string;
+    const allDay = false;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error('No user id found!');
+        }
+        fetchedUserId = userId;
+        return this.authService.token;
+      }),
+      take(1),
+      switchMap((token) => {
+        // newCalendar = events;
+        newCalendar = new Event(
+          Math.random().toString(),
+          title,
+          start,
+          end,
+          color,
+          allDay
+        );
+        return this.http.post<{ name: string }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
+          { ...newCalendar, id: null }
+        );
+      }),
+      switchMap((resData) => {
+        generateId = resData.name;
+        return this.calendar;
+      }),
+      take(1),
+      tap((calendar) => {
+        newCalendar.id = generateId;
+        this._calendar.next(calendar.concat(newCalendar));
+      })
+    );
+  }
+
   fetchEvents() {
     return this.authService.token.pipe(
       take(1),
@@ -90,8 +137,8 @@ export class CalendarService {
                 new Event(
                   key,
                   resData[key].title,
-                  resData[key].startTime,
-                  resData[key].endTime,
+                  new Date(resData[key].start),
+                  new Date(resData[key].end),
                   resData[key].color,
                   resData[key].allDay
                 )
@@ -106,25 +153,25 @@ export class CalendarService {
         })
       );
   }
-  getEvent(id: string){
-    return this.authService.token.pipe(
-      take(1),
-      // eslint-disable-next-line arrow-body-style
-      switchMap((token) => {
-        return this.http.get<EventData>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/calendar/${id}.json?auth=${token}`
-        );
-      }),
-      map((resData) => {
-        return new Event(
-          id,
-          resData.title,
-          resData.startTime,
-          resData.endTime,
-          resData.color,
-          resData.allDay
-          );
-      })
-    );
-  }
+  // getEvent(id: string){
+  //   return this.authService.token.pipe(
+  //     take(1),
+  //     // eslint-disable-next-line arrow-body-style
+  //     switchMap((token) => {
+  //       return this.http.get<EventData>(
+  //         `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/calendar/${id}.json?auth=${token}`
+  //       );
+  //     }),
+  //     map((resData) => {
+  //       return new Event(
+  //         id,
+  //         resData.title,
+  //         resData.start,
+  //         resData.end,
+  //         resData.color,
+  //         resData.allDay
+  //         );
+  //     })
+  //   );
+  // }
 }

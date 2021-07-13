@@ -28,7 +28,9 @@ interface DeceasedData {
   clergy: string;
   reposeDate: Date;
   reposeTime: Date;
+  removalDate: Date;
   removalTime: Date;
+  churchArrivalDate: Date;
   churchArrivalTime: Date;
   massDate: Date;
   massTime: Date;
@@ -73,7 +75,9 @@ export class DeceasedService {
     clergy: string,
     reposeDate: Date,
     reposeTime: Date,
+    removalDate: Date,
     removalTime: Date,
+    churchArrivalDate: Date,
     churchArrivalTime: Date,
     massDate: Date,
     massTime: Date,
@@ -114,7 +118,9 @@ export class DeceasedService {
           clergy,
           reposeDate,
           reposeTime,
+          removalDate,
           removalTime,
+          churchArrivalDate,
           churchArrivalTime,
           massDate,
           massTime,
@@ -216,7 +222,9 @@ export class DeceasedService {
                 resData[key].clergy,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
+                resData[key].removalDate,
                 resData[key].removalTime,
+                resData[key].churchArrivalDate,
                 resData[key].churchArrivalTime,
                 resData[key].massDate,
                 resData[key].massTime,
@@ -276,7 +284,9 @@ export class DeceasedService {
                 resData[key].clergy,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
+                resData[key].removalDate,
                 resData[key].removalTime,
+                resData[key].churchArrivalDate,
                 resData[key].churchArrivalTime,
                 resData[key].massDate,
                 resData[key].massTime,
@@ -323,7 +333,9 @@ export class DeceasedService {
           resData.clergy,
           resData.reposeDate,
           resData.reposeTime,
+          resData.removalDate,
           resData.removalTime,
+          resData.churchArrivalDate,
           resData.churchArrivalTime,
           resData.massDate,
           resData.massTime,
@@ -354,7 +366,9 @@ export class DeceasedService {
     clergy: string,
     reposeDate: Date,
     reposeTime: Date,
+    removalDate: Date,
     removalTime: Date,
+    churchArrivalDate: Date,
     churchArrivalTime: Date,
     massDate: Date,
     massTime: Date,
@@ -403,7 +417,9 @@ export class DeceasedService {
           clergy,
           reposeDate,
           reposeTime,
+          removalDate,
           removalTime,
+          churchArrivalDate,
           churchArrivalTime,
           massDate,
           massTime,

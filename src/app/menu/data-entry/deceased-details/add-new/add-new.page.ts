@@ -3,11 +3,33 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { CalendarService } from 'src/app/menu/calendar/calendar.service';
 import { Cemetery } from '../../cemetery-list/cemetery.model';
 import { CemeteryService } from '../../cemetery-list/cemetery.service';
 import { Church } from '../../church-list/church.model';
 import { ChurchService } from '../../church-list/church.service';
 import { DeceasedService } from '../deceased.service';
+
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3',
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF',
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA',
+  },
+  green: {
+    primary: '#32a852'
+  },
+  lightRed: {
+    primary: '#f20a0a'
+  }
+};
 
 @Component({
   selector: 'app-add-new',
@@ -28,7 +50,8 @@ export class AddNewPage implements OnInit {
     private loadingCtrl: LoadingController,
     private deceasedService: DeceasedService,
     private cemeteryService: CemeteryService,
-    private churchService: ChurchService
+    private churchService: ChurchService,
+    private calendarService: CalendarService
   ) {}
 
   ngOnInit() {
@@ -159,15 +182,23 @@ export class AddNewPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
-     reposeDate: new FormControl(null, {
+      reposeDate: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
-     reposeTime: new FormControl(null, {
+      reposeTime: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
+      removalDate: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
       removalTime: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
+      churchArrivalDate: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
@@ -197,6 +228,7 @@ export class AddNewPage implements OnInit {
   }
 
   onCreateEntry() {
+    this.reposeDate();
     this.loadingCtrl
       .create({
         message: 'Creating Entry',
@@ -223,7 +255,9 @@ export class AddNewPage implements OnInit {
             this.form.value.clergy,
             this.form.value.reposeDate,
             this.form.value.reposeTime,
+            this.form.value.removalDate,
             this.form.value.removalTime,
+            this.form.value.churchArrivalDate,
             this.form.value.churchArrivalTime,
             this.form.value.massDate,
             this.form.value.massTime,
@@ -237,9 +271,56 @@ export class AddNewPage implements OnInit {
           });
       });
   }
+  reposeDate() {
+    const date = this.form.value.reposeDate.split('T')[0];
+    const time = this.form.value.reposeTime.split('T')[1];
+    const reposeDateTime = date + 'T' + time;
+    console.log(reposeDateTime);
+    this.removalTime();
+    this.calendarService
+      .addReposeEvent(
+        this.form.value.deceasedName + ' Repose Date',
+        new Date(reposeDateTime),
+        new Date(reposeDateTime),
+        colors.blue
+      )
+      .subscribe();
+  }
+  removalTime() {
+    this.churchArrivalTime();
+    this.calendarService
+      .addReposeEvent(
+        this.form.value.deceasedName + ' Removal Date',
+        this.form.value.removalTime,
+        this.form.value.removalTime,
+        colors.yellow
+      )
+      .subscribe();
+  }
+  churchArrivalTime() {
+    this.massTime();
+    this.calendarService
+      .addReposeEvent(
+        this.form.value.deceasedName + ' church Arrival Date',
+        this.form.value.churchArrivalTime,
+        this.form.value.churchArrivalTime,
+        colors.green
+      )
+      .subscribe();
+  }
+  massTime() {
+    this.calendarService
+      .addReposeEvent(
+        this.form.value.deceasedName + ' Mass Date',
+        this.form.value.massDate,
+        this.form.value.massDate,
+        colors.lightRed
+      )
+      .subscribe();
+  }
 
-  listTypeChange(event){
-   this.listType = event.target.value;
-   console.log(this.listType);
+  listTypeChange(event) {
+    this.listType = event.target.value;
+    console.log(this.listType);
   }
 }

@@ -27,8 +27,13 @@ import { title } from 'process';
 import { Event } from './event.model';
 import { ModalController } from '@ionic/angular';
 import { CalModalPage } from './cal-modal/cal-modal.page';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { stringify } from '@angular/compiler/src/util';
 import { id } from 'date-fns/locale';
+import { Deceased } from '../data-entry/deceased-details/deceased.model';
+import { DeceasedService } from '../data-entry/deceased-details/deceased.service';
+import { DatePipe } from '@angular/common';
 
 const colors: any = {
   red: {
@@ -50,9 +55,10 @@ const colors: any = {
   templateUrl: './calendar.page.html',
   styleUrls: ['./calendar.page.scss'],
 })
-export class CalendarPage implements OnInit{
+export class CalendarPage implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   calendar: Event[];
+  funeralTimes: Deceased[];
   view: CalendarView = CalendarView.Month;
   title = 'Calendar';
 
@@ -71,7 +77,7 @@ export class CalendarPage implements OnInit{
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        // this.handleEvent('Edited', event);
+        this.handleEvent('Edited', event);
       },
     },
     {
@@ -79,7 +85,7 @@ export class CalendarPage implements OnInit{
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
-        // this.handleEvent('Deleted', event);
+        this.handleEvent('Deleted', event);
       },
     },
   ];
@@ -129,25 +135,50 @@ export class CalendarPage implements OnInit{
 
   activeDayIsOpen = true;
   isLoading = false;
+  end: string;
   private eventSub: Subscription;
+  private deceasedSub: Subscription;
 
-  constructor(private calendarService: CalendarService, private modalCtrl: ModalController) {}
+  constructor(
+    private calendarService: CalendarService,
+    private modalCtrl: ModalController,
+    private modal: NgbModal,
+    private deceasedService: DeceasedService,
+    private datePipe: DatePipe
+  ) {}
 
-  ngOnInit(){
-  this.eventSub = this.calendarService.calendar.subscribe((calendar) => {
-    this.calendar = calendar;
-    this.calendar.map(events => {
-      console.log(events);
-      events.start = startOfDay(new Date());
-      events.end = endOfDay(new Date());
+  ngOnInit() {
+    this.eventSub = this.calendarService.calendar.subscribe((calendar) => {
+      this.calendar = calendar;
+
+      this.calendar.map((events) => {
+
+        // events.start = startOfDay(new Date(events.start));
+        // events.end = endOfDay(new Date(events.end));
+        events.start = new Date(events.start);
+        events.end = new Date(events.end);
+      });
     });
-  });
+
+    // this.deceasedSub = this.deceasedService.deceased.subscribe((deceased) => {
+    //   this.funeralTimes = deceased;
+
+    //   this.funeralTimes.map((events) => {
+    //     // events.start = startOfDay(new Date(events.start));
+    //     // events.end = endOfDay(new Date(events.end));
+    //     events.reposeTime = new Date(events.reposeTime);
+    //     this.end = this.datePipe.transform(new Date(events.reposeDate),'yyyy-MM-dd');
+    //     console.log(this.end);
+    //     events.removalTime = new Date(events.removalTime);
+    //     events.churchArrivalTime = new Date(events.churchArrivalTime);
+    //     events.massTime = new Date(events.massTime);
+    //   });
+    // });
   }
   ionViewWillEnter() {
     this.isLoading = true;
-    this.calendarService.fetchEvents().subscribe(() => {
+    this.calendarService.fetchEvents().subscribe((calendar) => {
       this.isLoading = false;
-
     });
   }
 
@@ -183,10 +214,10 @@ export class CalendarPage implements OnInit{
     // this.handleEvent('Dropped or resized', event);
   }
 
-  // handleEvent(action: string, event: CalendarEvent): void {
-  //   this.modalData = { event, action };
-  //   this.modal.open(this.modalContent, { size: 'lg' });
-  // }
+  handleEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+    this.modal.open(this.modalContent, { size: 'lg' });
+  }
 
   addEvent(): void {
     this.events = [
@@ -221,31 +252,34 @@ export class CalendarPage implements OnInit{
     // this.calendarService.addEvent(this.events).subscribe();
   }
 
-  openCalModal(){
+  openCalModal() {
     let newEvents: Event;
-    this.modalCtrl.create({
-      component: CalModalPage,
-    }).then(modalEl => {
-      modalEl.onDidDismiss().then(modalData => {
-        if (!modalData.data){
-          return;
-        }
-        // newEvents = new Event(
-        //   modalData.data.eventData.title:
-        //   modalData.data.eventData.start,
-        //   modalData.data.eventData.end,
-        // )
-        this.calendarService.addEvent(
-          modalData.data.eventData.title,
-          modalData.data.eventData.start,
-          modalData.data.eventData.end,
-          modalData.data.eventData.color,
-          modalData.data.eventData.allDay
-        ).subscribe(() => {
+    this.modalCtrl
+      .create({
+        component: CalModalPage,
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          }
+          // newEvents = new Event(
+          //   modalData.data.eventData.title:
+          //   modalData.data.eventData.start,
+          //   modalData.data.eventData.end,
+          // )
+          this.calendarService
+            .addEvent(
+              modalData.data.eventData.title,
+              modalData.data.eventData.start,
+              modalData.data.eventData.end,
+              modalData.data.eventData.color,
+              modalData.data.eventData.allDay
+            )
+            .subscribe(() => {});
         });
+        modalEl.present();
       });
-      modalEl.present();
-    });
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {

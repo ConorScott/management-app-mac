@@ -6,6 +6,8 @@ import { CalendarService } from '../calendar.service';
 import { Subscription } from 'rxjs';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { startOfDay } from '@fullcalendar/angular';
+import { endOfDay } from 'date-fns';
 
 const colors: any = {
   red: {
@@ -65,7 +67,7 @@ export class CalModalPage implements OnInit {
   addEvent(){
 
 
-    console.log(this.form.value.allDay);
+    console.log(this.form.value.start);
     this.modal.dismiss(
       {
         eventData: {

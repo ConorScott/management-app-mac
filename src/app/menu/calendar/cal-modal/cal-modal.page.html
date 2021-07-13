@@ -33,7 +33,7 @@
   <ion-col>
     <ion-item lines="none" *ngIf="!allDay.checked" #start>
       <ion-label >Start</ion-label>
-      <ion-datetime   displayFormat="MM/DD/YYYY HH:mm" pickerFormat="YYYY MMM D:HH:mm"
+      <ion-datetime   displayFormat="MM/DD/YYYY HH:mm" pickerFormat="YYYY-MM-DDTHH:mm"
         formControlName="start" [min]="startDate" [max]="endDate"></ion-datetime>
     </ion-item>
   </ion-col>
@@ -42,7 +42,7 @@
   <ion-col>
     <ion-item lines="none" *ngIf="!allDay.checked">
       <ion-label>End</ion-label>
-      <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat=" YYYY MMM D:HH:mm" formControlName="end"
+      <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="YYYY-MM-DDTHH:mm" formControlName="end"
         [min]="startDate" [max]="endDate"></ion-datetime>
     </ion-item>
   </ion-col>
