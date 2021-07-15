@@ -198,7 +198,6 @@ export class InvoiceService {
           soloistPrice,
           otherDetails,
           otherDetailsPrice,
-          totalBalance
         );
         console.log(newInvoice.id);
         return this.http.post<{ name: string }>(
@@ -315,7 +314,6 @@ export class InvoiceService {
                 invoiceData[key].soloistPrice,
                 invoiceData[key].otherDetails,
                 invoiceData[key].otherDetailsPrice,
-                invoiceData[key].totalBalance
               )
             );
           }
@@ -381,7 +379,6 @@ export class InvoiceService {
           resData.soloistPrice,
           resData.otherDetails,
           resData.otherDetailsPrice,
-          resData.totalBalance
         );
       })
     );
@@ -521,7 +518,6 @@ export class InvoiceService {
           soloistPrice,
           otherDetails,
           otherDetailsPrice,
-          totalBalance
         );
         return this.http.put(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json?auth=${fetchedToken}`,

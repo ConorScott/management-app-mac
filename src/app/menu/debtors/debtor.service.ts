@@ -6,6 +6,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Payment } from 'src/app/shared/payment.model';
+import { PaymentService } from '../reports/payments/payment.service';
 import { Debtor } from './debtor.model';
 
 interface DebtorData {
@@ -37,29 +38,18 @@ interface DebtorData {
   payments: Payment;
 }
 
-interface PaymentData {
-  paymentDate: Date;
-  amount: number;
-  paymentMethod: string;
-  payeeName: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class DebtorService {
   private _debtor = new BehaviorSubject<Debtor[]>([]);
-  private _payment = new BehaviorSubject<Payment[]>([]);
 
   get debtor() {
     return this._debtor.asObservable();
   }
 
-  get payment() {
-    return this._payment.asObservable();
-  }
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private paymentService: PaymentService) {}
 
   addDebtor(
     invoiceId: string,
@@ -197,35 +187,6 @@ export class DebtorService {
     );
   }
 
-  fetchPayments(id: string) {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: PaymentData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${id}.json?auth=${token}`
-      );
-    }), map((resData) => {
-      const payments = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key)) {
-          payments.push(
-            new Payment(
-              key,
-              resData[key].paymentDate,
-              resData[key].amount,
-              resData[key].paymentMethod,
-              resData[key].payeeName
-            )
-          );
-        }
-      }
-      return payments;
-    }),
-    tap((payment) => {
-      this._payment.next(payment);
-    })
-    );
-  }
-
   getDebtor(id: string) {
     return this.authService.token.pipe(
       take(1),
@@ -261,26 +222,6 @@ export class DebtorService {
           resData.organistPrice,
           resData.soloistPrice,
           resData.otherDetailsPrice,
-        );
-      })
-    );
-  }
-
-  getPayments(id: string) {
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) => {
-        return this.http.get<PaymentData>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${id}.json?auth=${token}`
-        );
-      }),
-      map((resData) => {
-        return new Payment(
-          id,
-          resData.paymentDate,
-          resData.amount,
-          resData.paymentMethod,
-          resData.payeeName
         );
       })
     );
@@ -336,7 +277,7 @@ export class DebtorService {
           oldDebtor.soloistPrice,
           oldDebtor.otherDetailsPrice,
         );
-        this.addPayment(payments, debtorId, fetchedToken);
+        this.paymentService.addPayment(payments, debtorId, fetchedToken);
         return this.http.put<Debtor>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${debtorId}.json?auth=${fetchedToken}`,
           { ...updateDebtor[updateDebtorIndex], id: null }
@@ -456,68 +397,6 @@ export class DebtorService {
       tap(() => {
         // eslint-disable-next-line no-underscore-dangle
         this._debtor.next(updateDebtor);
-      })
-    );
-  }
-
-  addPayment(payment: Payment, debtorId, fetchedToken) {
-    console.log(payment);
-    const newPayment = new Payment(
-      Math.random().toString(),
-      payment.paymentDate,
-      payment.amount,
-      payment.paymentMethod,
-      payment.payeeName
-    );
-    this.http
-      .post(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${debtorId}.json?auth=${fetchedToken}`,
-        { ...newPayment, id: null }
-      )
-      .subscribe((res) => {});
-  }
-  updatePayment(
-    debtorId: string,
-    paymentDate: Date,
-    amount: number,
-    paymentMethod: string,
-    name: string
-  ) {
-    let updatePayment: Payment[];
-    let fetchedToken: string;
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) => {
-        fetchedToken = token;
-        return this.payment;
-      }),
-      take(1),
-      switchMap((user) => {
-        if (!user || user.length <= 0) {
-          return this.fetchPayments(debtorId);
-        } else {
-          return of(user);
-        }
-      }),
-      switchMap((user) => {
-        const updatePaymentIndex = user.findIndex((pl) => pl.id === debtorId);
-        updatePayment = [...user];
-        const oldUser = updatePayment[updatePaymentIndex];
-
-        updatePayment[updatePaymentIndex] = new Payment(
-          oldUser.id,
-          paymentDate,
-          amount,
-          paymentMethod,
-          name
-        );
-        return this.http.put<Payment>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${debtorId}.json?auth=${fetchedToken}`,
-          { ...updatePayment[updatePaymentIndex], id: null }
-        );
-      }),
-      tap(() => {
-        this._payment.next(updatePayment);
       })
     );
   }

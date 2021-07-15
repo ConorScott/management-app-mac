@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { DebtorService } from 'src/app/menu/debtors/debtor.service';
+import { PaymentService } from 'src/app/menu/reports/payments/payment.service';
 import { Payment } from '../payment.model';
 
 @Component({
@@ -22,6 +23,7 @@ export class EditPaymentModalPage implements OnInit {
 
   constructor(
     private debtorService: DebtorService,
+    private paymentService: PaymentService,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private router: Router
@@ -33,7 +35,7 @@ export class EditPaymentModalPage implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.paymentSub = this.debtorService.getPayments(this.debtorId).subscribe((payment) => {
+    this.paymentSub = this.paymentService.getPayments(this.debtorId).subscribe((payment) => {
       this.form = new FormGroup({
         paymentDate: new FormControl(this.payment.paymentDate, {
           updateOn: 'blur',

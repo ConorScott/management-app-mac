@@ -3,6 +3,6 @@ export class PaymentType {
     public cash: boolean,
     public card: boolean,
     public draft: boolean,
-    public EFT: boolean,
+    public eft: boolean,
   ) {}
 }

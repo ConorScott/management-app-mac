@@ -40,18 +40,7 @@ ion-toolbar {
 
 }
 
-.form-label{
-  color: #525f7f;
-  margin-bottom: .8rem;
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-.checkbox-label{
-  color: #525f7f;
-  margin-bottom: .8rem;
-  font-weight: 600;
-  font-size: .875rem;
-}
+
 .col-border{
   border-right: 1px solid rgba(0,0,0,.1);
 }
@@ -84,4 +73,12 @@ ion-textarea.textarea-wrapper{
   color: #525f7f;
   font-weight: 600;
   font-size: 1rem;
+}
+.form-label{
+  font-size: .875rem;
+    margin-right: 5px;
+}
+ion-input{
+  max-width: 30%;
+    margin-left: 5px;
 }

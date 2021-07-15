@@ -167,7 +167,7 @@ export class EditDetailsPage implements OnInit {
                 updateOn: 'blur',
                 validators: [Validators.required]
               }),
-              removalDate: new FormControl(this.deceased.removalTime, {
+              removalDate: new FormControl(this.deceased.removalDate, {
                 updateOn: 'blur',
                 validators: [Validators.required]
               }),
@@ -175,7 +175,7 @@ export class EditDetailsPage implements OnInit {
                 updateOn: 'blur',
                 validators: [Validators.required]
               }),
-              churchArrivalDate: new FormControl(this.deceased.churchArrivalTime, {
+              churchArrivalDate: new FormControl(this.deceased.churchArrivalDate, {
                 updateOn: 'blur',
                 validators: [Validators.required]
               }),

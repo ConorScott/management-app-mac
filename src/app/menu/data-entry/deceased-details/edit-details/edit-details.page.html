@@ -83,61 +83,107 @@
     </ion-card>
     <ion-card>
       <ion-card-header>
-        <ion-card-subtitle class="card-title">
+        <ion-card-subtitle class="card-title card-subtitle">
           Family Contact Information
         </ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <ion-grid>
           <div formGroupName="contact">
+            <ion-title class="contact">Responsible</ion-title>
             <ion-row>
               <ion-col size="12" size-md="6" size-lg="3.5">
                 <ion-item lines="none">
-                  <ion-label class="form-label" position="stacked">Responsible</ion-label>
-                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="responsible"></ion-input>
-                </ion-item>
-              </ion-col>
-              <ion-col size="12" size-md="6" size-lg="4">
-                <ion-item lines="none">
-                  <ion-label class="form-label" position="stacked">Relation To Deceased</ion-label>
-                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="relationship"></ion-input>
+                  <ion-label position="stacked" class="form-label">Responsible</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Responsible" formControlName="responsible"></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col size="12" size-md="6" size-lg="3.5">
                 <ion-item lines="none">
-                  <ion-label class="form-label" position="stacked">Phone No.</ion-label>
-                  <ion-input class="form-input" autocomplete autocorrect type="number" formControlName="phoneNo"></ion-input>
+                  <ion-label position="stacked" class="form-label">Relation To Deceased</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Relation to Deceased" formControlName="relationship"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3.5">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">Phone No.</ion-label>
+                  <ion-input class="form-input" type="number" placeholder="Phone No." formControlName="phoneNo"></ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>
+                  <ion-title position="stacked" class="contact">Address of Responsible</ion-title>
             <ion-row>
-              <ion-col class="subtitle">
-                <ion-card-subtitle position="stacked" class="card-title">Address of Responsible</ion-card-subtitle>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">Address Line 1</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Address Line 1" formControlName="resAddress1"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">Address Line 2</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Address Line 2" formControlName="resAddress2"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">Address Line 3</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Address Line 3" formControlName="resAddress3"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">County</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="County" formControlName="resCounty"></ion-input>
+                </ion-item>
               </ion-col>
             </ion-row>
+            <hr class="hr">
+            <ion-title class="contact">Other Contact</ion-title>
+            <ion-row>
+              <ion-col size="12" size-md="6" size-lg="3.5">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">Contact Name</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Responsible" formControlName="responsible2"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3.5">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">Relation To Deceased</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Relation to Deceased" formControlName="relationship2"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="12" size-md="6" size-lg="3.5">
+                <ion-item lines="none">
+                  <ion-label position="stacked" class="form-label">Phone No.</ion-label>
+                  <ion-input class="form-input" type="number" placeholder="Phone No." formControlName="phoneNo2"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+                  <ion-title position="stacked" class="contact">Address of Contact</ion-title>
             <ion-row>
               <ion-col size="12" size-md="6" size-lg="3">
                 <ion-item lines="none">
-                  <ion-label class="form-label" position="stacked">Address Line 1</ion-label>
-                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resAddress1"></ion-input>
+                  <ion-label position="stacked" class="form-label">Address Line 1</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Address Line 1" formControlName="resAddress12"></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col size="12" size-md="6" size-lg="3">
                 <ion-item lines="none">
-                  <ion-label class="form-label" position="stacked">Address Line 2</ion-label>
-                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resAddress2"></ion-input>
+                  <ion-label position="stacked" class="form-label">Address Line 2</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Address Line 2" formControlName="resAddress22"></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col size="12" size-md="6" size-lg="3">
                 <ion-item lines="none">
-                  <ion-label class="form-label" position="stacked">Address Line 3</ion-label>
-                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resAddress3"></ion-input>
+                  <ion-label position="stacked" class="form-label">Address Line 3</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="Address Line 3" formControlName="resAddress32"></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col size="12" size-md="6" size-lg="3">
                 <ion-item lines="none">
-                  <ion-label class="form-label" position="stacked">County</ion-label>
-                  <ion-input class="form-input" autocomplete autocorrect type="text" formControlName="resCounty"></ion-input>
+                  <ion-label position="stacked" class="form-label">County</ion-label>
+                  <ion-input class="form-input" type="text" placeholder="County" formControlName="resCounty2"></ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>
@@ -146,8 +192,39 @@
       </ion-card-content>
     </ion-card>
     <ion-card>
+
       <ion-card-header>
-        <ion-card-subtitle class="card-title">Funeral Arrangments</ion-card-subtitle>
+        <ion-row>
+          <ion-col size="10.5" size-lg="10" size-md="9" class="ion-align-self-end">
+            <ion-card-subtitle class="card-title">
+              Doctor Information
+            </ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Doctor Name</ion-label>
+                <ion-input class="form-input" placeholder="Doctor Name" type="text" formControlName="doctor"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Phone No.</ion-label>
+                <ion-input class="form-input" placeholder="Phone No." type="number" formControlName="doctorNo"></ion-input>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="card-title">Funeral Information</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <ion-grid>
@@ -178,46 +255,54 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="3.5">
+            <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label class="form-label" position="stacked">Removal Date</ion-label>
-                <ion-datetime class="form-input-date" formControlName="removalDate"></ion-datetime>
+                <ion-label position="stacked" class="form-label">Repose Date</ion-label>
+                <ion-datetime class="form-input-date" placeholder="Repose Date" formControlName="reposeDate"></ion-datetime>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="3.5">
+            <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label class="form-label" position="stacked">Removal Time</ion-label>
-                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="removalTime">
-                </ion-datetime>
+                <ion-label position="stacked" class="form-label">Repose Time</ion-label>
+                <ion-datetime class="form-input-date" placeholder="Repose Time" display-format="h:mm A" picker-format="h:mm A" formControlName="reposeTime"></ion-datetime>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="3.5">
+            <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label class="form-label" position="stacked">Leave Home Time</ion-label>
-                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="leaveHomeTime">
-                </ion-datetime>
+                <ion-label position="stacked" class="form-label">Removal Date</ion-label>
+                <ion-datetime class="form-input-date"  placeholder="Removal Date"  formControlName="removalDate"></ion-datetime>
               </ion-item>
             </ion-col>
-
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Removal Time</ion-label>
+                <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Removal Time" picker-format="h:mm A" formControlName="removalTime"></ion-datetime>
+              </ion-item>
+            </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="3.5">
+            <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label class="form-label" position="stacked">Church Arrival Time</ion-label>
-                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="churchArrivalTime">
-                </ion-datetime>
+                <ion-label position="stacked" class="form-label">Church Arrival Date</ion-label>
+                <ion-datetime class="form-input-date" placeholder="Church Arrival Date"  formControlName="churchArrivalDate"></ion-datetime>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="3.5">
+            <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label class="form-label" position="stacked">Mass Date:</ion-label>
-                <ion-datetime class="form-input-date" formControlName="massDate"></ion-datetime>
+                <ion-label position="stacked" class="form-label">Church Arrival Time</ion-label>
+                <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Church Arrival Time" picker-format="h:mm A" formControlName="churchArrivalTime"></ion-datetime>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="3.5">
+            <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label class="form-label" position="stacked">Mass Time</ion-label>
-                <ion-datetime class="form-input-date" display-format="h:mm A" picker-format="h:mm A" formControlName="massTime"></ion-datetime>
+                <ion-label position="stacked" class="form-label">Mass Date:</ion-label>
+                <ion-datetime class="form-input-date" formControlName="massDate" placeholder="Mass Date"></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Mass Time</ion-label>
+                <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Mass Time" picker-format="h:mm A" formControlName="massTime"></ion-datetime>
               </ion-item>
             </ion-col>
           </ion-row>

@@ -49,105 +49,129 @@
             <ion-card-subtitle class="card-title">Account Breakdown</ion-card-subtitle>
           </ion-card-header>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="4">
+            <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none" lines="none">
-                <ion-label position="stacked" class="form-label">Default Entry Price:</ion-label>
-                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="defaultEntryPrice"></ion-input>
+                <ion-label class="form-label">Services Price:</ion-label>
+                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="servicesPrice"></ion-input>
               </ion-item>
             </ion-col>
 
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.coffinPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.coffinPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Coffin Details:</ion-label>
+                <ion-label class="form-label">Coffin Details:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="coffinPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.casketCoverPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.casketCoverPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Casket cover:</ion-label>
+                <ion-label class="form-label">Casket:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="casketCoverPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.churchOfferringPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.coronerDoctorCertPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Church Offering:</ion-label>
+                <ion-label class="form-label">Coroner/Doctor Cert:</ion-label>
+                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="coronerDoctorCertPrice"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.cremationPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Cremation:</ion-label>
+                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="cremationPrice"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.urnPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Urn:</ion-label>
+                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="urnPrice"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.churchOfferringPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Church Offering:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="churchOfferringPrice"></ion-input>
                 </ion-item>
             </ion-col>
 
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.sacristianPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.sacristianPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Sacristian:</ion-label>
-                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="churchOfferringPrice"></ion-input>
+                <ion-label class="form-label">Sacristian:</ion-label>
+                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="sacristianPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.flowersPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.flowersPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Flowers:</ion-label>
+                <ion-label class="form-label">Flowers:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="flowersPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.graveOpenPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.graveOpenPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Grave Open:</ion-label>
+                <ion-label class="form-label">Grave Open:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="graveOpenPrice"></ion-input>
               </ion-item>
             </ion-col>
 
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.gravePurchasePrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.gravePurchasePrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Grave Purchase to Council:</ion-label>
+                <ion-label class="form-label">Grave Purchase:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="gravePurchasePrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.graveMarkerPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.graveMarkerPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Grave Marker:</ion-label>
+                <ion-label class="form-label">Grave Marker:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="graveMarkerPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.graveMatsTimbersPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.graveMatsTimbersPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Grave Mats Timbers:</ion-label>
+                <ion-label class="form-label">Grave Mats Timbers:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="graveMatsTimbersPrice"></ion-input>
               </ion-item>
             </ion-col>
 
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.clothsPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.clothsPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Cloths:</ion-label>
+                <ion-label class="form-label">Cloths:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="clothsPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.radioNoticePrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.hairdresserPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Radio Death Notices:</ion-label>
+                <ion-label class="form-label">Hairdresser:</ion-label>
+                <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="hairdresserPrice"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.radioNoticePrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Radio Death Notices:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="radioNoticePrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.paperNoticePrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.paperNoticePrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Paper Death Notice:</ion-label>
+                <ion-label class="form-label">Paper Death Notice:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="paperNoticePrice"></ion-input>
               </ion-item>
             </ion-col>
 
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.organistPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.organistPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Organist:</ion-label>
+                <ion-label class="form-label">Organist:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="organistPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.soloistPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.soloistPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Soloist:</ion-label>
+                <ion-label class="form-label">Soloist:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="soloistPrice"></ion-input>
               </ion-item>
             </ion-col>
 
-            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.otherDetailsPrice">
+            <ion-col size="12" size-md="6" size-lg="3" *ngIf="debtor.otherDetailsPrice">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Other Details Price:</ion-label>
+                <ion-label class="form-label">Other Details Price:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="otherDetailsPrice"></ion-input>
               </ion-item>
             </ion-col>

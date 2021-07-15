@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HeaderPage } from './header/header.page';
 import { PopoverComponent } from './popover/popover.component';
 import { EditPaymentModalPage } from './edit-payment-modal/edit-payment-modal.page';
+import { ViewPaymentModalPage } from './view-payment-modal/view-payment-modal.page';
 
 
 
@@ -14,7 +15,8 @@ import { EditPaymentModalPage } from './edit-payment-modal/edit-payment-modal.pa
     PaymentModalComponent,
     HeaderPage,
     PopoverComponent,
-    EditPaymentModalPage
+    EditPaymentModalPage,
+    ViewPaymentModalPage
   ],
   imports: [CommonModule, IonicModule, ReactiveFormsModule],
   exports: [PaymentModalComponent, HeaderPage],

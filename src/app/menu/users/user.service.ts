@@ -1,12 +1,16 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
+import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/auth/user.model';
 import { StoreUser } from './storeUser.model';
+import firebase from 'firebase';
+import { environment } from 'src/environments/environment';
+
 
 interface UserData {
   email: string;
@@ -21,7 +25,10 @@ interface UserData {
 })
 export class UserService {
   private _user = new BehaviorSubject<StoreUser[]>([]);
-
+  private secondaryApp = firebase.initializeApp(
+    environment.firebaseConfig,
+    'SecondaryApp'
+  );
   get user() {
     return this._user.asObservable();
   }
@@ -29,6 +36,7 @@ export class UserService {
   constructor(private authService: AuthService, private http: HttpClient) {}
 
   addUser(
+    id: string,
     email: string,
     password: string,
     name: string,
@@ -50,7 +58,7 @@ export class UserService {
       take(1),
       switchMap((token) => {
         newUser = new StoreUser(
-          Math.random().toString(),
+          id,
           email,
           password,
           name,
@@ -59,7 +67,7 @@ export class UserService {
         );
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
-          { ...newUser, id: null }
+          { ...newUser, id}
         );
       }),
       switchMap((resData) => {
@@ -74,12 +82,27 @@ export class UserService {
     );
   }
 
+  signup(email: string, password: string, name: string, role: string, createdAt: Date){
+    return this.secondaryApp
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then((user) => {
+      this.secondaryApp.auth().signOut();
+      return this.addUser(user.user.uid, email,password, name, role, createdAt)
+      .subscribe(()=> {
+        this.secondaryApp.auth().signOut();
+      });
+    });
+  }
+
   fetchUsers() {
-    return this.http
-      .get<{ [key: string]: UserData }>(
-        'https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json'
-      )
-      .pipe(
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: UserData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`
+        );
+      }),
         map((resData) => {
           const user = [];
           for (const key in resData) {

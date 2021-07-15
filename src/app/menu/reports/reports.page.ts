@@ -14,8 +14,8 @@ export class ReportsPage implements OnInit {
   constructor(private router: Router) {
     this.navLinks = [
       {
-        label: 'Invoices',
-        link: 'invoice',
+        label: 'Payments',
+        link: 'payments',
         index: 0
       },
       {
@@ -33,7 +33,7 @@ export class ReportsPage implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe((res) => {
-      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this.router.url));
+      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find((tab) => tab.link === '.' + this.router.url));
     });
   }
 

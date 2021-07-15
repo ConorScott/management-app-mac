@@ -9,6 +9,7 @@ import { PaymentModalComponent } from 'src/app/shared/payment-modal/payment-moda
 import { Payment } from 'src/app/shared/payment.model';
 import { ThrowStmt } from '@angular/compiler';
 import { EditPaymentModalPage } from 'src/app/shared/edit-payment-modal/edit-payment-modal.page';
+import { PaymentService } from '../../reports/payments/payment.service';
 
 @Component({
   selector: 'app-debtor-information',
@@ -30,7 +31,8 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit() {
@@ -45,7 +47,7 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
         .getDebtor(paramMap.get('debtorId'))
         .subscribe((debtor) => {
           this.debtor = debtor;
-          this.debtorService.fetchPayments(this.debtorId).subscribe(payment => {
+          this.paymentService.fetchPayments(this.debtorId).subscribe(payment => {
             this.payments = payment;
             this.filteredPayments = payment;
           });

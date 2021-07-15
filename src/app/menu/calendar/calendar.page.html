@@ -70,7 +70,7 @@
       [refresh]="refresh"
       [activeDayIsOpen]="activeDayIsOpen"
       (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventClicked)="handleEvent(calendar)"
       (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-month-view>
@@ -79,7 +79,7 @@
       [viewDate]="viewDate"
       [events]="calendar"
       [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventClicked)="handleEvent(calendar)"
       (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-week-view>
@@ -88,7 +88,7 @@
       [viewDate]="viewDate"
       [events]="calendar"
       [refresh]="refresh"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventClicked)="handleEvent(calendar)"
       (eventTimesChanged)="eventTimesChanged($event)"
     >
     </mwl-calendar-day-view>

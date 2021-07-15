@@ -275,45 +275,61 @@ export class AddNewPage implements OnInit {
     const date = this.form.value.reposeDate.split('T')[0];
     const time = this.form.value.reposeTime.split('T')[1];
     const reposeDateTime = date + 'T' + time;
-    console.log(reposeDateTime);
+    const endTime = new Date(reposeDateTime);
+    endTime.setHours(endTime.getHours()+1);
     this.removalTime();
     this.calendarService
       .addReposeEvent(
         this.form.value.deceasedName + ' Repose Date',
         new Date(reposeDateTime),
-        new Date(reposeDateTime),
+        endTime,
         colors.blue
       )
       .subscribe();
   }
   removalTime() {
+    const date = this.form.value.removalDate.split('T')[0];
+    const time = this.form.value.removalTime.split('T')[1];
+    const removalDateTime = date + 'T' + time;
+    const endTime = new Date(removalDateTime);
+    endTime.setHours(endTime.getHours()+1);
     this.churchArrivalTime();
     this.calendarService
       .addReposeEvent(
         this.form.value.deceasedName + ' Removal Date',
-        this.form.value.removalTime,
-        this.form.value.removalTime,
+        new Date(removalDateTime),
+        endTime,
         colors.yellow
       )
       .subscribe();
   }
   churchArrivalTime() {
+    const date = this.form.value.churchArrivalDate.split('T')[0];
+    const time = this.form.value.churchArrivalTime.split('T')[1];
+    const churchArrivalDateTime = date + 'T' + time;
+    const endTime = new Date(churchArrivalDateTime);
+    endTime.setHours(endTime.getHours()+1);
     this.massTime();
     this.calendarService
       .addReposeEvent(
         this.form.value.deceasedName + ' church Arrival Date',
-        this.form.value.churchArrivalTime,
-        this.form.value.churchArrivalTime,
+        new Date(churchArrivalDateTime),
+        endTime,
         colors.green
       )
       .subscribe();
   }
   massTime() {
+    const date = this.form.value.massDate.split('T')[0];
+    const time = this.form.value.massTime.split('T')[1];
+    const massDateTime = date + 'T' + time;
+    const endTime = new Date(massDateTime);
+    endTime.setHours(endTime.getHours()+1);
     this.calendarService
       .addReposeEvent(
         this.form.value.deceasedName + ' Mass Date',
-        this.form.value.massDate,
-        this.form.value.massDate,
+        new Date(massDateTime),
+        endTime,
         colors.lightRed
       )
       .subscribe();

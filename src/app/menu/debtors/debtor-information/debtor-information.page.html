@@ -64,6 +64,24 @@
                 <ion-label>€{{debtor.casketCoverPrice}}</ion-label>
               </ion-item>
             </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.coronerDoctorCertPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Coroner/Doctor Cert:</ion-label>
+                <ion-label>€{{debtor.coronerDoctorCertPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.cremationPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Cremation:</ion-label>
+                <ion-label>€{{debtor.cremationPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.urnPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Urn:</ion-label>
+                <ion-label>€{{debtor.urnPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
             <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.churchOfferringPrice">
               <ion-item lines="none">
                 <ion-label class="form-label">Church Offering:</ion-label>
@@ -92,7 +110,7 @@
 
             <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.gravePurchasePrice">
               <ion-item lines="none">
-                <ion-label class="form-label">Grave Purchase to Council:</ion-label>
+                <ion-label class="form-label">Grave Purchase:</ion-label>
                 <ion-label>€{{debtor.gravePurchasePrice}}</ion-label>
               </ion-item>
             </ion-col>
@@ -113,6 +131,12 @@
               <ion-item lines="none">
                 <ion-label class="form-label">Cloths:</ion-label>
                 <ion-label>€{{debtor.clothsPrice}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.hairdresserPrice">
+              <ion-item lines="none">
+                <ion-label class="form-label">Hairdresser:</ion-label>
+                <ion-label>€{{debtor.hairdresserPrice}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size="12" size-md="6" size-lg="4" *ngIf="debtor.radioNoticePrice">

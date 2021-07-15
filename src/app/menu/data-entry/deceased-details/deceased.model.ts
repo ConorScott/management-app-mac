@@ -28,6 +28,6 @@ export class Deceased {
     public massDate: Date,
     public massTime: Date,
     public entryDate: Date,
-    public formType: string
+    public formType: string,
   ) {}
 }

@@ -69,7 +69,7 @@ export class AuthPage implements OnInit {
           }
         );
       });
-    this.router.navigateByUrl('/menu/tabs/data-entry');
+    this.router.navigateByUrl('/menu');
   }
 
   onSubmit(form: NgForm) {

@@ -11,10 +11,6 @@ export const routes: Routes = [
     loadChildren: () => import('./menu/menu.module').then(m => m.MenuPageModule),
     canLoad: [AuthGuard]
   },
-  {
-    path: 'date-range',
-    loadChildren: () => import('./shared/date-range/date-range.module').then( m => m.DateRangePageModule)
-  }
 ];
 
 

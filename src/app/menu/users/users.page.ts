@@ -57,20 +57,21 @@ export class UsersPage implements OnInit {
           loadingEl.present();
           const data = resultData.data.userData;
           this.userService
-          .addUser(
+          .signup(
             data.email,
             data.password,
             data.name,
             data.role,
             data.createdAt
           )
-          .subscribe(() => {
+          .then(() => {
             loadingEl.dismiss();
           });
         });
       }
     });
   }
+
 
   onEdit(userId: string) {
     this.modalCtrl.create({

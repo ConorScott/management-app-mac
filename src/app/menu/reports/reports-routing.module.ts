@@ -9,6 +9,15 @@ const routes: Routes = [
     component: ReportsPage,
     children: [
       {
+        path:'payments',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./payments/payments.module').then(m => m.PaymentsPageModule)
+          }
+        ]
+      },
+      {
         path:'invoice',
         children: [
           {
@@ -26,10 +35,18 @@ const routes: Routes = [
           }
         ]
       },
-
-
+      {
+        path: '',
+        redirectTo: 'menu/tabs/reports/payments',
+        pathMatch: 'full'
+      }
     ]
   },
+  {
+    path: '',
+    redirectTo: 'menu/tabs/reports/payments',
+    pathMatch: 'full'
+  }
   // {
   //   path: 'invoice',
   //   loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule)
