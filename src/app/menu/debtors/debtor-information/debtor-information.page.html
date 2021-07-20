@@ -178,7 +178,7 @@
           <ion-col size="12" size-md="6" size-lg="4">
             <ion-item lines="none">
               <ion-label class="form-label">Total Balance:</ion-label>
-              <ion-label>€{{debtor.totalBalance}}</ion-label>
+              <ion-label>€{{newTotal}}</ion-label>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -196,7 +196,7 @@
               <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
             </ion-col>
             <ion-col size="2" class="ion-align-self-center ion-text-center">
-              <ion-button class="new-entry-button" routerLink="/menu/tabs/data-entry/deceased/new">
+              <ion-button class="new-entry-button" (click)="presentModal()">
                 <ion-icon slot="start" name="add-outline"></ion-icon>
                 New Payment
               </ion-button>
@@ -227,8 +227,6 @@
                 </div>
                 <div class="ion-text-center" *ngIf="!isLoading && payments.length <= 0">
                   <p>No Debtor Information Found!</p>
-                  <ion-button color="primary" routerLink="/menu/tabs/data-entry/deceased/new"
-                    >Create New entry</ion-button>
                 </div>
                   <ion-item *ngFor="let payment of payments" class="ion-item list-item">
                     <ion-label class="ion-label name">{{payment.payeeName}}</ion-label>

@@ -9,6 +9,7 @@ import { PaymentsPageRoutingModule } from './payments-routing.module';
 import { PaymentsPage } from './payments.page';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { EditPaymentModalPage } from 'src/app/shared/edit-payment-modal/edit-payment-modal.page';
+import { ViewPaymentPage } from './view-payment/view-payment.page';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { EditPaymentModalPage } from 'src/app/shared/edit-payment-modal/edit-pay
     PaymentsPageRoutingModule,
     ScrollingModule
   ],
-  declarations: [PaymentsPage]
+  declarations: [PaymentsPage, ViewPaymentPage]
 })
 export class PaymentsPageModule {}

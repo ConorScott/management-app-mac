@@ -211,6 +211,27 @@ export class CreateInvoicePage implements OnInit {
   }
 
   onGenerateInvoice() {
+    const totalBalance =
+    this.form.value.servicesPrice +
+    this.form.value.coffinPrice +
+    this.form.value.casketCoverPrice +
+    this.form.value.coronerDoctorCertPrice +
+    this.form.value.cremationPrice +
+    this.form.value.urnPrice +
+    this.form.value.churchOfferringPrice +
+    this.form.value.sacristianPrice +
+    this.form.value.flowersPrice +
+    this.form.value.graveOpenPrice +
+    this.form.value.gravePurchasePrice +
+    this.form.value.graveMarkerPrice +
+    this.form.value.graveMatsTimbersPrice +
+    this.form.value.clothsPrice +
+    this.form.value.hairdresserPrice +
+    this.form.value.radioNoticePrice +
+    this.form.value.paperNoticePrice +
+    this.form.value.organistPrice +
+    this.form.value.soloistPrice +
+    this.form.value.otherDetailsPrice;
     this.loadingCtrl
       .create({
         message: 'Creating invoice...',
@@ -262,6 +283,7 @@ export class CreateInvoicePage implements OnInit {
             this.form.value.soloistPrice,
             this.form.value.otherDetails,
             this.form.value.otherDetailsPrice,
+            totalBalance
           )
           .subscribe(() => {
             loadingEl.dismiss();

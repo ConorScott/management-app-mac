@@ -338,7 +338,6 @@ export class EditInvoicePage implements OnInit {
             this.form.value.organistPrice,
             this.form.value.soloistPrice,
             this.form.value.otherDetailsPrice,
-            this.form.value.totalBalance
           )
           .subscribe(() => {
             loadingEl.dismiss();

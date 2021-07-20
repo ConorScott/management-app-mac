@@ -4,17 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DateRangePageRoutingModule } from './date-range-routing.module';
+import { ViewPaymentPageRoutingModule } from './view-payment-routing.module';
 
-import { DateRangePage } from './date-range.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DateRangePageRoutingModule
+    ViewPaymentPageRoutingModule
   ],
   declarations: []
 })
-export class DateRangePageModule {}
+export class ViewPaymentPageModule {}

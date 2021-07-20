@@ -21,12 +21,25 @@ export class PaymentsPage implements OnInit {
   startDate;
   endDate;
   filterSelected = false;
-  payments: Payment[] = [];
+  payments: Payment[];
   payment: Payment;
   filteredPayments: Payment[];
   isLoading = false;
   invalidSelection = false;
+  cashTotal: number;
+  cardTotal: number;
+  eftTotal: number;
+  chequeTotal: number;
+  draftTotal: number;
+  overallTotal: number;
+
   private paymentSub: Subscription;
+  private paymentTotalSub: Subscription;
+  private cashTotalSub: Subscription;
+  private cardTotalSub: Subscription;
+  private eftTotalSub: Subscription;
+  private chequeTotalSub: Subscription;
+  private draftTotalSub: Subscription;
 
   constructor(
     private paymentService: PaymentService,
@@ -37,16 +50,16 @@ export class PaymentsPage implements OnInit {
 
   ngOnInit() {
     this.paymentSub = this.paymentService.payment.subscribe((payment) => {
-      console.log([...payment]);
       this.payments = payment;
-      console.log(this.payments);
       this.filteredPayments = this.payments;
       this.filtered = [...this.payments];
-      payment.map(event => {
-        console.log(event.amount);
-      });
-
+      this.payments.reduce((acc, val) => this.overallTotal = acc += val.amount, 0);
     });
+    this.getCashTotal('cash');
+    this.getCardTotal('card');
+    this.getEftTotal('eft');
+    this.getChequeTotal('cheque');
+    this.getDraftTotal('draft');
   }
 
   ionViewWillEnter() {
@@ -56,7 +69,35 @@ export class PaymentsPage implements OnInit {
     });
   }
 
+  getCashTotal(method: string){
+    this.cashTotalSub = this.paymentService.fetchCashPayments(method).subscribe((payment) => {
+      payment.reduce((acc, val) => this.cashTotal = acc += val.amount, 0);
+      });
+  }
+  getCardTotal(method: string){
+    this.cardTotalSub = this.paymentService.fetchCashPayments(method).subscribe((payment) => {
+      payment.reduce((acc, val) => this.cardTotal = acc += val.amount, 0);
+      });
+  }
+  getEftTotal(method: string){
+    this.eftTotalSub = this.paymentService.fetchCashPayments(method).subscribe((payment) => {
+      payment.reduce((acc, val) => this.eftTotal = acc += val.amount, 0);
+      });
+  }
+  getChequeTotal(method: string){
+    this.chequeTotalSub = this.paymentService.fetchCashPayments(method).subscribe((payment) => {
+      payment.reduce((acc, val) => this.chequeTotal = acc += val.amount, 0);
+      });
+  }
+  getDraftTotal(method: string){
+    this.draftTotalSub = this.paymentService.fetchCashPayments(method).subscribe((payment) => {
+      payment.reduce((acc, val) => this.draftTotal = acc += val.amount, 0);
+      });
+  }
+
+
   onChange(event) {
+    console.log(event.target.value);
     this.searchTerm = event.target.value;
     const filteration = event.target.value;
     this.filtered = this.filterSearch(filteration);
@@ -66,12 +107,9 @@ export class PaymentsPage implements OnInit {
   }
 
   filterSearch(searchTerm) {
-    console.log(searchTerm);
-    console.log(this.filteredPayments);
-    return this.filteredPayments.filter(
-      (item) =>
-        item.payeeName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
-    );
+    return this.filteredPayments.filter((item) => (
+      item.payeeName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+    ));
   }
 
   loadResults(start, end) {

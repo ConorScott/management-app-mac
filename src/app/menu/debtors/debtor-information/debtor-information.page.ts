@@ -22,9 +22,11 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
   payments: Payment[];
   filteredPayments: Payment[];
   newBalance: number;
+  newTotal: number;
   isLoading = false;
   segment = 'information';
   private debtorSub: Subscription;
+  private paymentSub: Subscription;
 
   constructor(
     private debtorService: DebtorService,
@@ -48,11 +50,18 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
         .subscribe((debtor) => {
           this.debtor = debtor;
           this.paymentService.fetchPayments(this.debtorId).subscribe(payment => {
-            this.payments = payment;
-            this.filteredPayments = payment;
+            console.log(payment.reduce((acc, val) => this.newTotal = acc += val.amount, 0));
+            this.newTotal = this.debtor.totalBalance - this.newTotal;
           });
+
           this.isLoading = false;
         });
+    });
+  }
+
+  ionViewWillEnter(){
+    this.paymentSub = this.paymentService.payment.subscribe(payments => {
+      this.payments = payments;
     });
   }
 
@@ -69,6 +78,9 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
           return;
         }
         console.log(modalData.data.paymentData.paymentMethod);
+        this.paymentService.addPayment(modalData.data.paymentData, this.debtorId)
+        .subscribe(() => {
+        });
         // this.newBalance = this.debtor.totalBalance - modalData.data.paymentData.amount;
         this.debtorService.updateDebtor(
           this.debtorId,
@@ -76,6 +88,7 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
           modalData.data.paymentData
         ).subscribe(debtor => {
           this.debtor = debtor;
+          // this.paymentService.fetchPayments(this.debtor.id).subscribe();
         });
       });
       modalEl.present();

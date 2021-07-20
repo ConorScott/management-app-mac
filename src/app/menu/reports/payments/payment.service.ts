@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Payment } from 'src/app/shared/payment.model';
 
 interface PaymentData {
+  id: string;
   paymentDate: Date;
   amount: number;
   paymentMethod: string;
@@ -26,21 +27,42 @@ export class PaymentService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  addPayment(payment: Payment, debtorId, fetchedToken) {
-    console.log(payment);
-    const newPayment = new Payment(
-      debtorId,
-      payment.paymentDate,
-      payment.amount,
-      payment.paymentMethod,
-      payment.payeeName
-    );
-    this.http
-      .post<{name: string}>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments.json?auth=${fetchedToken}`,
+  addPayment(payment: Payment, debtorId) {
+    let generatedId: string;
+    let newPayment: Payment;
+    let fetchedUserId: string;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error('No User Id Found');
+        }
+        fetchedUserId = userId;
+        return this.authService.token;
+      }),
+      take(1),
+      switchMap((token) => {
+        newPayment = new Payment(
+          debtorId,
+          payment.paymentDate,
+          payment.amount,
+          payment.paymentMethod,
+          payment.payeeName
+        );
+        return this.http
+      .post<Payment>(
+        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments.json?auth=${token}`,
         { ...newPayment }
-      )
-      .subscribe((res) => {});
+      );
+      }),switchMap((resData) => {
+
+        return this.payment;
+      }),
+      take(1),
+      tap((payments) => {
+        this._payment.next(payments.concat(newPayment));
+      })
+    );
   }
 
   updatePayment(
@@ -93,12 +115,13 @@ export class PaymentService {
     return this.authService.token.pipe(take(1), switchMap(token => {
       return this.http
       .get<{ [key: string]: PaymentData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${id}.json?auth=${token}`
+        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments.json?auth=${token}`
       );
     }), map((resData) => {
       const payments = [];
       for (const key in resData) {
-        if (resData.hasOwnProperty(key)) {
+        if (resData.hasOwnProperty(key) &&
+        resData[key].id === id) {
           payments.push(
             new Payment(
               key,
@@ -147,6 +170,36 @@ export class PaymentService {
     );
   }
 
+  fetchCashPayments(method: string) {
+    return this.authService.token.pipe(take(1), switchMap(token => {
+      return this.http
+      .get<{ [key: string]: PaymentData }>(
+        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments.json?auth=${token}`
+      );
+    }), map((resData) => {
+      const payments = [];
+      for (const key in resData) {
+        if (resData.hasOwnProperty(key) &&
+        resData[key].paymentMethod === method) {
+          payments.push(
+            new Payment(
+              key,
+              resData[key].paymentDate,
+              resData[key].amount,
+              resData[key].paymentMethod,
+              resData[key].payeeName
+            )
+          );
+        }
+      }
+      return payments;
+    }),
+    tap((payment) => {
+      this._payment.next(payment);
+    })
+    );
+  }
+
   getPayments(id: string) {
     return this.authService.token.pipe(
       take(1),
@@ -172,7 +225,7 @@ export class PaymentService {
       take(1),
       switchMap((token) => {
         return this.http.delete(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cemeterys/${paymentId}.json?auth=${token}`
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${paymentId}.json?auth=${token}`
         );
       }),
       switchMap(() => {

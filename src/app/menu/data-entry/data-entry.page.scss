@@ -15,5 +15,16 @@ nav{
   margin-left:15px;
   margin-right:15px;
 }
-
+@media screen and (max-width: 767px){
+  nav{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  a.mat-tab-link.mat-focus-indicator{
+    padding-left:0px;
+    padding-right:0px;
+    color:#1b3a57;
+    min-width:90px;
+  }
+}
 

@@ -201,7 +201,6 @@ export class EditDebtorPage implements OnInit {
             this.form.value.organistPrice,
             this.form.value.soloistPrice,
             this.form.value.otherDetailsPrice,
-            this.form.value.totalBalance
           ).subscribe(() => {
             loadingEl.dismiss();
             this.form.reset();

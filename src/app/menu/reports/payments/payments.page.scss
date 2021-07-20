@@ -54,9 +54,7 @@ ion-card {
 ion-list {
   padding-bottom: 0px;
 }
-ion-card-header {
-  padding: 0px;
-}
+
 ion-icon {
   font-size: 20px;
 }
@@ -96,4 +94,18 @@ ion-toolbar {
 
   box-shadow: 1px 1px 1px grey;
 }
-
+.paymentTitle{
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.total-header{
+  padding: 0px;
+}
+.amount{
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-top: 0px;
+}
+.payment-icon{
+  color: #386dff;
+}

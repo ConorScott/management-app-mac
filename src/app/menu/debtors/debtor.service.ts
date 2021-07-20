@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Payment } from 'src/app/shared/payment.model';
@@ -42,12 +43,13 @@ interface DebtorData {
   providedIn: 'root',
 })
 export class DebtorService {
+  private newTotalBalance = new BehaviorSubject<number>(null);
   private _debtor = new BehaviorSubject<Debtor[]>([]);
+  castTotal = this.newTotalBalance.asObservable();
 
   get debtor() {
     return this._debtor.asObservable();
   }
-
 
   constructor(private http: HttpClient, private authService: AuthService, private paymentService: PaymentService) {}
 
@@ -82,6 +84,27 @@ export class DebtorService {
     let generatedId: string;
     let fetchedUserId: string;
     let newDebtor: Debtor;
+    totalBalance =
+    servicesPrice +
+    coffinPrice +
+    casketCoverPrice +
+    coronerDoctorCertPrice +
+    cremationPrice +
+    urnPrice +
+    churchOfferringPrice +
+    sacristianPrice +
+    flowersPrice +
+    graveOpenPrice +
+    gravePurchasePrice +
+    graveMarkerPrice +
+    graveMatsTimbersPrice +
+    clothsPrice +
+    hairdresserPrice +
+    radioNoticePrice +
+    paperNoticePrice +
+    organistPrice +
+    soloistPrice +
+    otherDetailsPrice;
     return this.authService.userId.pipe(
       take(1),
       switchMap(userId => {
@@ -119,6 +142,7 @@ export class DebtorService {
         organistPrice,
         soloistPrice,
         otherDetailsPrice,
+        totalBalance
       );
       return this.http
         .put<{ name: string }>(
@@ -175,6 +199,7 @@ export class DebtorService {
               resData[key].organistPrice,
               resData[key].soloistPrice,
               resData[key].otherDetailsPrice,
+              resData[key].totalBalance
             )
           );
         }
@@ -222,6 +247,7 @@ export class DebtorService {
           resData.organistPrice,
           resData.soloistPrice,
           resData.otherDetailsPrice,
+          resData.totalBalance
         );
       })
     );
@@ -276,8 +302,8 @@ export class DebtorService {
           oldDebtor.organistPrice,
           oldDebtor.soloistPrice,
           oldDebtor.otherDetailsPrice,
+          oldDebtor.totalBalance
         );
-        this.paymentService.addPayment(payments, debtorId, fetchedToken);
         return this.http.put<Debtor>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${debtorId}.json?auth=${fetchedToken}`,
           { ...updateDebtor[updateDebtorIndex], id: null }
@@ -315,29 +341,28 @@ export class DebtorService {
     organistPrice: number,
     soloistPrice: number,
     otherDetailsPrice: number,
-    totalBalance: number
   ) {
-    // const totalBalance =
-    // servicesPrice +
-    // coffinPrice +
-    // casketCoverPrice +
-    // coronerDoctorCertPrice +
-    // cremationPrice +
-    // urnPrice +
-    // churchOfferringPrice +
-    // sacristianPrice +
-    // flowersPrice +
-    // graveOpenPrice +
-    // gravePurchasePrice +
-    // graveMarkerPrice +
-    // graveMatsTimbersPrice +
-    // clothsPrice +
-    // hairdresserPrice +
-    // radioNoticePrice +
-    // paperNoticePrice +
-    // organistPrice +
-    // soloistPrice +
-    // otherDetailsPrice;
+    const totalBalance =
+    servicesPrice +
+    coffinPrice +
+    casketCoverPrice +
+    coronerDoctorCertPrice +
+    cremationPrice +
+    urnPrice +
+    churchOfferringPrice +
+    sacristianPrice +
+    flowersPrice +
+    graveOpenPrice +
+    gravePurchasePrice +
+    graveMarkerPrice +
+    graveMatsTimbersPrice +
+    clothsPrice +
+    hairdresserPrice +
+    radioNoticePrice +
+    paperNoticePrice +
+    organistPrice +
+    soloistPrice +
+    otherDetailsPrice;
     let updateDebtor: Debtor[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -388,6 +413,7 @@ export class DebtorService {
           organistPrice,
           soloistPrice,
           otherDetailsPrice,
+          totalBalance
         );
         return this.http.put<Debtor>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${invoiceId}.json?auth=${fetchedToken}`,

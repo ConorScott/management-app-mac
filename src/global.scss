@@ -121,3 +121,11 @@
     transform: translateY(-1px);
 
 }
+@media screen and (max-width: 767px){
+  ion-searchbar .searchbar-input-container input::placeholder {
+    font-size: 14px;
+  }
+  ion-searchbar .searchbar-input-container .searchbar-search-icon{
+    width:16px;
+  }
+}
