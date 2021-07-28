@@ -1,6 +1,6 @@
-<ion-header class="ion-no-border">
+<!-- <ion-header class="ion-no-border"> -->
 
-  <ion-toolbar>
+  <ion-toolbar class="header-toolbar">
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>
       <ion-icon class="menu-icon"  [name]=" isVisible ? 'ellipsis-vertical' : 'grid-outline'" [ngClass]="{'rotated' : !isVisible}" (click)="isToggle()"></ion-icon>
@@ -8,9 +8,10 @@
     <ion-title>{{title}}</ion-title>
     <ion-buttons slot="end">
       <ion-icon class="menu-icon" name="person" (click)="presentPopover($event)"></ion-icon>
+      <ion-label class="name" (click)="presentPopover($event)">{{name}}</ion-label>
     </ion-buttons>
   </ion-toolbar>
 
 
 
-</ion-header>
+<!-- </ion-header> -->

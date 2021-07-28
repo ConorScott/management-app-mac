@@ -70,10 +70,6 @@ const routes: Routes = [
             path: '',
             loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarPageModule)
           },
-          {
-            path: 'new-entry',
-            loadChildren: () => import('./calendar/new-entry/new-entry.module').then(m => m.NewEntryPageModule)
-          },
         ]
       },
       {

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { CalendarService } from 'src/app/menu/calendar/calendar.service';
 import { Deceased } from '../deceased.model';
 import { DeceasedService } from '../deceased.service';
 
@@ -14,6 +15,10 @@ import { DeceasedService } from '../deceased.service';
 export class EditDetailsPage implements OnInit {
   deceased: Deceased;
   deceasedId: string;
+  reposeId: string;
+  removalId: string;
+  churchArrivalId: string;
+  massDateId: string;
   form: FormGroup;
   isLoading = false;
   private deceasedSub: Subscription;
@@ -24,7 +29,8 @@ export class EditDetailsPage implements OnInit {
     private navCtrl: NavController,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private calendarService: CalendarService
   ) { }
 
   ngOnInit() {
@@ -39,6 +45,22 @@ export class EditDetailsPage implements OnInit {
         .getDeceased(paramMap.get('deceasedId'))
         .subscribe(
           deceased => {
+            this.calendarService.getEvent(deceased.deceasedName + ' Repose Date').subscribe(event => {
+              this.reposeId = event.id;
+              console.log(this.reposeId);
+            });
+            this.calendarService.getEvent(deceased.deceasedName + ' Removal Date').subscribe(event => {
+              this.removalId = event.id;
+              console.log(this.removalId);
+            });
+            this.calendarService.getEvent(deceased.deceasedName + ' Mass Date').subscribe(event => {
+              this.massDateId = event.id;
+              console.log(this.massDateId);
+            });
+            this.calendarService.getEvent(deceased.deceasedName + ' church Arrival Date').subscribe(event => {
+              this.churchArrivalId = event.id;
+              console.log(this.churchArrivalId);
+            });
             this.deceased = deceased;
             this.form = new FormGroup({
               deceasedName: new FormControl(this.deceased.deceasedName, {
@@ -218,7 +240,6 @@ export class EditDetailsPage implements OnInit {
 
   onUpdateDeceased(){
     if (!this.form.valid) {
-      console.log('fucked');
       return;
     }
     console.log('fucked');
@@ -256,7 +277,12 @@ export class EditDetailsPage implements OnInit {
             this.form.value.massDate,
             this.form.value.massTime,
             this.deceased.entryDate,
-            this.deceased.formType
+            this.deceased.formType,
+            this.deceased.createdBy,
+            this.reposeId,
+            this.removalId,
+            this.massDateId,
+            this.churchArrivalId,
           )
           .subscribe(() => {
             loadingEl.dismiss();

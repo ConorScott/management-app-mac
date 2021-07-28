@@ -3,7 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CalendarService } from 'src/app/menu/calendar/calendar.service';
+import { UserService } from 'src/app/menu/users/user.service';
 import { Cemetery } from '../../cemetery-list/cemetery.model';
 import { CemeteryService } from '../../cemetery-list/cemetery.service';
 import { Church } from '../../church-list/church.model';
@@ -42,6 +45,8 @@ export class AddNewPage implements OnInit {
   cemetery: Cemetery[];
   church: Church[];
   listType = 'standard';
+  userId: string;
+  userName: string;
   private churchSub: Subscription;
   private cemeterySub: Subscription;
 
@@ -51,7 +56,9 @@ export class AddNewPage implements OnInit {
     private deceasedService: DeceasedService,
     private cemeteryService: CemeteryService,
     private churchService: ChurchService,
-    private calendarService: CalendarService
+    private calendarService: CalendarService,
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -62,6 +69,14 @@ export class AddNewPage implements OnInit {
     this.churchSub = this.churchService.church.subscribe((church) => {
       this.church = church;
     });
+
+    this.userService.getUserName().subscribe(user => {
+      console.log(user);
+      user.map(createdBy => {
+        this.userName = createdBy.name;
+      });
+    });
+
 
     this.form = new FormGroup({
       deceasedName: new FormControl(null, {
@@ -228,7 +243,7 @@ export class AddNewPage implements OnInit {
   }
 
   onCreateEntry() {
-    this.reposeDate();
+    // this.reposeDate();
     this.loadingCtrl
       .create({
         message: 'Creating Entry',
@@ -262,7 +277,8 @@ export class AddNewPage implements OnInit {
             this.form.value.massDate,
             this.form.value.massTime,
             this.createdAt,
-            this.form.value.formType
+            this.form.value.formType,
+            this.userName
           )
           .subscribe(() => {
             loadingEl.dismiss();
@@ -270,69 +286,6 @@ export class AddNewPage implements OnInit {
             this.router.navigate(['/menu/tabs/data-entry/deceased']);
           });
       });
-  }
-  reposeDate() {
-    const date = this.form.value.reposeDate.split('T')[0];
-    const time = this.form.value.reposeTime.split('T')[1];
-    const reposeDateTime = date + 'T' + time;
-    const endTime = new Date(reposeDateTime);
-    endTime.setHours(endTime.getHours()+1);
-    this.removalTime();
-    this.calendarService
-      .addReposeEvent(
-        this.form.value.deceasedName + ' Repose Date',
-        new Date(reposeDateTime),
-        endTime,
-        colors.blue
-      )
-      .subscribe();
-  }
-  removalTime() {
-    const date = this.form.value.removalDate.split('T')[0];
-    const time = this.form.value.removalTime.split('T')[1];
-    const removalDateTime = date + 'T' + time;
-    const endTime = new Date(removalDateTime);
-    endTime.setHours(endTime.getHours()+1);
-    this.churchArrivalTime();
-    this.calendarService
-      .addReposeEvent(
-        this.form.value.deceasedName + ' Removal Date',
-        new Date(removalDateTime),
-        endTime,
-        colors.yellow
-      )
-      .subscribe();
-  }
-  churchArrivalTime() {
-    const date = this.form.value.churchArrivalDate.split('T')[0];
-    const time = this.form.value.churchArrivalTime.split('T')[1];
-    const churchArrivalDateTime = date + 'T' + time;
-    const endTime = new Date(churchArrivalDateTime);
-    endTime.setHours(endTime.getHours()+1);
-    this.massTime();
-    this.calendarService
-      .addReposeEvent(
-        this.form.value.deceasedName + ' church Arrival Date',
-        new Date(churchArrivalDateTime),
-        endTime,
-        colors.green
-      )
-      .subscribe();
-  }
-  massTime() {
-    const date = this.form.value.massDate.split('T')[0];
-    const time = this.form.value.massTime.split('T')[1];
-    const massDateTime = date + 'T' + time;
-    const endTime = new Date(massDateTime);
-    endTime.setHours(endTime.getHours()+1);
-    this.calendarService
-      .addReposeEvent(
-        this.form.value.deceasedName + ' Mass Date',
-        new Date(massDateTime),
-        endTime,
-        colors.lightRed
-      )
-      .subscribe();
   }
 
   listTypeChange(event) {

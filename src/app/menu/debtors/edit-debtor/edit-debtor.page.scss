@@ -26,25 +26,50 @@ ion-toolbar {
   --ion-toolbar-background: rgba(0, 0, 0, 0.0);
   --ion-toolbar-color: #1b3a57;
 }
-.selectForm{
-  --placeholder-color:#32325d;
-  --placeholder-opacity: 1;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  border-radius: .25rem;
-  font-weight:600;
-  transition: all .15s ease;
+
+
+.form-input-select{
+  font-size: .875rem;
+    transition: all 1.15s ease-in-out;
+
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    box-shadow: 0 3px 2px rgba(233, 236, 239, 0.05);
+    width:100%;
+    font-weight: 500;
+    line-height: 1.5;
+    --placeholder-font-weight:500;
+    --padding-start:.625rem;
+    --font-weight: 500;
+    --background-hover:transparent;
 }
-.selectForm:hover{
-  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.10), 0 3px 6px rgba(0, 0, 0, 0.08);
-    transform: translateY(-1px);
-
+.form-label{
+  color: #525f7f;
+  margin-bottom: .8rem;
+  font-weight: 600;
+  font-size: .875rem;
+  margin-right: 8px;
 }
-
-
-.col-border{
-  border-right: 1px solid rgba(0,0,0,.1);
+.checkbox-label{
+  color: #525f7f;
+  margin-bottom: .8rem;
+  font-weight: 600;
+  font-size: .875rem;
 }
-
+.form-input{
+  font-size: .875rem;
+    transition: all 1.15s ease-in-out;
+    height: calc(1.5em + 1.25rem + 5px);
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    box-shadow: 0 3px 2px rgba(233, 236, 239, 0.05);
+    width:100%;
+    font-weight: 500;
+    line-height: 1.5;
+    --placeholder-font-weight:500;
+    --padding-start:10px !important;
+    --font-weight: 500;
+}
 
 ion-item.item-has-focus > .form-input{
   color: #525f7f !important;
@@ -74,11 +99,6 @@ ion-textarea.textarea-wrapper{
   font-weight: 600;
   font-size: 1rem;
 }
-.form-label{
-  font-size: .875rem;
-    margin-right: 5px;
-}
-ion-input{
-  max-width: 30%;
-    margin-left: 5px;
+.row{
+  padding: 0px 16px 0px 16px;
 }

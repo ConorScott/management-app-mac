@@ -29,5 +29,6 @@ export class Deceased {
     public massTime: Date,
     public entryDate: Date,
     public formType: string,
+    public createdBy: string
   ) {}
 }

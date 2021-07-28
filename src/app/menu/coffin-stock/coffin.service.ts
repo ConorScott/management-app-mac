@@ -11,6 +11,7 @@ import { Coffin } from './coffin.model';
 interface CoffinData {
   coffinName: string;
   stockLevel: number;
+  stockLocation: string;
 }
 
 @Injectable({
@@ -26,7 +27,7 @@ export class CoffinService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  addCoffin(coffinName: string, stockLevel: number) {
+  addCoffin(coffinName: string, stockLevel: number, stockLocation: string) {
     let generateId: string;
     let newCoffin: Coffin;
     let fetchedUserId: string;
@@ -44,7 +45,8 @@ export class CoffinService {
         newCoffin = new Coffin(
           Math.random().toString(),
           coffinName,
-          stockLevel
+          stockLevel,
+          stockLocation
         );
         return this.http
         .post<{name: string}>(
@@ -62,8 +64,7 @@ export class CoffinService {
       })
     );
   }
-
-  fetchCoffins() {
+  fetchAllCoffins() {
     return this.authService.token.pipe(take(1), switchMap(token => {
       return this.http
       .get<{ [key: string]: CoffinData }>(
@@ -77,7 +78,37 @@ export class CoffinService {
             new Coffin(
               key,
               resData[key].coffinName,
-              resData[key].stockLevel
+              resData[key].stockLevel,
+              resData[key].stockLocation
+            )
+          );
+        }
+      }
+      return coffin;
+    }),
+    tap((coffin) => {
+      this._coffin.next(coffin);
+    })
+    );
+  }
+
+  fetchCoffins(formType: string) {
+    return this.authService.token.pipe(take(1), switchMap(token => {
+      return this.http
+      .get<{ [key: string]: CoffinData }>(
+        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
+      );
+    }), map((resData) => {
+      const coffin = [];
+      for (const key in resData) {
+        if (resData.hasOwnProperty(key) &&
+        resData[key].stockLocation === formType) {
+          coffin.push(
+            new Coffin(
+              key,
+              resData[key].coffinName,
+              resData[key].stockLevel,
+              resData[key].stockLocation
             )
           );
         }
@@ -102,13 +133,56 @@ export class CoffinService {
         return new Coffin(
           id,
           resData.coffinName,
-          resData.stockLevel
+          resData.stockLevel,
+          resData.stockLocation
         );
       })
     );
   }
 
-  updateCoffin(coffinId: string, coffinName: string, stockLevel: number) {
+  getCoffinId(name: string, location: string) {
+    console.log(name);
+    console.log(location);
+    let fetchedUserId: string;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error('USer not found!');
+        }
+        fetchedUserId = userId;
+        console.log(fetchedUserId);
+        return this.authService.token;
+
+      }),
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: CoffinData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
+        );
+      }),
+      map((resData) => {
+        const coffins = [];
+        for(const key in resData){
+          if(resData.hasOwnProperty(key) &&
+          resData[key].coffinName === name
+          && resData[key].stockLocation === location){
+            coffins.push(
+              new Coffin(
+                key,
+                resData[key].coffinName,
+                resData[key].stockLevel,
+                resData[key].stockLocation
+              )
+            );
+          }
+        }
+        return coffins;
+      })
+    );
+  }
+
+  updateCoffin(coffinId: string, coffinName: string, stockLevel: number, stockLocation: string) {
     let updateCoffin: Coffin[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -120,7 +194,8 @@ export class CoffinService {
       take(1),
       switchMap((coffin) => {
         if (!coffin || coffin.length <= 0) {
-          return this.fetchCoffins();
+          const formtype = 'sligo';
+          return this.fetchCoffins(formtype);
         } else {
           return of(coffin);
         }
@@ -133,7 +208,88 @@ export class CoffinService {
         updateCoffin[updateCoffinIndex] = new Coffin(
           oldCoffin.id,
           coffinName,
-          stockLevel
+          stockLevel,
+          stockLocation
+        );
+        return this.http.put<Coffin>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins/${coffinId}.json?auth=${fetchedToken}`,
+          { ...updateCoffin[updateCoffinIndex], id: null }
+        );
+      }),
+      tap(() => {
+        this._coffin.next(updateCoffin);
+      })
+    );
+  }
+
+  updateCoffins(coffinId: string, coffinName: string, stockLevel: number, stockLocation: string) {
+    let updateCoffin: Coffin[];
+    let fetchedToken: string;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        fetchedToken = token;
+        return this.coffin;
+      }),
+      take(1),
+      switchMap((coffin) => {
+        if (!coffin || coffin.length <= 0) {
+          const formtype = 'sligo';
+          return this.fetchCoffins(formtype);
+        } else {
+          return of(coffin);
+        }
+      }),
+      switchMap((coffin) => {
+        const updateCoffinIndex = coffin.findIndex((pl) => pl.id === coffinId);
+        updateCoffin = [...coffin];
+        const oldCoffin = updateCoffin[updateCoffinIndex];
+        const newStockLevel = stockLevel - 1;
+        updateCoffin[updateCoffinIndex] = new Coffin(
+          oldCoffin.id,
+          coffinName,
+          newStockLevel,
+          oldCoffin.stockLocation
+        );
+        return this.http.put<Coffin>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins/${coffinId}.json?auth=${fetchedToken}`,
+          { ...updateCoffin[updateCoffinIndex], id: null }
+        );
+      }),
+      tap(() => {
+        this._coffin.next(updateCoffin);
+      })
+    );
+  }
+
+  updateAddCoffin(coffinId: string, coffinName: string, stockLevel: number, stockLocation: string) {
+    let updateCoffin: Coffin[];
+    let fetchedToken: string;
+    console.log(coffinId);
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        fetchedToken = token;
+        return this.coffin;
+      }),
+      take(1),
+      switchMap((coffin) => {
+        if (!coffin || coffin.length <= 0) {
+          return this.fetchCoffins(stockLocation);
+        } else {
+          return of(coffin);
+        }
+      }),
+      switchMap((coffin) => {
+        const updateCoffinIndex = coffin.findIndex((pl) => pl.id === coffinId);
+        updateCoffin = [...coffin];
+        const oldCoffin = updateCoffin[updateCoffinIndex];
+        const newStockLevel = stockLevel + 1;
+        updateCoffin[updateCoffinIndex] = new Coffin(
+          oldCoffin.id,
+          coffinName,
+          newStockLevel,
+          oldCoffin.stockLocation
         );
         return this.http.put<Coffin>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins/${coffinId}.json?auth=${fetchedToken}`,

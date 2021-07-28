@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController, MenuController } from '@ionic/angular';
+import { AlertController, LoadingController, MenuController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AuthResponseData, AuthService } from './auth.service';
 
@@ -13,13 +13,15 @@ import { AuthResponseData, AuthService } from './auth.service';
 export class AuthPage implements OnInit {
   isLoading = false;
   isLogin = true;
+  modal: HTMLIonModalElement;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {}
@@ -27,6 +29,7 @@ export class AuthPage implements OnInit {
   ionViewWillEnter(){
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(false);
+
   }
 
   ionViewWillLeave(){

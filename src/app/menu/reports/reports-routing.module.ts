@@ -9,52 +9,65 @@ const routes: Routes = [
     component: ReportsPage,
     children: [
       {
-        path:'payments',
+        path: 'payments',
         children: [
           {
             path: '',
-            loadChildren: () => import('./payments/payments.module').then(m => m.PaymentsPageModule)
-          }
-        ]
+            loadChildren: () =>
+              import('./payments/payments.module').then(
+                (m) => m.PaymentsPageModule
+              ),
+          },
+        ],
       },
       {
-        path:'invoice',
+        path: 'receipt',
         children: [
           {
             path: '',
-            loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule)
-          }
-        ]
+            loadChildren: () =>
+              import('./receipts/receipts.module').then(
+                (m) => m.ReceiptsPageModule
+              ),
+          },
+        ],
       },
       {
-        path:'receipt',
+        path: 'donation',
         children: [
           {
             path: '',
-            loadChildren: () => import('./receipts/receipts.module').then( m => m.ReceiptsPageModule)
-          }
-        ]
+            loadChildren: () =>
+              import('./donations/donations.module').then(
+                (m) => m.DonationsPageModule
+              ),
+          },
+        ],
+      },
+      {
+        path: 'coffin-sales',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('./coffin-sales/coffin-sales.module').then(
+                (m) => m.CoffinSalesPageModule
+              ),
+          },
+        ],
       },
       {
         path: '',
-        redirectTo: 'menu/tabs/reports/payments',
-        pathMatch: 'full'
-      }
-    ]
+        redirectTo: '/menu/tabs/reports/payments',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '',
-    redirectTo: 'menu/tabs/reports/payments',
-    pathMatch: 'full'
-  }
-  // {
-  //   path: 'invoice',
-  //   loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule)
-  // },
-  // {
-  //   path: 'receipt',
-  //   loadChildren: () => import('./receipts/receipts.module').then( m => m.ReceiptsPageModule)
-  // }
+    redirectTo: '/menu/tabs/reports/payments',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

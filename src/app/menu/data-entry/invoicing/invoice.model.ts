@@ -8,6 +8,7 @@ export class Invoice {
     public servicesPrice: number,
     public coffinDetails: string,
     public coffinPrice: number,
+    public stockLocation: string,
     public casketCover: string,
     public casketCoverPrice: number,
     public coronerDoctorCert: string,
@@ -44,7 +45,11 @@ export class Invoice {
     public soloistPrice: number,
     public otherDetails: string,
     public otherDetailsPrice: number,
-    public totalBalance: number
+    public totalBalance: number,
+    public address1: string,
+    public address2: string,
+    public address3: string,
+    public county: string
   ){
     // if(this.servicesPrice == null){
     //   this.servicesPrice = 0;

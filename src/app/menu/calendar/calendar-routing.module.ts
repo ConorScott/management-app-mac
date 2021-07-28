@@ -8,14 +8,6 @@ const routes: Routes = [
     path: '',
     component: CalendarPage
   },
-  {
-    path: 'new-entry',
-    loadChildren: () => import('./new-entry/new-entry.module').then( m => m.NewEntryPageModule)
-  },
-  // {
-  //   path: 'cal-moda',
-  //   loadChildren: () => import('./cal-modal/cal-modal.module').then( m => m.CalModalPageModule)
-  // }
 ];
 
 @NgModule({

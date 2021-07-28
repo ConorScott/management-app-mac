@@ -61,7 +61,7 @@
           <ion-row>
             <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Coffin Details</ion-label>
+                <ion-label position="stacked" class="form-label">Coffin</ion-label>
                 <ion-select class="form-input-select" placeholder="Coffin" formControlName="coffinDetails" okText="Okay" cancelText="Dismiss">
                   <ion-select-option *ngFor="let coffin of coffin" value="{{coffin.coffinName}}">{{coffin.coffinName}}</ion-select-option>
                 </ion-select>
@@ -287,7 +287,7 @@
 
           <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
-              <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="onGenerateInvoice()">
+              <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="onGenerateInvoice();">
                 Generate Invoice
               </ion-button>
             </ion-col>

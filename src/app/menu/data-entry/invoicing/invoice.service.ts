@@ -18,6 +18,7 @@ interface InvoiceData {
   servicesPrice: number;
   coffinDetails: string;
   coffinPrice: number;
+  stockLocation: string;
   casketCover: string;
   casketCoverPrice: number;
   coronerDoctorCert: string;
@@ -55,6 +56,10 @@ interface InvoiceData {
   otherDetails: string;
   otherDetailsPrice: number;
   totalBalance: number;
+  address1: string;
+  address2: string;
+  address3: string;
+  county: string;
 }
 
 @Injectable({
@@ -81,6 +86,7 @@ export class InvoiceService {
     servicesPrice: number,
     coffinDetails: string,
     coffinPrice: number,
+    stockLocation: string,
     casketCover: string,
     casketCoverPrice: number,
     coronerDoctorCert: string,
@@ -117,7 +123,11 @@ export class InvoiceService {
     soloistPrice: number,
     otherDetails: string,
     otherDetailsPrice: number,
-    totalBalance: number
+    totalBalance: number,
+    address1: string,
+    address2: string,
+    address3: string,
+    county: string
   ) {
     let generateId: string;
     let newInvoice: Invoice;
@@ -142,6 +152,7 @@ export class InvoiceService {
           servicesPrice,
           coffinDetails,
           coffinPrice,
+          stockLocation,
           casketCover,
           casketCoverPrice,
           coronerDoctorCert,
@@ -178,9 +189,12 @@ export class InvoiceService {
           soloistPrice,
           otherDetails,
           otherDetailsPrice,
-          totalBalance
+          totalBalance,
+          address1,
+          address2,
+          address3,
+          county
         );
-        console.log(newInvoice.id);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`,
           { ...newInvoice, id: null }
@@ -193,7 +207,6 @@ export class InvoiceService {
       take(1),
       tap((invoice) => {
         newInvoice.id = generateId;
-        console.log(newInvoice.id);
         this.debtorService.addDebtor(
           newInvoice.id,
           deceasedName,
@@ -259,6 +272,7 @@ export class InvoiceService {
                 invoiceData[key].servicesPrice,
                 invoiceData[key].coffinDetails,
                 invoiceData[key].coffinPrice,
+                invoiceData[key].stockLocation,
                 invoiceData[key].casketCover,
                 invoiceData[key].casketCoverPrice,
                 invoiceData[key].coronerDoctorCert,
@@ -295,7 +309,11 @@ export class InvoiceService {
                 invoiceData[key].soloistPrice,
                 invoiceData[key].otherDetails,
                 invoiceData[key].otherDetailsPrice,
-                invoiceData[key].totalBalance
+                invoiceData[key].totalBalance,
+                invoiceData[key].address1,
+                invoiceData[key].address2,
+                invoiceData[key].address3,
+                invoiceData[key].county
               )
             );
           }
@@ -325,6 +343,7 @@ export class InvoiceService {
           resData.servicesPrice,
           resData.coffinDetails,
           resData.coffinPrice,
+          resData.stockLocation,
           resData.casketCover,
           resData.casketCoverPrice,
           resData.coronerDoctorCert,
@@ -361,7 +380,11 @@ export class InvoiceService {
           resData.soloistPrice,
           resData.otherDetails,
           resData.otherDetailsPrice,
-          resData.totalBalance
+          resData.totalBalance,
+          resData.address1,
+          resData.address2,
+          resData.address3,
+          resData.county
         );
       })
     );
@@ -376,6 +399,7 @@ export class InvoiceService {
     servicesPrice: number,
     coffinDetails: string,
     coffinPrice: number,
+    stockLocation: string,
     casketCover: string,
     casketCoverPrice: number,
     coronerDoctorCert: string,
@@ -465,6 +489,7 @@ export class InvoiceService {
           servicesPrice,
           coffinDetails,
           coffinPrice,
+          stockLocation,
           casketCover,
           casketCoverPrice,
           coronerDoctorCert,
@@ -501,7 +526,11 @@ export class InvoiceService {
           soloistPrice,
           otherDetails,
           otherDetailsPrice,
-          totalBalance
+          totalBalance,
+          oldInvoiceInfo.address1,
+          oldInvoiceInfo.address2,
+          oldInvoiceInfo.address3,
+          oldInvoiceInfo.county,
         );
         return this.http.put(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json?auth=${fetchedToken}`,

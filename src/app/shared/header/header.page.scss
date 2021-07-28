@@ -16,18 +16,19 @@ ion-icon{
 
 }
 .menu-icon{
-  background: white;
+  // background: white;
+  color:white;
   font-size: 24px;
   padding:5px;
 cursor: pointer;
-box-shadow: 0px 2px 2px 0px hsla(0deg, 0.0, 0.60 , 0.14), 0px 3px 1px -2px hsla(0deg, 0.0, 0.60, 0.20), 0px 1px 5px 0px hsla(0deg, 0.0, 0.60, 0.12);
+// box-shadow: 0px 2px 2px 0px hsla(0deg, 0.0, 0.60 , 0.14), 0px 3px 1px -2px hsla(0deg, 0.0, 0.60, 0.20), 0px 1px 5px 0px hsla(0deg, 0.0, 0.60, 0.12);
 position: relative;
   display: inline-block;
   margin: -1px;
   -moz-border-radius:50%;
   -webkit-border-radius:50%;
-	border-radius: 50%;
-  border: 1px solid #ebebeb;
+	// border-radius: 50%;
+  // border: 1px solid #ebebeb;
   text-align:center;
   transition:  500ms ease-in-out;
   transform: rotate(0deg);
@@ -42,4 +43,19 @@ position: relative;
 ion-toolbar{
   padding-left: 15px;
   padding-right: 15px;
+  --background: white;
+  // --background: linear-gradient(87deg, #3880ff 0, #80aeff 100%) !important;
+  --background: #3880ff;
+}
+ion-title{
+  color:white;
+  font-size: 1.25rem;
+  // font-weight: 600;
+  letter-spacing: 1px;
+}
+.name{
+  color:white;
+  padding-right: 30px;
+  padding-left: 10px;
+  cursor: pointer;
 }

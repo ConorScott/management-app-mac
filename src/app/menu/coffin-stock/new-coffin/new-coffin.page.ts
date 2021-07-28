@@ -30,7 +30,10 @@ export class NewCoffinPage implements OnInit {
       }),
       stockLevel: new FormControl(null, {
         validators: [Validators.required]
-      })
+      }),
+      stockLocation: new FormControl(null, {
+        validators: [Validators.required]
+      }),
     });
   }
 
@@ -42,7 +45,8 @@ export class NewCoffinPage implements OnInit {
         loadingEl.present();
         this.coffinService.addCoffin(
            this.form.value.coffinName,
-           this.form.value.stockLevel
+           this.form.value.stockLevel,
+           this.form.value.stockLocation
         ).subscribe(() => {
           loadingEl.dismiss();
           this.form.reset();

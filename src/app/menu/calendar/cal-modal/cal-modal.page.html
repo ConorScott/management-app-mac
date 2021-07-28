@@ -1,54 +1,62 @@
-<ion-content>
-  <form [formGroup]="form">
-    <ion-grid>
-<ion-row>
-  <ion-col size="12" size-md="6" size-lg="12">
-    <ion-item lines="none">
-      <ion-label position="fixed">Title</ion-label>
-      <ion-input placeholder="Enter title here" class="ion-text-right" type="text" formControlName="title"></ion-input>
-    </ion-item>
-  </ion-col>
-</ion-row>
+<form [formGroup]="form">
+  <ion-card>
+    <ion-card-header>
+      <ion-item lines="none">
+        <ion-label class="card-title" >
+          New Event
+        </ion-label>
+        <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+      </ion-item>
+    </ion-card-header>
 
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="fixed" class="form-label">Day Off</ion-label>
+              <ion-checkbox name="dayOff" #dayOff></ion-checkbox>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-  <!-- <ion-item lines="none">
-    <ion-label position="fixed"  >Description</ion-label>
-    <ion-input placeholder="Enter description" class="ion-text-right" type="text" [(ngModel)]="event.desc"></ion-input>
-  </ion-item> -->
+        <ion-row class="ion-justify-content-center" *ngIf="dayOff.checked">
 
-  <!-- <ion-item lines="none">
-    <ion-label  >All Day</ion-label>
-    <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
-  </ion-item> -->
-<ion-row>
-  <ion-col>
-    <ion-item lines="none">
-      <ion-label >All Day</ion-label>
-      <ion-checkbox
-        formControlName="allDay" #allDay></ion-checkbox>
-    </ion-item>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col>
-    <ion-item lines="none" *ngIf="!allDay.checked" #start>
-      <ion-label >Start</ion-label>
-      <ion-datetime   displayFormat="MM/DD/YYYY HH:mm" pickerFormat="YYYY-MM-DDTHH:mm"
-        formControlName="start" [min]="startDate" [max]="endDate"></ion-datetime>
-    </ion-item>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col>
-    <ion-item lines="none" *ngIf="!allDay.checked">
-      <ion-label>End</ion-label>
-      <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="YYYY-MM-DDTHH:mm" formControlName="end"
-        [min]="startDate" [max]="endDate"></ion-datetime>
-    </ion-item>
-  </ion-col>
-</ion-row>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Event Title</ion-label>
+              <ion-input class="form-input" type="text" placeholder="Event Title" formControlName="title"></ion-input>
+            </ion-item>
+          </ion-col>
 
-<ion-button color="success" type="submit" expand="block" (click)="addEvent()">Submit</ion-button>
-</ion-grid>
+          <ion-col size="10" >
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Start Date</ion-label>
+              <ion-datetime class="form-input-date" type="text" placeholder="Start Date" formControlName="start"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">End Date</ion-label>
+              <ion-datetime class="form-input-date" type="text" placeholder="End Date" formControlName="end"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label class="form-label" position="stacked">Event Description</ion-label>
+              <ion-textarea rows="5" class="form-input" type="text" placeholder="desc" formControlName="desc"></ion-textarea>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+      <ion-col size="8">
+        <ion-button class="submit-button" type="submit" expand="block" (click)="onAddDonation()">
+          Submit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </form>
-</ion-content>

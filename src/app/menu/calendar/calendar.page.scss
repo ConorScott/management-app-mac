@@ -6,9 +6,61 @@ pre {
   background-color: #f5f5f5;
   padding: 15px;
 }
-ion-content{
-  --padding-top: 30px;
-    --padding-start: 30px;
-    --padding-end: 30px;
-    --padding-bottom: 30px;
+// ion-content{
+//   --padding-top: 30px;
+//     --padding-start: 30px;
+//     --padding-end: 30px;
+//     --padding-bottom: 30px;
+// }
+.header-toolbar{
+  padding-bottom:40px;
+}
+
+ion-grid{
+  position: relative;
+  z-index: 12;
+}
+.submit-button{
+  background-color: white;
+  font-size: .750rem;
+}
+.header{
+  background-color: #3880ff;
+  height: 130px;
+  border-radius: 0px 0px 10px 10px;
+}
+ion-grid{
+  margin-top: -100px;
+  padding-left: 30px;
+    padding-right: 30px;
+}
+.view-date{
+  text-align: start;
+  padding-left: 10px;
+  color: white;
+}
+.ion-buttons{
+  text-align: end;
+  padding-right: 10px;
+}
+ion-button::part(native){
+  background-color: #fff;
+  color: #3880ff;
+}
+h3{
+  margin:0;
+  padding-right: 10px;
+}
+.btn-group {
+  align-items: center;
+}
+.view-month{
+  text-align: start;
+  align-self: center;
+}
+.today{
+  margin-right: 20px;
+}
+.add-new{
+  margin-right: 20px;
 }

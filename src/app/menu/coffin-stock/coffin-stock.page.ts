@@ -14,6 +14,7 @@ import { EditCoffinPage } from './edit-coffin/edit-coffin.page';
 })
 export class CoffinStockPage implements OnInit, OnDestroy {
   title = 'Coffin Inventory';
+  listType = 'sligo';
   filtered = [];
   searchTerm: string;
   filteredCoffins: Coffin[];
@@ -42,7 +43,7 @@ export class CoffinStockPage implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     this.isLoading = true;
-    this.coffinService.fetchCoffins().subscribe(() => {
+    this.coffinService.fetchCoffins(this.listType).subscribe(() => {
       this.isLoading = false;
       this.filteredCoffins = this.coffin;
       this.filtered = [...this.coffin];
@@ -66,6 +67,7 @@ export class CoffinStockPage implements OnInit, OnDestroy {
           coffinId,
           modalData.data.editCoffin.coffinName,
           modalData.data.editCoffin.stockLevel,
+          modalData.data.editCoffin.stockLocation
         ).subscribe(coffin => {
           this.coffin = [coffin];
         });
@@ -126,6 +128,17 @@ export class CoffinStockPage implements OnInit, OnDestroy {
       (item) =>
         item.coffinName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
     );
+  }
+
+  listTypeChange(event){
+    console.log(event.target.value);
+    this.listType = event.target.value;
+    this.coffinService.fetchCoffins(event.target.value).subscribe((deceased) => {
+      this.isLoading = false;
+      console.log(deceased);
+      // this.filteredDeceased = this.deceased;
+      // this.filtered = [...this.deceased];
+    });
   }
 
   ngOnDestroy() {

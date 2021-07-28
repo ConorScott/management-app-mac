@@ -1,19 +1,24 @@
 <div class="container">
   <div class="header">
     <h1>REPS: {{invoice.responsible}}</h1>
-    <p class="date">Invoice Date: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</p>
-    <h1 class="main-heading">FUNERAL EXPENSES OF THE LATE {{invoice.deceasedName}}</h1>
+    <h1 class="date">Invoice Date: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</h1>
+    <h1 class="main-heading">FUNERAL EXPENSES OF THE LATE</h1>
+    <p class="deceasedInfo">{{invoice.deceasedName}}</p>
+    <p class="date-death">{{invoice.address1}}</p>
+    <p class="date-death">{{invoice.address2}}</p>
+    <p class="date-death">{{invoice.address3}}</p>
+    <p class="date-death">{{invoice.county}}</p>
     <p class="date-death">Date of Death: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</p>
     </div>
 
     <div class="items-group">
-      <div class="row " *ngIf="invoice.defaultEntry">
+      <div class="row " *ngIf="invoice.services">
         <div class="col-10 ">
-          <p>Default Entry:</p>
-          <p>{{invoice.defaultEntry}}</p>
+          <p>Services:</p>
+          <p>{{invoice.services}}</p>
         </div>
         <div class="col-2">
-          <p class="price">€{{invoice.defaultEntryPrice}}</p>
+          <p class="price">€{{invoice.servicesPrice}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.coffinDetails">
@@ -30,6 +35,30 @@
         </div>
         <div class="col-2 entry-div">
           <p class="price">€{{invoice.casketCoverPrice}}</p>
+        </div>
+      </div>
+      <div class="row entry" *ngIf="invoice.coronerDoctorCert">
+        <div class="col-10 entry-div">
+          <p>Coroner/Doctor Cert:</p>
+        </div>
+        <div class="col-2 entry-div">
+          <p class="price"> €{{invoice.coronerDoctorCertPrice}}</p>
+        </div>
+      </div>
+      <div class="row entry" *ngIf="invoice.cremation">
+        <div class="col-10 entry-div">
+          <p>Cremation:</p>
+        </div>
+        <div class="col-2 entry-div">
+          <p class="price"> €{{invoice.cremationPrice}}</p>
+        </div>
+      </div>
+      <div class="row entry" *ngIf="invoice.urn">
+        <div class="col-10 entry-div">
+          <p>Urn:</p>
+        </div>
+        <div class="col-2 entry-div">
+          <p class="price"> €{{invoice.urnPrice}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.churchOfferring">
@@ -94,6 +123,14 @@
         </div>
         <div class="col-2 entry-div">
           <p class="price">€{{invoice.clothsPrice}}</p>
+        </div>
+      </div>
+      <div class="row entry" *ngIf="invoice.hairdresser">
+        <div class="col-10 entry-div">
+          <p>Hairdresser</p>
+        </div>
+        <div class="col-2 entry-div">
+          <p class="price">€{{invoice.hairdresserPrice}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.radioDeathNotices">

@@ -8,6 +8,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Contact } from '../../../shared/contact';
 import { BehaviorSubject, of, pipe } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CalendarService } from '../../calendar/calendar.service';
+import { ReportsPageRoutingModule } from '../../reports/reports-routing.module';
 
 interface DeceasedData {
   deceasedName: string;
@@ -36,6 +38,7 @@ interface DeceasedData {
   massTime: Date;
   entryDate: Date;
   formType: string;
+  createdBy: string;
 }
 
 @Injectable({
@@ -54,7 +57,7 @@ export class DeceasedService {
     return this._contact.asObservable();
   }
 
-  constructor(private authService: AuthService, private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient, private calendarService: CalendarService) {}
 
   addDeceased(
     deceasedName: string,
@@ -82,7 +85,8 @@ export class DeceasedService {
     massDate: Date,
     massTime: Date,
     entryDate: Date,
-    formType: string
+    formType: string,
+    createdBy: string
   ) {
     let generateId: string;
     let newDeceased: Deceased;
@@ -125,7 +129,8 @@ export class DeceasedService {
           massDate,
           massTime,
           entryDate,
-          formType
+          formType,
+          createdBy
         );
         this.addContact(contact).subscribe();
         return this.http.post<{ name: string }>(
@@ -140,6 +145,10 @@ export class DeceasedService {
       take(1),
       tap((deceased) => {
         newDeceased.id = generateId;
+        this.calendarService.reposeDate(newDeceased.id, deceasedName, reposeDate, reposeTime);
+        this.calendarService.removalTime(newDeceased.id, deceasedName, removalDate, removalTime);
+        this.calendarService.churchArrivalTime(newDeceased.id, deceasedName, churchArrivalDate, churchArrivalTime);
+        this.calendarService.massTime(newDeceased.id, deceasedName, massDate, massTime);
         // eslint-disable-next-line no-underscore-dangle
         this._deceased.next(deceased.concat(newDeceased));
       })
@@ -229,7 +238,66 @@ export class DeceasedService {
                 resData[key].massDate,
                 resData[key].massTime,
                 resData[key].entryDate,
-                resData[key].formType
+                resData[key].formType,
+                resData[key].createdBy
+              )
+            );
+          }
+        }
+        return deceased.reverse();
+      }),
+      tap((deceased) => {
+        this._deceased.next(deceased);
+      })
+    );
+  }
+
+  fetchDeceasedAddress(name, responsible) {
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: DeceasedData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/deceased-details.json?auth=${token}`
+        );
+      }),
+      map((resData) => {
+        const deceased = [];
+        for (const key in resData) {
+          if (
+            resData.hasOwnProperty(key) &&
+            resData[key].deceasedName === name &&
+            resData[key].contact.responsible === responsible
+          ) {
+            deceased.push(
+              new Deceased(
+                key,
+                resData[key].deceasedName,
+                resData[key].deathDate,
+                resData[key].age,
+                resData[key].dob,
+                resData[key].deathPlace,
+                resData[key].address1,
+                resData[key].address2,
+                resData[key].address3,
+                resData[key].county,
+                resData[key].contact,
+                resData[key].doctor,
+                resData[key].doctorNo,
+                resData[key].church,
+                resData[key].cemetry,
+                resData[key].grave,
+                resData[key].clergy,
+                resData[key].reposeDate,
+                resData[key].reposeTime,
+                resData[key].removalDate,
+                resData[key].removalTime,
+                resData[key].churchArrivalDate,
+                resData[key].churchArrivalTime,
+                resData[key].massDate,
+                resData[key].massTime,
+                resData[key].entryDate,
+                resData[key].formType,
+                resData[key].createdBy
               )
             );
           }
@@ -291,12 +359,13 @@ export class DeceasedService {
                 resData[key].massDate,
                 resData[key].massTime,
                 resData[key].entryDate,
-                resData[key].formType
+                resData[key].formType,
+                resData[key].createdBy
               )
             );
           }
         }
-        return deceased;
+        return deceased.reverse();
       }),
       tap((deceased) => {
         this._deceased.next(deceased);
@@ -340,7 +409,8 @@ export class DeceasedService {
           resData.massDate,
           resData.massTime,
           resData.entryDate,
-          resData.formType
+          resData.formType,
+          resData.createdBy
         );
       })
     );
@@ -373,8 +443,17 @@ export class DeceasedService {
     massDate: Date,
     massTime: Date,
     createdAt: Date,
-    formType: string
+    formType: string,
+    createdBy: string,
+    reposeId: string,
+    removalId: string,
+    massDateId: string,
+    churchArrivalId: string
   ) {
+    this.calendarService.updateReposeDate(reposeId, deceasedName, reposeDate, reposeTime);
+    this.calendarService.updateRemovalTime(removalId, deceasedName, removalDate, removalTime);
+    this.calendarService.updateMassTime(massDateId, deceasedName, massDate, massTime);
+    this.calendarService.updateChurchArrivalTime(churchArrivalId, deceasedName, churchArrivalDate, churchArrivalTime);
     let updateDeceasedInfo: Deceased[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -424,7 +503,8 @@ export class DeceasedService {
           massDate,
           massTime,
           createdAt,
-          formType
+          formType,
+          oldDeceasedInfo.createdBy
         );
         return this.http.put(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/deceased-details/${deceasedId}.json?auth=${fetchedToken}`,

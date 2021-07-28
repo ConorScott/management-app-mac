@@ -1,0 +1,51 @@
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+  <!-- <div *ngIf="isLoading"> -->
+    <ion-card *ngIf="!isLoading">
+      <ion-card-header>
+        <ion-item lines="none">
+          <ion-label class="card-title" >
+            Donation Information
+          </ion-label>
+          <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+        </ion-item>
+
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+        <ion-item>
+          <ion-label class="form-label">Donation Date:</ion-label>
+          <ion-label class="label"> {{donation.donationDate | date: 'dd/MM/YYYY'}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Donation Type: </ion-label>
+          <ion-label class="label">{{donation.donationType}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Donation Description: </ion-label>
+          <ion-label class="label">{{donation.donationDesc}}</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label class="form-label">Payee Name:</ion-label>
+          <ion-label class="label"> {{donation.payeeName}}</ion-label>
+        </ion-item>
+        <ion-row>
+
+        <ion-col size-lg="6">
+          <ion-button class="submit-button" type="submit" expand="block" (click)="onEditDonation()">
+            Edit Donation
+          </ion-button>
+        </ion-col>
+        <ion-col size-lg="6">
+          <ion-button class="submit-button" color="danger" type="submit" expand="block" (click)="onDeleteDonation()">
+            Delete Donation
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  <!-- </div> -->
+</ion-content>

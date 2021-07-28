@@ -253,9 +253,12 @@ export class DebtorService {
     );
   }
 
-  updateDebtor(debtorId: string, totalBalance: number, payments: Payment) {
+  updateDebtor(debtorId: string, payments: Payment) {
+    console.log(payments.amount);
     let updateDebtor: Debtor[];
     let fetchedToken: string;
+    let newTotalBalance: number;
+    console.log(payments);
     return this.authService.token.pipe(
       take(1),
       switchMap((token) => {
@@ -274,8 +277,10 @@ export class DebtorService {
         const updateDebtorIndex = debtors.findIndex((pl) => pl.id === debtorId);
         updateDebtor = [...debtors];
         const oldDebtor = updateDebtor[updateDebtorIndex];
+        console.log(oldDebtor.totalBalance);
 
-        console.log(totalBalance);
+        newTotalBalance = (oldDebtor.totalBalance - payments.amount);
+        console.log(payments.amount);
         updateDebtor[updateDebtorIndex] = new Debtor(
           oldDebtor.id,
           oldDebtor.deceasedName,
@@ -302,7 +307,7 @@ export class DebtorService {
           oldDebtor.organistPrice,
           oldDebtor.soloistPrice,
           oldDebtor.otherDetailsPrice,
-          oldDebtor.totalBalance
+          newTotalBalance
         );
         return this.http.put<Debtor>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${debtorId}.json?auth=${fetchedToken}`,
@@ -315,6 +320,142 @@ export class DebtorService {
       })
     );
   }
+
+  updateDebtors(debtorId: string, amount: number) {
+    console.log(amount);
+    let updateDebtor: Debtor[];
+    let fetchedToken: string;
+    let newTotalBalance: number;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        fetchedToken = token;
+        return this.debtor;
+      }),
+      take(1),
+      switchMap((debtors) => {
+        if (!debtors || debtors.length <= 0) {
+          return this.fetchDebtors();
+        } else {
+          return of(debtors);
+        }
+      }),
+      switchMap((debtors) => {
+        const updateDebtorIndex = debtors.findIndex((pl) => pl.id === debtorId);
+        updateDebtor = [...debtors];
+        const oldDebtor = updateDebtor[updateDebtorIndex];
+        console.log(oldDebtor.totalBalance);
+
+        newTotalBalance = (oldDebtor.totalBalance - amount);
+        console.log(amount);
+        updateDebtor[updateDebtorIndex] = new Debtor(
+          oldDebtor.id,
+          oldDebtor.deceasedName,
+          oldDebtor.responsible,
+          oldDebtor.invoiceDate,
+          oldDebtor.servicesPrice,
+          oldDebtor.coffinDetails,
+          oldDebtor.coffinPrice,
+          oldDebtor.casketCoverPrice,
+          oldDebtor.coronerDoctorCertPrice,
+          oldDebtor.cremationPrice,
+          oldDebtor.urnPrice,
+          oldDebtor.churchOfferringPrice,
+          oldDebtor.sacristianPrice,
+          oldDebtor.flowersPrice,
+          oldDebtor.graveOpenPrice,
+          oldDebtor.gravePurchasePrice,
+          oldDebtor.graveMarkerPrice,
+          oldDebtor.graveMatsTimbersPrice,
+          oldDebtor.clothsPrice,
+          oldDebtor.hairdresserPrice,
+          oldDebtor.radioNoticePrice,
+          oldDebtor.paperNoticePrice,
+          oldDebtor.organistPrice,
+          oldDebtor.soloistPrice,
+          oldDebtor.otherDetailsPrice,
+          newTotalBalance
+        );
+        return this.http.put<Debtor>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${debtorId}.json?auth=${fetchedToken}`,
+          { ...updateDebtor[updateDebtorIndex], id: null }
+        );
+      }),
+      tap(() => {
+        // eslint-disable-next-line no-underscore-dangle
+        this._debtor.next(updateDebtor);
+      })
+    );
+  }
+
+  updateDeletedPayment(debtorId: string, amount: number) {
+    let updateDebtor: Debtor[];
+    let fetchedToken: string;
+    let newTotalBalance: number;
+    console.log(debtorId);
+
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        fetchedToken = token;
+        return this.debtor;
+      }),
+      take(1),
+      switchMap((debtors) => {
+        if (!debtors || debtors.length <= 0) {
+          return this.fetchDebtors();
+        } else {
+          return of(debtors);
+        }
+      }),
+      switchMap((debtors) => {
+        const updateDebtorIndex = debtors.findIndex((pl) => pl.id === debtorId);
+        updateDebtor = [...debtors];
+        const oldDebtor = updateDebtor[updateDebtorIndex];
+        console.log(oldDebtor);
+
+        newTotalBalance = (oldDebtor.totalBalance + amount);
+
+        updateDebtor[updateDebtorIndex] = new Debtor(
+          oldDebtor.id,
+          oldDebtor.deceasedName,
+          oldDebtor.responsible,
+          oldDebtor.invoiceDate,
+          oldDebtor.servicesPrice,
+          oldDebtor.coffinDetails,
+          oldDebtor.coffinPrice,
+          oldDebtor.casketCoverPrice,
+          oldDebtor.coronerDoctorCertPrice,
+          oldDebtor.cremationPrice,
+          oldDebtor.urnPrice,
+          oldDebtor.churchOfferringPrice,
+          oldDebtor.sacristianPrice,
+          oldDebtor.flowersPrice,
+          oldDebtor.graveOpenPrice,
+          oldDebtor.gravePurchasePrice,
+          oldDebtor.graveMarkerPrice,
+          oldDebtor.graveMatsTimbersPrice,
+          oldDebtor.clothsPrice,
+          oldDebtor.hairdresserPrice,
+          oldDebtor.radioNoticePrice,
+          oldDebtor.paperNoticePrice,
+          oldDebtor.organistPrice,
+          oldDebtor.soloistPrice,
+          oldDebtor.otherDetailsPrice,
+          newTotalBalance
+        );
+        return this.http.put<Debtor>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${debtorId}.json?auth=${fetchedToken}`,
+          { ...updateDebtor[updateDebtorIndex], id: null }
+        );
+      }),
+      tap(() => {
+        // eslint-disable-next-line no-underscore-dangle
+        this._debtor.next(updateDebtor);
+      })
+    );
+  }
+
   updateInvoiceDebtor(
     invoiceId: string,
     deceasedName: string,

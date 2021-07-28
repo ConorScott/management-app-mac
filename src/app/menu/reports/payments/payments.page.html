@@ -2,95 +2,112 @@
   <ion-grid>
 
 
-    <!-- <ion-row>
-      <ion-col size-lg="2.4">
-        <ion-card>
+    <ion-row>
+      <ion-col size-lg="2">
+        <ion-card class="total-card">
+          <ion-card-header class="total-header">
+            <ion-item lines="none">
+              <ion-card-subtitle class="paymentTitle">
+                Payment Totals
+              </ion-card-subtitle>
+              <ion-icon class="payment-icon" slot="end" name="card"></ion-icon>
+            </ion-item>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-label class="amount">€{{overallTotal}}</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size-lg="2">
+        <ion-card class="total-card">
           <ion-card-header class="total-header">
             <ion-item lines="none">
               <ion-card-subtitle class="paymentTitle">
                 Cash Totals
               </ion-card-subtitle>
-              <ion-icon slot="end" name="cash"></ion-icon>
+              <ion-icon class="payment-icon" slot="end" name="cash"></ion-icon>
             </ion-item>
           </ion-card-header>
           <ion-card-content>
             <ion-item lines="none">
-              <ion-label>Payment Total: </ion-label>
+              <ion-label class="amount">€{{cashTotal}} </ion-label>
             </ion-item>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size-lg="2.4">
-        <ion-card>
+      <ion-col size-lg="2">
+        <ion-card class="total-card">
           <ion-card-header class="total-header">
             <ion-item lines="none">
               <ion-card-subtitle class="paymentTitle">
                 Card Totals
               </ion-card-subtitle>
-              <ion-icon slot="end" name="card"></ion-icon>
+              <ion-icon class="payment-icon" slot="end" name="card"></ion-icon>
             </ion-item>
           </ion-card-header>
           <ion-card-content>
             <ion-item lines="none">
-              <ion-label>Payment Total: </ion-label>
+              <ion-label class="amount">€{{cardTotal}}</ion-label>
             </ion-item>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size-lg="2.4">
-        <ion-card>
+      <ion-col size-lg="2">
+        <ion-card class="total-card">
           <ion-card-header class="total-header">
             <ion-item lines="none">
               <ion-card-subtitle class="paymentTitle">
                 Eft Totals
               </ion-card-subtitle>
-              <ion-icon slot="end" name="send"></ion-icon>
+              <ion-icon class="payment-icon" slot="end" name="send"></ion-icon>
             </ion-item>
           </ion-card-header>
           <ion-card-content>
             <ion-item lines="none">
-              <ion-label>Payment Total: </ion-label>
+              <ion-label class="amount">€{{eftTotal}}</ion-label>
             </ion-item>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size-lg="2.4">
-        <ion-card>
+      <ion-col size-lg="2">
+        <ion-card class="total-card">
           <ion-card-header class="total-header">
             <ion-item lines="none">
               <ion-card-subtitle class="paymentTitle">
                 Cheque Totals
               </ion-card-subtitle>
-              <ion-icon slot="end" name="wallet"></ion-icon>
+              <ion-icon class="payment-icon" slot="end" name="wallet"></ion-icon>
             </ion-item>
           </ion-card-header>
           <ion-card-content>
             <ion-item lines="none">
-              <ion-label>Payment Total: </ion-label>
+              <ion-label class="amount">€{{chequeTotal}}</ion-label>
             </ion-item>
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size-lg="2.4">
-        <ion-card>
+      <ion-col size-lg="2">
+        <ion-card class="total-card">
           <ion-card-header class="total-header">
             <ion-item lines="none">
               <ion-card-subtitle class="paymentTitle">
                 Draft Totals
               </ion-card-subtitle>
-              <ion-icon slot="end" name="document"></ion-icon>
+              <ion-icon class="payment-icon" slot="end" name="document"></ion-icon>
             </ion-item>
           </ion-card-header>
           <ion-card-content>
             <ion-item lines="none">
-              <ion-label>Payment Total: </ion-label>
+              <ion-label class="amount">€{{draftTotal}}</ion-label>
             </ion-item>
           </ion-card-content>
         </ion-card>
       </ion-col>
-    </ion-row> -->
+    </ion-row>
     <ion-row>
-      <ion-col size-lg="9">
+      <ion-col size-lg="12">
 
       <ion-card>
         <ion-card-header>
@@ -150,126 +167,25 @@
                   <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport"
                     *ngIf="!isLoading && payments.length > 0">
                     <ion-item *cdkVirtualFor="let payments of filtered" class="ion-item list-item"
-                      (click)="onView(payments.id)">
+                      (click)="onView(payments.id, payments.paymentId)">
                       <ion-label class="ion-label name">{{payments.payeeName}}</ion-label>
                       <ion-label class="ion-label">{{payments.paymentDate | date: 'dd/MM/yyyy'}}</ion-label>
                       <ion-label class="ion-label">€{{payments.amount}}</ion-label>
                       <ion-label class="ion-label">{{payments.paymentMethod}}</ion-label>
-                      <ion-icon name="create" color="primary" (click)="onEdit(payments.id)"></ion-icon>
-                      <ion-icon name="trash" color="danger" (click)="onDeleteEntry(payments.id, $event)"></ion-icon>
+                      <ion-icon name="trash" color="danger" (click)="onDeleteEntry(payments.id, payments.paymentId, payments.amount, $event)"></ion-icon>
                     </ion-item>
                   </cdk-virtual-scroll-viewport>
                 </div>
               </ion-col>
-
+              <!-- <div id="print_div">
+                <app-receipt-layout [receipt]="receipt"></app-receipt-layout>
+              </div> -->
             </ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>
     </ion-col>
-    <ion-col size-lg="3">
 
-      <ion-card>
-        <ion-card-header class="total-header">
-          <ion-item lines="none">
-            <ion-card-subtitle class="paymentTitle">
-              Payment Totals
-            </ion-card-subtitle>
-            <ion-icon class="payment-icon" slot="end" name="card"></ion-icon>
-          </ion-item>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item lines="none">
-            <ion-label class="amount">€{{overallTotal}}</ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card>
-        <ion-card-header class="total-header">
-          <ion-item lines="none">
-            <ion-card-subtitle class="paymentTitle">
-              Cash Totals
-            </ion-card-subtitle>
-            <ion-icon class="payment-icon" slot="end" name="cash"></ion-icon>
-          </ion-item>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item lines="none">
-            <ion-label class="amount">€{{cashTotal}} </ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-
-
-      <ion-card>
-        <ion-card-header class="total-header">
-          <ion-item lines="none">
-            <ion-card-subtitle class="paymentTitle">
-              Card Totals
-            </ion-card-subtitle>
-            <ion-icon class="payment-icon" slot="end" name="card"></ion-icon>
-          </ion-item>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item lines="none">
-            <ion-label class="amount">€{{cardTotal}}</ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-
-
-      <ion-card>
-        <ion-card-header class="total-header">
-          <ion-item lines="none">
-            <ion-card-subtitle class="paymentTitle">
-              Eft Totals
-            </ion-card-subtitle>
-            <ion-icon class="payment-icon" slot="end" name="send"></ion-icon>
-          </ion-item>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item lines="none">
-            <ion-label class="amount">€{{eftTotal}}</ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-
-
-      <ion-card>
-        <ion-card-header class="total-header">
-          <ion-item lines="none">
-            <ion-card-subtitle class="paymentTitle">
-              Cheque Totals
-            </ion-card-subtitle>
-            <ion-icon class="payment-icon" slot="end" name="wallet"></ion-icon>
-          </ion-item>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item lines="none">
-            <ion-label class="amount">€{{chequeTotal}}</ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-
-
-      <ion-card>
-        <ion-card-header class="total-header">
-          <ion-item lines="none">
-            <ion-card-subtitle class="paymentTitle">
-              Draft Totals
-            </ion-card-subtitle>
-            <ion-icon class="payment-icon" slot="end" name="document"></ion-icon>
-          </ion-item>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-item lines="none">
-            <ion-label class="amount">€{{draftTotal}}</ion-label>
-          </ion-item>
-        </ion-card-content>
-      </ion-card>
-
-  </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

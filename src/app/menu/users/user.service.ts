@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable arrow-body-style */
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
@@ -11,8 +12,8 @@ import { StoreUser } from './storeUser.model';
 import firebase from 'firebase';
 import { environment } from 'src/environments/environment';
 
-
 interface UserData {
+  id: string;
   email: string;
   password: string;
   name: string;
@@ -57,17 +58,10 @@ export class UserService {
       }),
       take(1),
       switchMap((token) => {
-        newUser = new StoreUser(
-          id,
-          email,
-          password,
-          name,
-          role,
-          createdAt
-        );
+        newUser = new StoreUser(id, email, password, name, role, createdAt);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
-          { ...newUser, id}
+          { ...newUser, id }
         );
       }),
       switchMap((resData) => {
@@ -82,17 +76,29 @@ export class UserService {
     );
   }
 
-  signup(email: string, password: string, name: string, role: string, createdAt: Date){
+  signup(
+    email: string,
+    password: string,
+    name: string,
+    role: string,
+    createdAt: Date
+  ) {
     return this.secondaryApp
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((user) => {
-      this.secondaryApp.auth().signOut();
-      return this.addUser(user.user.uid, email,password, name, role, createdAt)
-      .subscribe(()=> {
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((user) => {
         this.secondaryApp.auth().signOut();
+        return this.addUser(
+          user.user.uid,
+          email,
+          password,
+          name,
+          role,
+          createdAt
+        ).subscribe(() => {
+          this.secondaryApp.auth().signOut();
+        });
       });
-    });
   }
 
   fetchUsers() {
@@ -103,31 +109,37 @@ export class UserService {
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`
         );
       }),
-        map((resData) => {
-          const user = [];
-          for (const key in resData) {
-            if (resData.hasOwnProperty(key)) {
-              user.push(
-                new StoreUser(
-                  key,
-                  resData[key].email,
-                  resData[key].password,
-                  resData[key].name,
-                  resData[key].role,
-                  resData[key].createdAt
-                )
-              );
-            }
+      map((resData) => {
+        const user = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            user.push(
+              new StoreUser(
+                key,
+                resData[key].email,
+                resData[key].password,
+                resData[key].name,
+                resData[key].role,
+                resData[key].createdAt
+              )
+            );
           }
-          return user;
-        }),
-        tap((user) => {
-          this._user.next(user);
-        })
-      );
+        }
+        return user;
+      }),
+      tap((user) => {
+        this._user.next(user);
+      })
+    );
   }
 
-  updateUser(userId: string, email: string, password: string, name: string, role: string) {
+  updateUser(
+    userId: string,
+    email: string,
+    password: string,
+    name: string,
+    role: string
+  ) {
     let updateUser: StoreUser[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -169,7 +181,7 @@ export class UserService {
   getUser(id: string) {
     return this.authService.token.pipe(
       take(1),
-      switchMap(token => {
+      switchMap((token) => {
         return this.http.get<UserData>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users/${id}.json?auth=${token}`
         );
@@ -180,8 +192,49 @@ export class UserService {
           resData.email,
           resData.password,
           resData.name,
-          resData.role,
+          resData.role
         );
+      })
+    );
+  }
+
+  getUserName() {
+    let fetchedUserId: string;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error('USer not found!');
+        }
+        fetchedUserId = userId;
+        console.log(fetchedUserId);
+        return this.authService.token;
+
+      }),
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: UserData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`
+        );
+      }),
+      map((resData) => {
+        const users = [];
+        for(const key in resData){
+          if(resData.hasOwnProperty(key) &&
+          resData[key].id === fetchedUserId){
+            users.push(
+              new StoreUser(
+                resData[key].id,
+                resData[key].email,
+                resData[key].password,
+                resData[key].name,
+                resData[key].role,
+                resData[key].createdAt
+              )
+            );
+          }
+        }
+        return users;
       })
     );
   }

@@ -8,6 +8,9 @@ import { IonicModule } from '@ionic/angular';
 import { DebtorInformationPage } from './debtor-information.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
+import { ViewPaymentPage } from '../../reports/payments/view-payment/view-payment.page';
+import { ReceiptLayoutPage } from '../../reports/receipts/receipt-layout/receipt-layout.page';
+import { PaymentsPageModule } from '../../reports/payments/payments.module';
 
 const routes: Routes = [
   {
@@ -23,7 +26,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
   ],
   declarations: [DebtorInformationPage],
   entryComponents: []

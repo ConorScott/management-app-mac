@@ -1,0 +1,47 @@
+@media screen {
+  :host {
+    display:none;
+  }
+}
+
+.container {
+  margin: 0;
+  margin-left:10%;
+  margin-right:10%;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.title{
+  font-size:42px;
+  font-weight: 500;
+}
+.invoice-date{
+  display: flex;
+  /* height: 150px; */
+  align-items: center;
+}
+.payment-info{
+  margin-top:10px;
+  width: 70%;
+  margin-left: 30px;
+}
+.thanks{
+  margin-left: 40px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.signed{
+  margin-left: 40px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.label{
+  font-weight:600;
+}
+.modal-wrapper{
+  display: none;
+}

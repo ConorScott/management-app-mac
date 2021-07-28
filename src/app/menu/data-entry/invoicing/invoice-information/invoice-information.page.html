@@ -172,13 +172,16 @@
           <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="printDiv1('print_div')">
-                Generate Invoice
+                Print Invoice
               </ion-button>
               <div id="print_div">
                 <app-invoice-layout [invoice]="invoice"></app-invoice-layout>
               </div>
             </ion-col>
             <ion-col size="12" size-md="6" size-lg="3">
+              <ion-button class="new-entry-button" color="danger" type="submit" expand="block" (click)="onDeleteInvoice()">
+                Delete Invoice
+              </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

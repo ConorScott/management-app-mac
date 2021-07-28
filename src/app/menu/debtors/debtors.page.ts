@@ -31,6 +31,7 @@ export class DebtorsPage implements OnInit, OnDestroy {
   filteredDebtor: Debtor[];
   isLoading = false;
   invalidSelection = false;
+  newTotal: number;
   private debtorSub: Subscription;
 
   constructor(
@@ -46,17 +47,21 @@ export class DebtorsPage implements OnInit, OnDestroy {
     this.debtorSub = this.debtorService.debtor.subscribe((debtor) => {
       this.debtor = debtor;
       this.filtered = this.debtor;
+      this.filteredDebtor = this.debtor;
+      this.filtered = [...this.debtor];
+      this.filterSelected = false;
+      console.log(this.filtered);
+      // debtor.map(total => {
+      // })
     });
     this.sharedService.cast.subscribe(data => this.isVisible = data);
   }
 
   ionViewWillEnter() {
     this.isLoading = true;
-    this.debtorService.fetchDebtors().subscribe(() => {
+    this.debtorService.fetchDebtors().subscribe((total) => {
       this.isLoading = false;
-      this.filteredDebtor = this.debtor;
-      this.filtered = [...this.debtor];
-      this.filterSelected = false;
+
     });
   }
 

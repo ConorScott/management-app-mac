@@ -23,9 +23,8 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { CalendarService } from './calendar.service';
-import { title } from 'process';
 import { Event } from './event.model';
-import { ModalController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, ModalController } from '@ionic/angular';
 import { CalModalPage } from './cal-modal/cal-modal.page';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,6 +33,8 @@ import { id } from 'date-fns/locale';
 import { Deceased } from '../data-entry/deceased-details/deceased.model';
 import { DeceasedService } from '../data-entry/deceased-details/deceased.service';
 import { DatePipe } from '@angular/common';
+import { ViewEventPage } from './view-event/view-event.page';
+import { EditEventPage } from './edit-event/edit-event.page';
 
 const colors: any = {
   red: {
@@ -68,7 +69,7 @@ export class CalendarPage implements OnInit {
   viewDate: Date = new Date();
 
   modalData: {
-    event: Event;
+    event: CalendarEvent;
   };
 
   // actions: CalendarEventAction[] = [
@@ -101,6 +102,8 @@ events: Event;
   constructor(
     private calendarService: CalendarService,
     private modalCtrl: ModalController,
+    private actionSheetCtrl: ActionSheetController,
+    private loadingCtrl: LoadingController,
     private modal: NgbModal,
     private deceasedService: DeceasedService,
     private datePipe: DatePipe
@@ -173,9 +176,8 @@ events: Event;
   //   // this.handleEvent('Dropped or resized', event);
   // }
 
-  handleEvent(event: Event): void {
-    this.modalData = { event };
-    this.modal.open(this.modalContent, { size: 'lg' });
+  handleEvent({event}: {event: CalendarEvent}): void {
+    this.openEventModal(event.id, event.title, event.start, event.end, event.allDay);
   }
 
   // addEvent(): void {
@@ -211,11 +213,93 @@ events: Event;
   //   // this.calendarService.addEvent(this.events).subscribe();
   // }
 
-  openCalModal() {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  openEventModal(eventId, title, start, end, allDay) {
+    let newEvents: Event;
+    this.modalCtrl
+      .create({
+        component: ViewEventPage,
+        componentProps: {
+          eventId,
+          title,
+          start,
+          end,
+          allDay
+        },
+        cssClass: 'new-donation'
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          } else if(modalData.data.editEvent.action === 'edit') {
+            this.onEditEvent(modalData.data.editEvent.eventId);
+          } else if(modalData.data.editEvent.action === 'delete') {
+            this.onDeleteEvent(modalData.data.editEvent.eventId);
+          }
+        });
+        modalEl.present();
+      });
+  }
+
+  onEditEvent(eventId: string) {
+    this.modalCtrl.create({
+      component: EditEventPage,
+      cssClass: 'new-donation',
+      componentProps:{
+        // eslint-disable-next-line quote-props
+        // eslint-disable-next-line object-shorthand
+        eventId: eventId
+      }
+    }).then(modalEl => {
+      modalEl.onDidDismiss().then(modalData => {
+        if (!modalData.data) {
+          return;
+        }
+      });
+      modalEl.present();
+    });
+  }
+  onDeleteEvent(eventId: string) {
+    this.actionSheetCtrl
+      .create({
+        header: 'Delete Event?',
+        buttons: [
+          {
+            text: 'Delete',
+            role: 'destructive',
+            handler: () => {
+              this.loadingCtrl
+                .create({ message: 'Deleting Event Entry...' })
+                .then((loadingEl) => {
+                  loadingEl.present();
+                  this.calendarService
+                    .deleteEvent(eventId)
+                    .subscribe(() => {
+                      setTimeout(() => {
+                        loadingEl.dismiss();
+                      }, 2000);
+                    });
+                });
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ],
+      })
+      .then((actionSheetEl) => {
+        actionSheetEl.present();
+      });
+  }
+
+   openCalModal() {
     let newEvents: Event;
     this.modalCtrl
       .create({
         component: CalModalPage,
+        cssClass: 'new-donation'
       })
       .then((modalEl) => {
         modalEl.onDidDismiss().then((modalData) => {
@@ -227,15 +311,11 @@ events: Event;
           //   modalData.data.eventData.start,
           //   modalData.data.eventData.end,
           // )
-          this.calendarService
-            .addEvent(
+          this.dayOffEvent(
               modalData.data.eventData.title,
               modalData.data.eventData.start,
-              modalData.data.eventData.end,
               modalData.data.eventData.color,
-              modalData.data.eventData.allDay
-            )
-            .subscribe(() => {});
+            );
         });
         modalEl.present();
       });
@@ -247,6 +327,22 @@ events: Event;
 
   setView(view: CalendarView) {
     this.view = view;
+  }
+
+  dayOffEvent(title: string, start, color: string){
+    const date = start.split('T')[0];
+    const time = start.split('T')[1];
+    const reposeDateTime = date + 'T' + time;
+    const endTime = new Date(reposeDateTime);
+    endTime.setHours(endTime.getHours() + 24);
+    this.calendarService
+            .addDayOffEvent(
+              title,
+              start,
+              endTime,
+              color,
+            )
+            .subscribe(() => {});
   }
 
   closeOpenMonthViewDay() {

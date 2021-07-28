@@ -47,6 +47,10 @@ export class EditCoffinPage implements OnInit, OnDestroy {
               stockLevel: new FormControl(this.coffin.stockLevel, {
                 updateOn: 'blur',
                 validators: [Validators.required],
+              }),
+              stockLocation: new FormControl(this.coffin.stockLocation, {
+                updateOn: 'blur',
+                validators: [Validators.required],
               })
             });
             this.isLoading = false;
@@ -78,7 +82,8 @@ export class EditCoffinPage implements OnInit, OnDestroy {
         {
           editCoffin: {
             coffinName: this.form.value.coffinName,
-            stockLevel: this.form.value.stockLevel
+            stockLevel: this.form.value.stockLevel,
+            stockLocation: this.form.value.stockLocation
           }
         },
         'confirm'

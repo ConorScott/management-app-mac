@@ -38,7 +38,19 @@
     --border-radius: 10px;
     padding: 25px;
 }
+.new-donation{
+  --height:80%;
+  --background-color: transparent;
+}
+.new-donation .modal-wrapper{
+ background-color: transparent;
+ box-shadow: none;
+}
 
+.event-modal{
+  --border-radius: 10px;
+  --width: 38%;
+}
 .new-filter-button{
   border-color: #fff;
   color: #3880ff;

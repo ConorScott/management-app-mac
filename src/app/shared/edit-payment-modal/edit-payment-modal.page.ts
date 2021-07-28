@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { DebtorService } from 'src/app/menu/debtors/debtor.service';
 import { PaymentService } from 'src/app/menu/reports/payments/payment.service';
@@ -13,7 +13,7 @@ import { Payment } from '../payment.model';
   styleUrls: ['./edit-payment-modal.page.scss'],
 })
 export class EditPaymentModalPage implements OnInit {
-  @Input() debtorId: string;
+  @Input() paymentId: string;
   payment: Payment;
   isLoading = false;
   form: FormGroup;
@@ -25,17 +25,22 @@ export class EditPaymentModalPage implements OnInit {
     private debtorService: DebtorService,
     private paymentService: PaymentService,
     private navCtrl: NavController,
+    private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private router: Router
   ) { }
 
   ngOnInit() {
-    if (!this.debtorId) {
+    if (!this.paymentId) {
       this.navCtrl.navigateBack('/menu/tabs/debtors');
       return;
     }
     this.isLoading = true;
-    this.paymentSub = this.paymentService.getPayments(this.debtorId).subscribe((payment) => {
+    this.paymentSub = this.paymentService.getPayments(this.paymentId).subscribe((payment) => {
+      this.payment = payment;
+      console.log(this.paymentId);
+      console.log(this.payment);
+       console.log(this.payment.amount);
       this.form = new FormGroup({
         paymentDate: new FormControl(this.payment.paymentDate, {
           updateOn: 'blur',
@@ -58,20 +63,40 @@ export class EditPaymentModalPage implements OnInit {
     });
   }
 
-  onCreatePayment(){
-
-    this.modal.dismiss(
-      {
-        paymentData: {
-          paymentDate: this.form.value.paymentDate,
-          amount: this.form.value.amount,
-          paymentMethod: this.form.value.paymentMethod,
-          payeeName: this.form.value.payeeName
-        }
-      },
-      'confirm'
-    );
-    this.form.reset();
+  onEditPayment(){
+    console.log(this.form.value.amount);
+    // this.modal.dismiss(
+    //   {
+    //     editPayment: {
+    //       paymentId: this.paymentId,
+    //       action: 'edit'
+    //     }
+    //   },
+    //   'confirm'
+    // );
+    this.loadingCtrl
+    .create({
+      message: 'Updating Receipt',
+    })
+    .then((loadingEl) => {
+      loadingEl.present();
+      this.debtorService.updateDebtors(this.payment.paymentId, this.payment.amount)
+      .subscribe();
+      this.paymentService
+        .updatePayments(
+          this.paymentId,
+          this.form.value.paymentDate,
+          this.form.value.amount,
+          this.form.value.paymentMethod,
+          this.form.value.payeeName,
+        )
+        .subscribe(() => {
+          loadingEl.dismiss();
+          this.form.reset();
+          this.paymentSub.unsubscribe();
+          this.modal.dismiss();
+        });
+    });
 }
 
 onCancel() {

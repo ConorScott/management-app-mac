@@ -1,0 +1,64 @@
+<div class="container" *ngIf="!isLoading">
+  <div class="row">
+    <div class="col-8">
+      <p class="title">Receipt</p>
+    </div>
+    <div class="col-2 invoice-date">
+      <p>{{date | date: 'dd/MM/YYYY'}}</p>
+    </div>
+  </div>
+
+  <div class="payment-info">
+    <div class="row">
+      <div class="col-8">
+        <p class="label">Payee Name:</p>
+      </div>
+      <div class="col-2">
+        <p>{{receipt.payeeName}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <p class="label">Payment Date:</p>
+      </div>
+      <div class="col-2">
+        <p>{{receipt.paymentDate | date: 'dd/MM/YYYY'}}</p>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-8">
+        <p class="label">Payment Amount:</p>
+      </div>
+      <div class="col-2">
+        <p>€{{receipt.amount}}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <p class="label">Payment Method:</p>
+      </div>
+      <div class="col-2">
+        <p>{{receipt.paymentMethod}}</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-8">
+      <p class="thanks">Received with Thanks</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <p class="signed">Signed:</p>
+    </div>
+  </div>
+
+</div>

@@ -24,10 +24,15 @@ export class ReportsPage implements OnInit {
         index: 1
       },
       {
+        label: 'Donations',
+        link: 'donation',
+        index: 2
+      },
+      {
         label: 'Coffin Sales',
         link: 'coffin-sales',
-        index: 2
-      }
+        index: 3
+      },
     ];
    }
 

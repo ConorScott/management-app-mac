@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
+import { UserService } from 'src/app/menu/users/user.service';
 import { PopoverComponent } from '../popover/popover.component';
 import { SharedService } from '../shared.service';
 
@@ -10,11 +11,19 @@ import { SharedService } from '../shared.service';
 })
 export class HeaderPage implements OnInit {
   @Input() title: string;
+  name: string;
   isVisible: boolean;
-  constructor(private sharedService: SharedService, public popController: PopoverController) { }
+  constructor(private sharedService: SharedService, public popController: PopoverController, private userService: UserService) { }
 
   ngOnInit() {
     this.sharedService.cast.subscribe(data => this.isVisible = data);
+    this.userService.getUserName().subscribe(name => {
+      console.log(name);
+      name.map(user => {
+        this.name = user.name;
+        console.log(this.name);
+      });
+    });
   }
   isToggle(){
     this.sharedService.changeToggle();

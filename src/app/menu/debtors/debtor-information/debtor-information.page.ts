@@ -1,15 +1,20 @@
 /* eslint-disable arrow-body-style */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Debtor } from '../debtor.model';
 import { DebtorService } from '../debtor.service';
 import { PaymentModalComponent } from 'src/app/shared/payment-modal/payment-modal.component';
 import { Payment } from 'src/app/shared/payment.model';
 import { ThrowStmt } from '@angular/compiler';
-import { EditPaymentModalPage } from 'src/app/shared/edit-payment-modal/edit-payment-modal.page';
 import { PaymentService } from '../../reports/payments/payment.service';
+import { ReceiptService } from '../../reports/receipts/receipt.service';
+import { Receipt } from '../../reports/receipts/receipt.model';
+import { ViewPaymentPage } from '../../reports/payments/view-payment/view-payment.page';
+import { EditPaymentModalPage } from '../../../shared/edit-payment-modal/edit-payment-modal.page';
+import { ViewReceiptPage } from '../../reports/receipts/view-receipt/view-receipt.page';
+import { EditReceiptPage } from '../../reports/receipts/edit-receipt/edit-receipt.page';
 
 @Component({
   selector: 'app-debtor-information',
@@ -17,9 +22,14 @@ import { PaymentService } from '../../reports/payments/payment.service';
   styleUrls: ['./debtor-information.page.scss'],
 })
 export class DebtorInformationPage implements OnInit, OnDestroy {
+  filtered = [];
+  filteredR = [];
   debtor: Debtor;
   debtorId: string;
   payments: Payment[];
+  receipt: Receipt;
+  receipts: Receipt[];
+  filteredReceipts: Receipt[];
   filteredPayments: Payment[];
   newBalance: number;
   newTotal: number;
@@ -27,6 +37,7 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
   segment = 'information';
   private debtorSub: Subscription;
   private paymentSub: Subscription;
+  private receiptSub: Subscription;
 
   constructor(
     private debtorService: DebtorService,
@@ -34,7 +45,10 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
     private router: Router,
     private navCtrl: NavController,
     private modalCtrl: ModalController,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private receiptService: ReceiptService,
+    private actionSheetCtrl: ActionSheetController,
+    private loadingCtrl: LoadingController
   ) {}
 
   ngOnInit() {
@@ -49,25 +63,40 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
         .getDebtor(paramMap.get('debtorId'))
         .subscribe((debtor) => {
           this.debtor = debtor;
-          this.paymentService.fetchPayments(this.debtorId).subscribe(payment => {
-            console.log(payment.reduce((acc, val) => this.newTotal = acc += val.amount, 0));
-            this.newTotal = this.debtor.totalBalance - this.newTotal;
-          });
 
           this.isLoading = false;
+        });
+        this.paymentService.payments.subscribe(payments => {
+          this.payments = payments;
+                this.filteredPayments = this.payments;
+                this.filtered = [...this.payments];;
+        });
+        this.receiptService.receipts.subscribe(receipts => {
+          this.receipts = receipts;
+          this.filteredReceipts = this.receipts;
+          this.filteredR = [...this.receipts];
         });
     });
   }
 
   ionViewWillEnter(){
-    this.paymentSub = this.paymentService.payment.subscribe(payments => {
-      this.payments = payments;
+    console.log(this.debtorId);
+    this.isLoading = true;
+    this.paymentSub = this.paymentService.fetchPayments(this.debtorId).subscribe(payment => {
+      console.log(payment);
+      this.isLoading = false;
+      // console.log(payment.reduce((acc, val) => this.newTotal = acc += val.amount, 0));
+      // this.debtor.totalBalance = this.debtor.totalBalance - this.newTotal;
     });
+    this.receiptService.fetchReceipts(this.debtorId).subscribe(receipt => {
+      this.isLoading = false;
+  });
   }
 
   presentModal(){
     this.modalCtrl.create({
       component: PaymentModalComponent,
+      cssClass: 'new-donation',
       componentProps:{
         // eslint-disable-next-line quote-props
         'totalBalance': this.debtor.totalBalance
@@ -78,13 +107,13 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
           return;
         }
         console.log(modalData.data.paymentData.paymentMethod);
-        this.paymentService.addPayment(modalData.data.paymentData, this.debtorId)
-        .subscribe(() => {
+        this.paymentService.addPayments(modalData.data.paymentData, this.debtorId)
+        .subscribe((payments) => {
+          this.payments = payments;
         });
         // this.newBalance = this.debtor.totalBalance - modalData.data.paymentData.amount;
         this.debtorService.updateDebtor(
           this.debtorId,
-          this.newBalance,
           modalData.data.paymentData
         ).subscribe(debtor => {
           this.debtor = debtor;
@@ -92,41 +121,173 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
         });
       });
       modalEl.present();
+      this.router.navigate([`/menu/tabs/debtors/view/${this.debtorId}`]);
+    });
+
+  }
+
+  onViewPayment(paymentId: string, debtorId: string) {
+    console.log(paymentId);
+    this.modalCtrl
+      .create({
+        component: ViewPaymentPage,
+        cssClass: 'new-donation',
+        componentProps: {
+          // eslint-disable-next-line quote-props
+          // eslint-disable-next-line object-shorthand
+          paymentId,
+          debtorId
+        },
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          } else if (modalData.data.editPayment.action === 'add'){
+            this.receipt = modalData.data.receiptData.paymentInfo;
+            console.log(this.receipt);
+            this.receiptService.addReceipt(this.receipt, debtorId).subscribe();
+          } else if (modalData.data.editPayment.action === 'delete'){
+            this.deletePayment(
+              modalData.data.editPayment.paymentId,
+              modalData.data.editPayment.debtorId,
+              modalData.data.editPayment.paymentAmount
+            );
+          }
+        });
+        modalEl.present();
+      });
+  }
+
+  deletePayment(paymentId: string, debtorId: string, amount: number, event?: any){
+    if (event != null) {
+      event.stopPropagation();
+    }
+    this.actionSheetCtrl
+    .create({
+      header: 'Delete Entry?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.loadingCtrl.create({ message: 'Deleting Entry...', duration:5000}).then(loadingEl => {
+              loadingEl.present();
+              this.paymentService.deletePayments(paymentId).subscribe(() => {
+              });
+              this.debtorService.updateDeletedPayment(debtorId, amount).subscribe((debtor) => {
+                this.debtor = debtor;
+                loadingEl.dismiss();
+              });
+            });
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    })
+    .then((actionSheetEl) => {
+      actionSheetEl.present();
     });
   }
 
-  // editPayment(){
-  //   this.modalCtrl.create({
-  //     component: EditPaymentModalPage,
-  //     componentProps:{
-  //       // eslint-disable-next-line quote-props
-  //       'debtorId': this.debtor.id
-  //     }
-  //   }).then(modalEl => {
-  //     modalEl.onDidDismiss().then(modalData => {
-  //       if (!modalData.data) {
-  //         return;
-  //       }
-  //       console.log(modalData.data.paymentData.paymentMethod);
-  //       this.debtorService.updatePayment(
-  //         this.debtorId,
-  //         modalData.data.paymentData.paymentDate,
-  //         modalData.data.paymentData.amount,
-  //         modalData.data.paymentData.paymentMethod,
-  //         modalData.data.paymentData.payeeName
-  //       ).subscribe(debtor => {
-  //         this.payments = debtor;
-  //       });
-  //     });
-  //     modalEl.present();
-  //   });
-  // }
+  onViewReceipt(receiptId: string) {
+    // console.log(paymentId);
+    this.modalCtrl
+      .create({
+        component: ViewReceiptPage,
+        cssClass: 'new-donation',
+        componentProps: {
+          // eslint-disable-next-line quote-props
+          // eslint-disable-next-line object-shorthand
+          receiptId
+        },
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          } else if (modalData.data.editReceipt.action === 'edit') {
+            this.onEditReceipt(modalData.data.editReceipt.receiptId);
+          } else if (modalData.data.editReceipt.action === 'delete') {
+            this.onDeleteReceipt(
+              modalData.data.editReceipt.receiptId,
+            );
+          }
+        });
+        modalEl.present();
+      });
+  }
+
+  onEditReceipt(receiptId: string, event?: any) {
+    if (event != null) {
+      event.stopPropagation();
+    }
+    this.modalCtrl
+      .create({
+        component: EditReceiptPage,
+        cssClass: 'new-donation',
+        componentProps: {
+          // eslint-disable-next-line quote-props
+          // eslint-disable-next-line object-shorthand
+          receiptId: receiptId,
+        },
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          }
+        });
+        modalEl.present();
+      });
+  }
+
+  onDeleteReceipt(receiptId: string, event?: any) {
+    if (event != null) {
+      event.stopPropagation();
+    }
+    this.actionSheetCtrl
+      .create({
+        header: 'Delete Receipt?',
+        buttons: [
+          {
+            text: 'Delete',
+            role: 'destructive',
+            handler: () => {
+              this.loadingCtrl
+                .create({ message: 'Deleting Receipt Entry...' })
+                .then((loadingEl) => {
+                  loadingEl.present();
+                  this.receiptService
+                    .deleteReceipts(receiptId)
+                    .subscribe((receipt) => {
+                      this.receipts = receipt;
+                      setTimeout(() => {
+                        loadingEl.dismiss();
+                      }, 2000);
+                    });
+                });
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ],
+      })
+      .then((actionSheetEl) => {
+        actionSheetEl.present();
+      });
+  }
 
   onChange(event) {
     const filteration = event.target.value;
-    this.payments = this.filterSearch(filteration);
+    this.filtered = this.filterSearch(filteration);
     if (filteration.length === 0) {
-      this.payments = this.filteredPayments;
+      this.filtered = this.filteredPayments;
     }
   }
 
@@ -139,9 +300,8 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.debtorSub) {
-      this.debtorSub.unsubscribe();
-    }
+    this.debtorSub.unsubscribe();
+    this.paymentSub.unsubscribe();
   }
 
 }

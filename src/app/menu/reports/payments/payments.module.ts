@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -10,6 +10,8 @@ import { PaymentsPage } from './payments.page';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { EditPaymentModalPage } from 'src/app/shared/edit-payment-modal/edit-payment-modal.page';
 import { ViewPaymentPage } from './view-payment/view-payment.page';
+import { ReceiptLayoutPage } from '../receipts/receipt-layout/receipt-layout.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -17,8 +19,9 @@ import { ViewPaymentPage } from './view-payment/view-payment.page';
     FormsModule,
     IonicModule,
     PaymentsPageRoutingModule,
-    ScrollingModule
+    ScrollingModule,
+    ReactiveFormsModule
   ],
-  declarations: [PaymentsPage, ViewPaymentPage]
+  declarations: [PaymentsPage]
 })
 export class PaymentsPageModule {}

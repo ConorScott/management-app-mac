@@ -1,0 +1,63 @@
+<form [formGroup]="form" *ngIf="!isLoading">
+  <ion-card>
+    <ion-card-header>
+      <ion-item lines="none">
+        <ion-label class="card-title" >
+          Edit Receipt
+        </ion-label>
+        <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+      </ion-item>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="10">
+            <div *ngIf="isLoading" class="ion-text-center">
+              <ion-spinner color="primary"></ion-spinner>
+            </div>
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Payment Date</ion-label>
+              <ion-datetime class="form-input-date" type="text" placeholder="Payment Date" formControlName="paymentDate"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <div *ngIf="isLoading" class="ion-text-center">
+              <ion-spinner color="primary"></ion-spinner>
+            </div>
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Payment Amount</ion-label>
+              <ion-input class="form-input" type="text" placeholder="Payment Amount" formControlName="amount"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Payment Method</ion-label>
+            <ion-select class="form-input" formControlName="paymentMethod">
+              <ion-select-option value="cash">Cash</ion-select-option>
+              <ion-select-option value="cheque">Cheque</ion-select-option>
+              <ion-select-option value="card">Card</ion-select-option>
+              <ion-select-option value="draft">Draft</ion-select-option>
+              <ion-select-option value="eft">EFT</ion-select-option>
+            </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Name</ion-label>
+              <ion-input class="form-input" type="text" placeholder="Name" formControlName="payeeName"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+      <ion-col size="8">
+        <ion-button class="submit-button" type="submit" expand="block" (click)="onUpdateReceipt()">
+          Submit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</form>

@@ -8,21 +8,26 @@
       <ion-col size-lg="8" size-sm="12">
         <ion-card>
           <ion-card-header>
-            <ion-item lines="none">
-              <ion-card-subtitle class="card-title">Coffin List</ion-card-subtitle>
-            </ion-item>
+            <ion-row>
+              <ion-col size-xs="8" size-lg="10" size-md="9" class="ion-align-self-center">
+                <ion-card-subtitle class="card-title">Coffin Stock</ion-card-subtitle>
+              </ion-col>
+              <ion-col size-xs="4" size-lg="2" size-md="3" class="ion-text-center">
+
+                  <ion-select (ionChange)="listTypeChange($event)" value="sligo">
+                    <ion-select-option value="sligo">Sligo</ion-select-option>
+                    <ion-select-option value="ballina">Ballina</ion-select-option>
+                  </ion-select>
+
+              </ion-col>
+            </ion-row>
 
           </ion-card-header>
           <ion-card-content>
             <ion-grid>
               <ion-row>
-                <ion-col size="8">
-                  <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
-                </ion-col>
                 <ion-col class="card-details">
-                  <div *ngIf="isLoading" class="ion-text-center">
-                    <ion-spinner color="primary"></ion-spinner>
-                  </div>
+
                     <ion-item class="list-item th">
                       <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                         Name
@@ -33,8 +38,11 @@
                       <ion-icon></ion-icon>
                       <ion-icon></ion-icon>
                     </ion-item>
+                    <div *ngIf="isLoading" class="ion-text-center">
+                      <ion-spinner color="primary"></ion-spinner>
+                    </div>
                     <div class="ion-text-center no-info" *ngIf="!isLoading && filtered.length <= 0">
-                      <p>No coffin entries found for search "{{searchTerm}}"!</p>
+                      <p>No coffin entries found!</p>
                     </div>
                     <div class="virtualScroll">
                     <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && coffin.length > 0">

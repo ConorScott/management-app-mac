@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -7,6 +7,8 @@ import {
   NavController,
 } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Coffin } from 'src/app/menu/coffin-stock/coffin.model';
+import { CoffinService } from 'src/app/menu/coffin-stock/coffin.service';
 import { DebtorService } from 'src/app/menu/debtors/debtor.service';
 import { Invoice } from '../invoice.model';
 import { InvoiceService } from '../invoice.service';
@@ -16,12 +18,14 @@ import { InvoiceService } from '../invoice.service';
   templateUrl: './edit-invoice.page.html',
   styleUrls: ['./edit-invoice.page.scss'],
 })
-export class EditInvoicePage implements OnInit {
+export class EditInvoicePage implements OnInit, OnDestroy {
   invoice: Invoice;
   invoiceId: string;
   form: FormGroup;
   isLoading = false;
+  coffin: Coffin[];
   private invoiceSub: Subscription;
+  private coffinSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,10 +34,21 @@ export class EditInvoicePage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private debtorService: DebtorService
+    private debtorService: DebtorService,
+    private coffinService: CoffinService
   ) {}
 
   ngOnInit() {
+    this.coffinSub = this.coffinService.coffin.subscribe((coffin) => {
+      this.coffin = coffin;
+      this.coffin.map((coffins) => {
+        if (coffins.stockLocation === 'sligo') {
+          coffins.coffinName = coffins.coffinName + ' (Sligo)';
+        } else if (coffins.stockLocation === 'ballina') {
+          coffins.coffinName = coffins.coffinName + ' (Ballina)';
+        }
+      });
+    });
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('invoiceId')) {
         this.navCtrl.navigateBack('/menu/tabs/data-entry/invoicing');
@@ -236,6 +251,11 @@ export class EditInvoicePage implements OnInit {
         );
     });
   }
+
+  ionViewWillEnter(){
+    this.coffinService.fetchAllCoffins().subscribe(() => {});
+  }
+
   onUpdateInvoice() {
     this.onUpdateDebtor();
     if (!this.form.valid) {
@@ -257,6 +277,7 @@ export class EditInvoicePage implements OnInit {
             this.form.value.servicesPrice,
             this.form.value.coffinDetails,
             this.form.value.coffinPrice,
+            this.invoice.stockLocation,
             this.form.value.casketCover,
             this.form.value.casketCoverPrice,
             this.form.value.coronerDoctorCert,
@@ -345,5 +366,10 @@ export class EditInvoicePage implements OnInit {
             this.router.navigate(['/menu/tabs/data-entry/invoicing']);
           });
       });
+  }
+
+  ngOnDestroy(){
+    this.coffinSub.unsubscribe();
+    this.invoiceSub.unsubscribe();
   }
 }

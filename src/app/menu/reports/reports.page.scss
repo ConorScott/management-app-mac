@@ -4,14 +4,33 @@ nav a {
 a.mat-tab-link.mat-focus-indicator{
   padding-left:0px;
   padding-right:0px;
-  color:#1b3a57;
+  color:white;
   min-width:100px;
+  // color: white;
+  //   opacity: .8;
 }
 .mat-tab-label-active {
-  color: #3880ff !important;
+  // color: #3880ff !important;
+  color: white !important;
+  opacity: 1;
 }
 
 nav{
-  margin-left:15px;
-  margin-right:15px;
+  padding-left:15px;
+  padding-right:15px;
+  background: #3880ff!important;
+
+  // background: linear-gradient(87deg, #3880ff 0, #80aeff 100%) !important;
+}
+@media screen and (max-width: 767px){
+  nav{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  a.mat-tab-link.mat-focus-indicator{
+    padding-left:0px;
+    padding-right:0px;
+    color:#1b3a57;
+    min-width:90px;
+  }
 }
