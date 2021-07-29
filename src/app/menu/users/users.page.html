@@ -37,7 +37,7 @@
               <ion-spinner color="primary"></ion-spinner>
             </div>
             <div class="ion-text-center" *ngIf="!isLoading && users.length <= 0">
-              <p >No users found! Please create one first!</p>
+              <p >No Users found! Please create one first!</p>
               <ion-button color="primary" (click)="addUser()">Create New User</ion-button>
             </div>
               <ion-list  *ngIf="!isLoading && users.length > 0">

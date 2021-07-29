@@ -43,7 +43,8 @@ export class UsersPage implements OnInit {
   addUser(){
     this.modalCtrl
     .create({
-      component: NewUserPage
+      component: NewUserPage,
+      cssClass:'new-donation'
     })
     .then((modalEl) => {
       modalEl.present();
@@ -76,6 +77,7 @@ export class UsersPage implements OnInit {
   onEdit(userId: string) {
     this.modalCtrl.create({
       component: EditUserPage,
+      cssClass:'new-donation',
       componentProps:{
         // eslint-disable-next-line quote-props
         // eslint-disable-next-line object-shorthand
@@ -93,7 +95,7 @@ export class UsersPage implements OnInit {
           modalData.data.editUser.name,
           modalData.data.editUser.role
         ).subscribe(user => {
-          this.users = [user];
+
         });
       });
       modalEl.present();

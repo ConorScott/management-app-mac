@@ -33,6 +33,11 @@ export class ReportsPage implements OnInit {
         link: 'coffin-sales',
         index: 3
       },
+      {
+        label: 'Cash Book',
+        link: 'cashbook',
+        index: 3
+      },
     ];
    }
 

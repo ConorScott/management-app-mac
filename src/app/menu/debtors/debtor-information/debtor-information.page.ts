@@ -35,7 +35,7 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
   newTotal: number;
   isLoading = false;
   segment = 'information';
-  title = 'Account Information';
+  title = 'Debtor Information';
   private debtorSub: Subscription;
   private paymentSub: Subscription;
   private receiptSub: Subscription;
@@ -111,7 +111,7 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
         console.log(this.debtor.deceasedName);
         this.paymentService.addPayments(modalData.data.paymentData, this.debtorId, this.debtor.deceasedName)
         .subscribe((payments) => {
-          this.payments = payments;
+          // this.payments = payments;
         });
         // this.newBalance = this.debtor.totalBalance - modalData.data.paymentData.amount;
         this.debtorService.updateDebtor(

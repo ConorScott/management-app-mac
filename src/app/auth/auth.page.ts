@@ -24,17 +24,24 @@ export class AuthPage implements OnInit {
     private modalCtrl: ModalController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.modalCtrl.dismiss();
+    // if(this.modal){
+    //   this.modal.dismiss();
+    // }
+  }
 
   ionViewWillEnter(){
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeGesture(false);
-
   }
 
   ionViewWillLeave(){
     this.menuCtrl.enable(true);
     this.menuCtrl.swipeGesture(true);
+  }
+  async closeModal(){
+    await this.modal.dismiss();
   }
 
   authenticate(email: string, password: string) {

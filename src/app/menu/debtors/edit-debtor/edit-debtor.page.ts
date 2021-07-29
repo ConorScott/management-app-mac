@@ -18,6 +18,7 @@ import { DebtorService } from '../debtor.service';
 export class EditDebtorPage implements OnInit {
   debtor: Debtor;
   debtorId: string;
+  title = 'Edit Debtor Information';
   form: FormGroup;
   isLoading = false;
   private debtorSub: Subscription;

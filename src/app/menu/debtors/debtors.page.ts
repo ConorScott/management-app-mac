@@ -69,6 +69,10 @@ export class DebtorsPage implements OnInit, OnDestroy {
     });
   }
 
+  ionViewWillLeave(){
+
+  }
+
   onEdit(debtorId: string, event: any) {
     event.stopPropagation();
     this.router.navigate([
@@ -171,6 +175,7 @@ export class DebtorsPage implements OnInit, OnDestroy {
         cssClass: 'cal-modal',
       })
       .then((modalEl) => {
+        modalEl.present();
         modalEl.onDidDismiss().then((modalData) => {
           if (!modalData.data) {
             return;
@@ -181,7 +186,7 @@ export class DebtorsPage implements OnInit, OnDestroy {
             modalData.data.dates.end
           );
         });
-        modalEl.present();
+
       });
   }
 

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { EditDebtorPageRoutingModule } from './edit-debtor-routing.module';
 
 import { EditDebtorPage } from './edit-debtor.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { EditDebtorPage } from './edit-debtor.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    EditDebtorPageRoutingModule
+    EditDebtorPageRoutingModule,
+    SharedModule
   ],
   declarations: [EditDebtorPage]
 })

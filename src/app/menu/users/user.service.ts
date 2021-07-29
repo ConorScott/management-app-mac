@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 
 interface UserData {
   id: string;
+  uid: string;
   email: string;
   password: string;
   name: string;
@@ -37,7 +38,7 @@ export class UserService {
   constructor(private authService: AuthService, private http: HttpClient) {}
 
   addUser(
-    id: string,
+    uid: string,
     email: string,
     password: string,
     name: string,
@@ -58,10 +59,10 @@ export class UserService {
       }),
       take(1),
       switchMap((token) => {
-        newUser = new StoreUser(id, email, password, name, role, createdAt);
+        newUser = new StoreUser(Math.random().toString(),uid, email, password, name, role, createdAt);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
-          { ...newUser, id }
+          { ...newUser, id:null }
         );
       }),
       switchMap((resData) => {
@@ -116,6 +117,7 @@ export class UserService {
             user.push(
               new StoreUser(
                 key,
+                resData[key].uid,
                 resData[key].email,
                 resData[key].password,
                 resData[key].name,
@@ -163,6 +165,7 @@ export class UserService {
 
         updateUser[updateUserIndex] = new StoreUser(
           oldUser.id,
+          oldUser.uid,
           email,
           password,
           name,
@@ -189,6 +192,7 @@ export class UserService {
       map((resData) => {
         return new StoreUser(
           id,
+          resData.uid,
           resData.email,
           resData.password,
           resData.name,
@@ -221,10 +225,11 @@ export class UserService {
         const users = [];
         for(const key in resData){
           if(resData.hasOwnProperty(key) &&
-          resData[key].id === fetchedUserId){
+          resData[key].uid === fetchedUserId){
             users.push(
               new StoreUser(
                 resData[key].id,
+                resData[key].uid,
                 resData[key].email,
                 resData[key].password,
                 resData[key].name,

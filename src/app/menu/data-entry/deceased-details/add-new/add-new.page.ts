@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CalendarService } from 'src/app/menu/calendar/calendar.service';
+import { CashbookService } from 'src/app/menu/reports/cashbook/cashbook.service';
 import { UserService } from 'src/app/menu/users/user.service';
 import { Cemetery } from '../../cemetery-list/cemetery.model';
 import { CemeteryService } from '../../cemetery-list/cemetery.service';
@@ -58,7 +59,8 @@ export class AddNewPage implements OnInit {
     private churchService: ChurchService,
     private calendarService: CalendarService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private cashbookService: CashbookService
   ) {}
 
   ngOnInit() {
@@ -244,6 +246,12 @@ export class AddNewPage implements OnInit {
 
   onCreateEntry() {
     // this.reposeDate();
+    if(this.form.value.cemetery === 'Sligo Cemetery'){
+      this.cashbookService.addGraveDiggerPayment(this.createdAt, this.form.value.deceasedName, this.form.value.cemetery).subscribe();
+    }
+    if(this.form.value.church === 'St. Anne’s Church Sligo'){
+      this.cashbookService.addSacristanPayment(this.createdAt,).subscribe();
+    }
     this.loadingCtrl
       .create({
         message: 'Creating Entry',

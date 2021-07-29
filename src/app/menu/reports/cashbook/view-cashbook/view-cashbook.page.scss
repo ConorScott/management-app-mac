@@ -1,0 +1,44 @@
+ion-content::part(background){
+  --background: none;
+}
+ion-card{
+  top: 50%;
+    transform: translateY(-50%);
+}
+.form-label{
+  color: #525f7f;
+  font-weight: 600;
+  font-size: .875rem;
+  min-width: 60%;
+    max-width: 60%;
+}
+.form-label-desc{
+  color: #525f7f;
+    font-weight: 600;
+    font-size: 1.175rem;
+    min-width: 60%;
+    max-width: 60%;
+}
+
+.label{
+  font-size: .875rem;
+  min-width: 60%;
+    max-width: 60%;
+}
+.label-desc{
+  font-size: .875rem;
+}
+.card-title{
+  color: #525f7f;
+}
+ion-icon:hover {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.5);
+  transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  -ms-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -webkit-transition: all 300ms ease;
+  cursor: pointer;
+}

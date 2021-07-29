@@ -32,6 +32,10 @@
 
 
 @import "./theme/form.scss";
+.alert-radio-label.sc-ion-alert-md {
+  white-space: normal !important;
+}
+
 .alert-wrapper{
   --max-width: 35%;
 }

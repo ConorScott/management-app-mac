@@ -57,6 +57,15 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'cashbook',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./cashbook/cashbook.module').then( m => m.CashbookPageModule)
+          },
+        ],
+      },
+      {
         path: '',
         redirectTo: '/menu/tabs/reports/payments',
         pathMatch: 'full',
