@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { CalendarService } from '../calendar.service';
 
 @Component({
   selector: 'app-view-event',
@@ -11,14 +12,30 @@ export class ViewEventPage implements OnInit {
   @Input() title: string;
   @Input() start: string;
   @Input() end: string;
-  @Input() allDay: string;
+  @Input() allDay: boolean;
+  desc: string;
+  eventDesc: string;
   modal: HTMLIonModalElement;
+  dayOff = false;
+  dayOffDesc = 'Day Off';
 
 
-  constructor(private modalCtrl: ModalController ) { }
+  constructor(private modalCtrl: ModalController, private calendarService: CalendarService) { }
 
   ngOnInit() {
-    console.log(this.eventId);
+    console.log(this.allDay);
+    this.calendarService.getEventEdit(this.eventId).subscribe(event => {
+      console.log(event);
+      this.desc = event.desc;
+    });
+    if(this.allDay === true){
+      this.dayOff = true;
+    }
+    // this.eventDesc = this.title.split(' ')[1];
+    // this.title = this.title.split(' ')[0];
+
+
+    console.log(this.dayOffDesc);
   }
 
   onEditEvent(){

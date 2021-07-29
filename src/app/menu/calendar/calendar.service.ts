@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable arrow-body-style */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Calendar } from '@fullcalendar/angular';
+import { id } from 'date-fns/locale';
 import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -38,6 +40,7 @@ interface EventData {
   end: Date;
   color;
   allDay: boolean;
+  desc?: string;
 }
 
 @Injectable({
@@ -93,6 +96,42 @@ export class CalendarService {
   //     })
   //   );
   // }
+  addEvent(title: string, start: Date, end: Date, color, desc: string) {
+    let generateId: string;
+    let newCalendar: Event;
+    let fetchedUserId: string;
+    let uid: string;
+    const allDay = false;
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        if (!userId) {
+          throw new Error('No user id found!');
+        }
+        fetchedUserId = userId;
+        uid = fetchedUserId;
+        return this.authService.token;
+      }),
+      take(1),
+      switchMap((token) => {
+        // newCalendar = events;
+        newCalendar = new Event(Math.random().toString(), uid, title, start, end, color, allDay, desc);
+        return this.http.post<{ name: string }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
+          { ...newCalendar }
+        );
+      }),
+      switchMap((resData) => {
+        generateId = resData.name;
+        return this.calendar;
+      }),
+      take(1),
+      tap((calendar) => {
+        newCalendar.uid = generateId;
+        this._calendar.next(calendar.concat(newCalendar));
+      })
+    );
+  }
 
   addReposeEvent(title: string, start: Date, end: Date, color) {
     let generateId: string;
@@ -150,10 +189,11 @@ export class CalendarService {
       take(1),
       switchMap((token) => {
         // newCalendar = events;
+        console.log(allDay);
         newCalendar = new Event(Math.random().toString(), uid, title, start, end, color, allDay);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
-          { ...newCalendar }
+          { ...newCalendar, id: null }
         );
       }),
       switchMap((resData) => {
@@ -162,6 +202,7 @@ export class CalendarService {
       }),
       take(1),
       tap((calendar) => {
+        newCalendar.id = generateId;
         newCalendar.uid = generateId;
         this._calendar.next(calendar.concat(newCalendar));
       })
@@ -252,7 +293,7 @@ export class CalendarService {
     );
   }
 
-  reposeDate(id, deceasedName, reposeDate, reposeTime) {
+  reposeDate(deceasedName, reposeDate, reposeTime) {
     const date = reposeDate.split('T')[0];
     const time = reposeTime.split('T')[1];
     const reposeDateTime = date + 'T' + time;
@@ -266,7 +307,7 @@ export class CalendarService {
     ).subscribe();
   }
 
-  removalTime(id, deceasedName, removalDate, removalTime) {
+  removalTime(deceasedName, removalDate, removalTime) {
     const date = removalDate.split('T')[0];
     const time = removalTime.split('T')[1];
     const removalDateTime = date + 'T' + time;
@@ -279,7 +320,7 @@ export class CalendarService {
       colors.yellow
     ).subscribe();
   }
-  churchArrivalTime(id, deceasedName, churchArrivalDate, churchArrivalTime) {
+  churchArrivalTime(deceasedName, churchArrivalDate, churchArrivalTime) {
     const date = churchArrivalDate.split('T')[0];
     const time = churchArrivalTime.split('T')[1];
     const churchArrivalDateTime = date + 'T' + time;
@@ -292,7 +333,7 @@ export class CalendarService {
       colors.green
     ).subscribe();
   }
-  massTime(id, deceasedName, massDate, massTime) {
+  massTime(deceasedName, massDate, massTime) {
     const date = massDate.split('T')[0];
     const time = massTime.split('T')[1];
     const massDateTime = date + 'T' + time;
@@ -409,6 +450,7 @@ export class CalendarService {
           eventData.end,
           eventData.color,
           eventData.allDay,
+          eventData.desc
         );
       })
     );

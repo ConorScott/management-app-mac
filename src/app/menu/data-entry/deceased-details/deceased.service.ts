@@ -145,10 +145,10 @@ export class DeceasedService {
       take(1),
       tap((deceased) => {
         newDeceased.id = generateId;
-        this.calendarService.reposeDate(newDeceased.id, deceasedName, reposeDate, reposeTime);
-        this.calendarService.removalTime(newDeceased.id, deceasedName, removalDate, removalTime);
-        this.calendarService.churchArrivalTime(newDeceased.id, deceasedName, churchArrivalDate, churchArrivalTime);
-        this.calendarService.massTime(newDeceased.id, deceasedName, massDate, massTime);
+        this.calendarService.reposeDate( deceasedName, reposeDate, reposeTime);
+        this.calendarService.removalTime( deceasedName, removalDate, removalTime);
+        this.calendarService.churchArrivalTime( deceasedName, churchArrivalDate, churchArrivalTime);
+        this.calendarService.massTime( deceasedName, massDate, massTime);
         // eslint-disable-next-line no-underscore-dangle
         this._deceased.next(deceased.concat(newDeceased));
       })

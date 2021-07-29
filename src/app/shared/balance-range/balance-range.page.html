@@ -1,0 +1,42 @@
+
+
+<ion-content class="content">
+
+  <ion-card>
+    <ion-card-header>
+
+      <ion-item lines="none">
+        <ion-label class="card-title" >
+          Account Balance Filter
+        </ion-label>
+        <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+      </ion-item>
+
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="10">
+      <ion-item>
+        <ion-label position="fixed" class="form-label">Start Value</ion-label>
+        <ion-input  type="number" [(ngModel)]="startValue"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="10">
+      <ion-item>
+        <ion-label position="fixed" class="form-label">End Value</ion-label>
+        <ion-input type="number" [(ngModel)]="endValue"></ion-input>
+      </ion-item>
+    </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="8">
+      <ion-button class="submit-button" type="submit" expand="block" (click)="onSubmitDate()">
+        Submit Value Range
+      </ion-button>
+      </ion-col>
+    </ion-row>
+    </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

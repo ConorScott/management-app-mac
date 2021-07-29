@@ -24,6 +24,7 @@ ion-card{
   margin-right:auto;
   padding-bottom:16px;
   padding-top:16px;
+  margin-top: -20px;
 }
 ion-card-header{
   padding-bottom: 0px;
@@ -33,7 +34,8 @@ ion-card-header:not(.card-title-sub){
 }
 ion-toolbar {
   --ion-toolbar-background: rgba(0, 0, 0, 0.0);
-  --ion-toolbar-color: #1b3a57;
+  --ion-toolbar-color: #c9dcee;
+  margin-top:-70px;
 }
 
 
@@ -67,4 +69,20 @@ ion-toolbar {
 }
 ion-item ion-label{
   font-size: .875rem;
+}
+.header{
+  background-color: #3880ff;
+  height: 90px;
+
+}
+form{
+  margin-top: -30px;
+  position: relative;
+  z-index: 20;
+}
+ion-title{
+  color: white;
+}
+ion-back-button{
+  color:white;
 }

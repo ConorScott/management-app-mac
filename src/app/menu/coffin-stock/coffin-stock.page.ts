@@ -53,6 +53,7 @@ export class CoffinStockPage implements OnInit, OnDestroy {
   onEdit(coffinId: string) {
     this.modalCtrl.create({
       component: EditCoffinPage,
+      cssClass:'new-donation',
       componentProps:{
         // eslint-disable-next-line quote-props
         // eslint-disable-next-line object-shorthand

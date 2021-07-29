@@ -49,7 +49,8 @@ export class Invoice {
     public address1: string,
     public address2: string,
     public address3: string,
-    public county: string
+    public county: string,
+    public createdBy: string
   ){
     // if(this.servicesPrice == null){
     //   this.servicesPrice = 0;

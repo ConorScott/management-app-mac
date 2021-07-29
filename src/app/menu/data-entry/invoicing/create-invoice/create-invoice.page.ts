@@ -17,6 +17,7 @@ import { Coffin } from 'src/app/menu/coffin-stock/coffin.model';
 import { CoffinService } from 'src/app/menu/coffin-stock/coffin.service';
 import { count, map, switchMap, tap } from 'rxjs/operators';
 import { CoffinSalesService } from 'src/app/menu/reports/coffin-sales/coffin-sales.service';
+import { UserService } from 'src/app/menu/users/user.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -40,6 +41,7 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
   address3: string;
   county: string;
   coffin: Coffin[];
+  userName: string;
   payments: Payment;
   formType = 'standard';
   form: FormGroup;
@@ -55,10 +57,17 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private deceasedService: DeceasedService,
     private coffinService: CoffinService,
-    private coffinSaleService: CoffinSalesService
+    private coffinSaleService: CoffinSalesService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
+    this.userService.getUserName().subscribe(user => {
+      console.log(user);
+      user.map(createdBy => {
+        this.userName = createdBy.name;
+      });
+    });
     this.coffinSub = this.coffinService.coffin.subscribe((coffin) => {
       this.coffin = coffin;
       this.coffin.map((coffins) => {
@@ -316,7 +325,8 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
             this.address1,
             this.address2,
             this.address3,
-            this.county
+            this.county,
+            this.userName
           )
           .subscribe(() => {
             loadingEl.dismiss();

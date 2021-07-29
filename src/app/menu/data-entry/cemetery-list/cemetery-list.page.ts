@@ -46,6 +46,7 @@ export class CemetryListPage implements OnInit, OnDestroy {
   onEdit(cemeteryId: string) {
     this.modalCtrl.create({
       component: EditCemetryPage,
+cssClass:'new-donation',
       componentProps:{
         // eslint-disable-next-line quote-props
         // eslint-disable-next-line object-shorthand

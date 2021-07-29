@@ -104,6 +104,7 @@ export class ChurchListPage implements OnInit, OnDestroy {
   onEdit(churchId: string){
     this.modalCtrl.create({
       component: EditChurchPage,
+      cssClass: 'new-donation',
       componentProps:{
         // eslint-disable-next-line quote-props
         // eslint-disable-next-line object-shorthand

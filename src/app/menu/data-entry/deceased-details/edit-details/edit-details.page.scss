@@ -34,6 +34,7 @@ ion-card-header{
 ion-toolbar {
   --ion-toolbar-background: rgba(0, 0, 0, 0.0);
   --ion-toolbar-color: #1b3a57;
+  margin-top:-70px;
 }
 .form-label{
   color: #525f7f;
@@ -111,4 +112,21 @@ ion-item.item-has-focus > .form-input{
   font-size: 1rem;
   padding-left: 32px;
   padding-top: 16px;
+}
+
+form{
+  margin-top: -15px;
+  position: relative;
+  z-index: 20;
+}
+ion-title{
+  color: white;
+}
+ion-back-button{
+  color:white;
+}
+.header{
+  background-color: #3880ff;
+  height: 90px;
+
 }

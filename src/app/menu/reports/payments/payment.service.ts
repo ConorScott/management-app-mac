@@ -14,6 +14,7 @@ interface PaymentData {
   amount: number;
   paymentMethod: string;
   payeeName: string;
+  deceasedName: string;
 }
 
 @Injectable({
@@ -53,7 +54,8 @@ export class PaymentService {
           payment.paymentDate,
           payment.amount,
           payment.paymentMethod,
-          payment.payeeName
+          payment.payeeName,
+          payment.deceasedName
         );
         return this.http
       .post<{name: string}>(
@@ -72,7 +74,7 @@ export class PaymentService {
     );
   }
 
-  addPayments(payment: Payment, debtorId) {
+  addPayments(payment: Payment, debtorId, deceasedName) {
     let generatedId: string;
     let newPayment: Payment;
     let fetchedUserId: string;
@@ -93,7 +95,8 @@ export class PaymentService {
           payment.paymentDate,
           payment.amount,
           payment.paymentMethod,
-          payment.payeeName
+          payment.payeeName,
+          deceasedName
         );
         return this.http
       .post<{name: string}>(
@@ -117,7 +120,7 @@ export class PaymentService {
     paymentDate: Date,
     amount: number,
     paymentMethod: string,
-    name: string
+    name: string,
   ) {
     let updatePayment: Payment[];
     let fetchedToken: string;
@@ -146,7 +149,8 @@ export class PaymentService {
           paymentDate,
           amount,
           paymentMethod,
-          name
+          name,
+          oldUser.deceasedName
         );
         return this.http.put<Payment>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${debtorId}.json?auth=${fetchedToken}`,
@@ -193,7 +197,8 @@ export class PaymentService {
           paymentDate,
           amount,
           paymentMethod,
-          name
+          name,
+          oldUser.deceasedName
         );
         return this.http.put<Payment>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${debtorId}.json?auth=${fetchedToken}`,
@@ -224,7 +229,8 @@ export class PaymentService {
               resData[key].paymentDate,
               resData[key].amount,
               resData[key].paymentMethod,
-              resData[key].payeeName
+              resData[key].payeeName,
+              resData[key].deceasedName
             )
           );
         }
@@ -254,7 +260,8 @@ export class PaymentService {
               resData[key].paymentDate,
               resData[key].amount,
               resData[key].paymentMethod,
-              resData[key].payeeName
+              resData[key].payeeName,
+              resData[key].deceasedName
             )
           );
         }
@@ -285,7 +292,8 @@ export class PaymentService {
               resData[key].paymentDate,
               resData[key].amount,
               resData[key].paymentMethod,
-              resData[key].payeeName
+              resData[key].payeeName,
+              resData[key].deceasedName
             )
           );
         }
@@ -313,7 +321,8 @@ export class PaymentService {
           resData.paymentDate,
           resData.amount,
           resData.paymentMethod,
-          resData.payeeName
+          resData.payeeName,
+          resData.deceasedName
         );
       })
     );

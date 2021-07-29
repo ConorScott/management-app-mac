@@ -29,6 +29,7 @@ ion-card-header{
 ion-toolbar {
   --ion-toolbar-background: rgba(0, 0, 0, 0.0);
   --ion-toolbar-color: #1b3a57;
+  margin-top:-70px;
 }
 
 .form-label{
@@ -80,4 +81,20 @@ ion-item.form-input{
 .alert-radio-group{
   max-height: 500px;
   height: 270px;
+}
+.header{
+  background-color: #3880ff;
+  height: 90px;
+
+}
+form{
+  margin-top: -18px;
+  position: relative;
+  z-index: 20;
+}
+ion-title{
+  color: white;
+}
+ion-back-button{
+  color:white;
 }

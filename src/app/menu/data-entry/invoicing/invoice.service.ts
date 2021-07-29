@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Payment } from 'src/app/shared/payment.model';
 import { DebtorService } from '../../debtors/debtor.service';
 import { Invoice } from './invoice.model';
 
@@ -60,6 +59,7 @@ interface InvoiceData {
   address2: string;
   address3: string;
   county: string;
+  createdBy: string;
 }
 
 @Injectable({
@@ -127,7 +127,8 @@ export class InvoiceService {
     address1: string,
     address2: string,
     address3: string,
-    county: string
+    county: string,
+    createdBy: string
   ) {
     let generateId: string;
     let newInvoice: Invoice;
@@ -193,7 +194,8 @@ export class InvoiceService {
           address1,
           address2,
           address3,
-          county
+          county,
+          createdBy
         );
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`,
@@ -313,7 +315,8 @@ export class InvoiceService {
                 invoiceData[key].address1,
                 invoiceData[key].address2,
                 invoiceData[key].address3,
-                invoiceData[key].county
+                invoiceData[key].county,
+                invoiceData[key].createdBy
               )
             );
           }
@@ -384,7 +387,8 @@ export class InvoiceService {
           resData.address1,
           resData.address2,
           resData.address3,
-          resData.county
+          resData.county,
+          resData.createdBy
         );
       })
     );
@@ -531,6 +535,7 @@ export class InvoiceService {
           oldInvoiceInfo.address2,
           oldInvoiceInfo.address3,
           oldInvoiceInfo.county,
+          oldInvoiceInfo.createdBy
         );
         return this.http.put(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json?auth=${fetchedToken}`,

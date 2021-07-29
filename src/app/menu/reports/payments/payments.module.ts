@@ -12,6 +12,7 @@ import { EditPaymentModalPage } from 'src/app/shared/edit-payment-modal/edit-pay
 import { ViewPaymentPage } from './view-payment/view-payment.page';
 import { ReceiptLayoutPage } from '../receipts/receipt-layout/receipt-layout.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PaymentStatsPage } from './payment-stats/payment-stats.page';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ScrollingModule,
     ReactiveFormsModule
   ],
-  declarations: [PaymentsPage]
+  declarations: [PaymentsPage, PaymentStatsPage]
 })
 export class PaymentsPageModule {}

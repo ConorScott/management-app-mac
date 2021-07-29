@@ -1,13 +1,19 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/menu/tabs/data-entry/deceased"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Deceased Information</ion-title>
-  </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
+  <div class="header">
+
+  </div>
+  <ion-row>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/menu/tabs/data-entry/deceased"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Deceased Information</ion-title>
+    </ion-toolbar>
+  </ion-row>
 
   <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
@@ -222,6 +228,14 @@
                   <ion-item lines="none" class="ion-text-start">
                     <ion-label class="form-label">Mass Time:</ion-label>
                     <ion-label>{{deceased.massTime | date: "shortTime"}}</ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6">
+                  <ion-item lines="none" class="ion-text-start">
+                    <ion-label class="form-label">Created By User:</ion-label>
+                    <ion-label>{{deceased.createdBy}}</ion-label>
                   </ion-item>
                 </ion-col>
               </ion-row>

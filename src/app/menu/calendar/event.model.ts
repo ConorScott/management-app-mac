@@ -7,5 +7,6 @@ export class Event {
     public end: Date,
     public color,
     public allDay: boolean,
+    public desc?: string
   ){}
 }

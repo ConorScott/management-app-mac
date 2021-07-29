@@ -128,31 +128,31 @@ export class EditDetailsPage implements OnInit {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),
-                responsible2: new FormControl(this.deceased.contact.responsible, {
+                responsible2: new FormControl(this.deceased.contact.responsible2, {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),
-                relationship2: new FormControl(this.deceased.contact.relationship, {
+                relationship2: new FormControl(this.deceased.contact.relationship2, {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),
-                phoneNo2: new FormControl(this.deceased.contact.phoneNo, {
+                phoneNo2: new FormControl(this.deceased.contact.phoneNo2, {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),
-                resAddress12: new FormControl(this.deceased.contact.resAddress1, {
+                resAddress12: new FormControl(this.deceased.contact.resAddress12, {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),
-                resAddress22: new FormControl(this.deceased.contact.resAddress2, {
+                resAddress22: new FormControl(this.deceased.contact.resAddress22, {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),
-                resAddress32: new FormControl(this.deceased.contact.resAddress3, {
+                resAddress32: new FormControl(this.deceased.contact.resAddress32, {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),
-                resCounty2: new FormControl(this.deceased.contact.resCounty, {
+                resCounty2: new FormControl(this.deceased.contact.resCounty2, {
                   updateOn: 'blur',
                   validators: [Validators.required]
                 }),

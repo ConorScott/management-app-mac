@@ -6,6 +6,7 @@ export class Payment {
     public paymentDate: Date,
     public amount: number,
     public paymentMethod: string,
-    public payeeName: string
+    public payeeName: string,
+    public deceasedName: string
   ) {}
 }

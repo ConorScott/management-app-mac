@@ -32,16 +32,29 @@
 
 
 @import "./theme/form.scss";
-
-.cal-modal {
-    --height: 80%;
-    --border-radius: 10px;
-    padding: 25px;
+.alert-wrapper{
+  --max-width: 35%;
 }
+.cal-modal {
+  --height:80%;
+  --background-color: transparent;
+}
+.cal-modal .modal-wrapper{
+  background-color: transparent;
+  box-shadow: none;
+ }
 .new-donation{
   --height:80%;
   --background-color: transparent;
 }
+.new-event{
+  --height:100%;
+  --background-color: transparent;
+}
+.new-event .modal-wrapper{
+  background-color: transparent;
+  box-shadow: none;
+ }
 .new-donation .modal-wrapper{
  background-color: transparent;
  box-shadow: none;
@@ -140,4 +153,7 @@
   ion-searchbar .searchbar-input-container .searchbar-search-icon{
     width:16px;
   }
+}
+.ionic-selectable-modal span{
+color:white;
 }

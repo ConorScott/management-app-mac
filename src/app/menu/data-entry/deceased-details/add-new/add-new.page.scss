@@ -23,6 +23,7 @@ ion-card{
   margin-left:auto;
   margin-right:auto;
   padding-bottom:16px;
+
 }
 ion-card-header{
   padding-bottom: 0px;
@@ -30,6 +31,7 @@ ion-card-header{
 ion-toolbar {
   --ion-toolbar-background: rgba(0, 0, 0, 0.0);
   --ion-toolbar-color: #1b3a57;
+  margin-top:-70px;
 }
 .selectForm::part(icon) {
   color: #32325d;
@@ -108,4 +110,23 @@ ion-item.item-has-focus > .form-input{
   font-size: 1rem;
   padding-left: 32px;
   padding-top: 16px;
+}
+.header{
+  background-color: #3880ff;
+  height: 90px;
+
+}
+form{
+  margin-top: -30px;
+  position: relative;
+  z-index: 20;
+}
+ion-title{
+  color: white;
+}
+ion-back-button{
+  color:white;
+}
+.alert-wrapper{
+  --max-width: 35%;
 }

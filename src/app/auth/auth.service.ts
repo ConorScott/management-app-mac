@@ -92,7 +92,7 @@ export class AuthService implements OnDestroy{
       tap(user => {
         if (user) {
           this._user.next(user);
-          this.autoLogout(user.tokenDuration);
+          // this.autoLogout(user.tokenDuration);
         }
       }),
       map(user => {
@@ -127,14 +127,14 @@ export class AuthService implements OnDestroy{
     Plugins.Storage.remove({key: 'authData'});
   }
 
-  private autoLogout(duration: number){
-    if (this.activeLogoutTimer) {
-      clearTimeout(this.activeLogoutTimer);
-    }
-   this.activeLogoutTimer = setTimeout(() => {
-      this.logout();
-    }, duration);
-  }
+  // private autoLogout(duration: number){
+  //   if (this.activeLogoutTimer) {
+  //     clearTimeout(this.activeLogoutTimer);
+  //   }
+  //  this.activeLogoutTimer = setTimeout(() => {
+  //     this.logout();
+  //   }, duration);
+  // }
 
   private setUserData(userData: AuthResponseData) {
     const expirationTime = new Date(
@@ -147,7 +147,7 @@ export class AuthService implements OnDestroy{
         expirationTime
       );
       this._user.next(user);
-      this.autoLogout(user.tokenDuration);
+      // this.autoLogout(user.tokenDuration);
     this.storeAuthData(
       userData.localId,
       userData.idToken,

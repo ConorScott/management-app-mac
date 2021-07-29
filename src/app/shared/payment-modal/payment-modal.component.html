@@ -1,31 +1,31 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Payments</ion-title>
-    <ion-buttons slot="primary">
-      <ion-button (click)="onCancel()">close</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+ <form [formGroup]="form">
+  <ion-card>
+    <ion-card-header>
+      <ion-item lines="none">
+        <ion-label class="card-title" >
+          Add Payment
+        </ion-label>
+        <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+      </ion-item>
+    </ion-card-header>
 
-<ion-content>
-  <form [formGroup]="form">
+    <ion-card-content>
     <ion-grid>
-      <ion-row>
+      <ion-row class="ion-justify-content-center">
         <ion-col size="12" size-md="6" size-lg="12">
-          <ion-item>
-            <ion-label position="stacked">Payment Date</ion-label>
-            <ion-input
-              type="date"
+          <ion-item lines="none">
+            <ion-label  class="form-label" position="stacked">Payment Date</ion-label>
+            <ion-datetime class="form-input-date"
               autocomplete
               autocorrect
               formControlName="paymentDate"
-            ></ion-input>
+            ></ion-datetime>
           </ion-item>
         </ion-col>
         <ion-col size="12" size-md="6" size-lg="12">
-          <ion-item>
-            <ion-label position="floating">Amount</ion-label>
-            <ion-input
+          <ion-item lines="none">
+            <ion-label class="form-label" position="stacked">Amount</ion-label>
+            <ion-input class="form-input"
               type="number"
               autocomplete
               autocorrect
@@ -34,9 +34,9 @@
           </ion-item>
         </ion-col>
         <ion-col size="12" size-md="6" size-lg="12">
-          <ion-item>
-            <ion-label position="floating">Payment Method</ion-label>
-            <ion-select formControlName="paymentMethod">
+          <ion-item lines="none">
+            <ion-label  class="form-label" position="stacked">Payment Method</ion-label>
+            <ion-select formControlName="paymentMethod" class="form-input-date">
               <ion-select-option value="cash">Cash</ion-select-option>
               <ion-select-option value="card">Card</ion-select-option>
               <ion-select-option value="draft">Draft</ion-select-option>
@@ -46,9 +46,9 @@
           </ion-item>
         </ion-col>
         <ion-col size="12" size-md="6" size-lg="12">
-          <ion-item>
-            <ion-label position="floating">Payee Name</ion-label>
-            <ion-input
+          <ion-item lines="none">
+            <ion-label  class="form-label" position="stacked">Payee Name</ion-label>
+            <ion-input class="form-input"
               type="text"
               autocomplete
               autocorrect
@@ -57,13 +57,15 @@
           </ion-item>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col size="12" size-md="6" size-lg="12">
-          <ion-button color="success" type="submit" expand="block" (click)="onCreatePayment()">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="8">
+          <ion-button class="submit-button" color="success" type="submit" expand="block" (click)="onCreatePayment()">
             Submit Payment
           </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
+  </ion-card-content>
+</ion-card>
   </form>
-</ion-content>
+

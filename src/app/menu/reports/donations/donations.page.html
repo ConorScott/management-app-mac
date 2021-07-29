@@ -1,12 +1,11 @@
 <ion-content>
+  <div class="header">
+
+  </div>
   <ion-card>
     <ion-card-header>
       <ion-item lines="none">
         <ion-card-subtitle class="card-title">Donations</ion-card-subtitle>
-        <ion-button slot="end" class="new-entry-button" (click)="onAddNew()">
-          <ion-icon slot="start" name="add-outline"></ion-icon>
-          New Entry
-        </ion-button>
       </ion-item>
     </ion-card-header>
     <ion-card-content>
@@ -19,6 +18,10 @@
             <ion-button (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates
+            </ion-button>
+            <ion-button class="new-entry-button" (click)="onAddNew()">
+              <ion-icon slot="start" name="add-outline"></ion-icon>
+              New Entry
             </ion-button>
           </ion-col>
         </ion-row>

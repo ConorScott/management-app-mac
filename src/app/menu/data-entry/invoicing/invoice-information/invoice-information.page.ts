@@ -18,6 +18,7 @@ import { InvoiceLayoutPage } from '../invoice-layout/invoice-layout.page';
 import { Printer, PrintOptions } from '@ionic-native/printer/ngx';
 import { DeceasedService } from '../../deceased-details/deceased.service';
 import { CoffinService } from 'src/app/menu/coffin-stock/coffin.service';
+import { UserService } from 'src/app/menu/users/user.service';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -34,6 +35,7 @@ export class InvoiceInformationPage implements OnInit {
   address3: string;
   county: string;
   invoiceId: string;
+  userName: string;
   isLoading = false;
   private invoiceSub: Subscription;
 
@@ -46,10 +48,11 @@ export class InvoiceInformationPage implements OnInit {
     private printer: Printer,
     private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
-    private coffinService: CoffinService
+    private coffinService: CoffinService,
   ) {}
 
   ngOnInit() {
+
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('invoiceId')) {
         this.navCtrl.navigateBack('/menu/tabs/data-entry/invoicing');

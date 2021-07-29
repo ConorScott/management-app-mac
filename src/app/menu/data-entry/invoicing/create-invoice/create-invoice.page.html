@@ -1,13 +1,17 @@
 <ion-header class="ion-no-border">
+
+</ion-header>
+
+<ion-content>
+  <div class="header">
+
+  </div>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/menu/tabs/data-entry"></ion-back-button>
     </ion-buttons>
     <ion-title>Create Invoice</ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content>
   <form [formGroup]="form" *ngIf="!isLoading">
     <ion-card>
       <ion-card-header>

@@ -1,0 +1,45 @@
+<ion-content>
+  <!-- <div *ngIf="isLoading"> -->
+    <ion-card>
+      <ion-card-header>
+        <ion-item lines="none">
+          <ion-label class="card-title" >
+            Payment Stats
+          </ion-label>
+          <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+        </ion-item>
+
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+        <ion-item>
+          <ion-label class="form-label">Cash total:</ion-label>
+          <ion-label class="label"> €{{cashTotal}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Card Total: </ion-label>
+          <ion-label class="label">€{{cardTotal}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">EFT total: </ion-label>
+          <ion-label class="label">€{{eftTotal}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Cheque Total:</ion-label>
+          <ion-label class="label"> €{{chequeTotal}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Draft Total:</ion-label>
+          <ion-label class="label"> €{{draftTotal}}</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label class="form-label">Overall Total:</ion-label>
+          <ion-label class="label"> €{{overallTotal}}</ion-label>
+        </ion-item>
+        <ion-row>
+      </ion-row>
+      </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  <!-- </div> -->
+</ion-content>

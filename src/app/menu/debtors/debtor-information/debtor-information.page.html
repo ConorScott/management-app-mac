@@ -1,13 +1,18 @@
 <ion-header class="ion-no-border">
+  <app-header [title]="title"></app-header>
+
+</ion-header>
+
+<ion-content>
+  <div class="header">
+
+  </div>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button text="" defaultHref="/menu/tabs/debtors"></ion-back-button>
     </ion-buttons>
-    <ion-title>Account Information:</ion-title>
+    <ion-title *ngIf="!isLoading">Account: {{debtor.deceasedName}}</ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content>
   <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>

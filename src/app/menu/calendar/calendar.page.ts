@@ -224,7 +224,7 @@ events: Event;
           title,
           start,
           end,
-          allDay
+          allDay,
         },
         cssClass: 'new-donation'
       })
@@ -299,23 +299,40 @@ events: Event;
     this.modalCtrl
       .create({
         component: CalModalPage,
-        cssClass: 'new-donation'
+        cssClass: 'new-event'
       })
       .then((modalEl) => {
         modalEl.onDidDismiss().then((modalData) => {
           if (!modalData.data) {
             return;
           }
-          // newEvents = new Event(
-          //   modalData.data.eventData.title:
-          //   modalData.data.eventData.start,
-          //   modalData.data.eventData.end,
-          // )
-          this.dayOffEvent(
+          console.log(modalData.data.eventData.title,
+            modalData.data.eventData.start,
+            modalData.data.eventData.end,
+            modalData.data.eventData.color,
+            modalData.data.eventData.desc);
+          if(modalData.data.eventData.action === 'event'){
+            this.calendarService.addEvent(
               modalData.data.eventData.title,
               modalData.data.eventData.start,
+              modalData.data.eventData.end,
               modalData.data.eventData.color,
-            );
+              modalData.data.eventData.desc,
+              ).subscribe((calendar) => {
+              // this.calendar = calendar;
+            });
+          } else if(modalData.data.eventData.action === 'dayOff'){
+            this.calendarService
+          .addDayOffEvent(
+            modalData.data.eventData.title + ' Day Off',
+            modalData.data.eventData.start,
+            modalData.data.eventData.end,
+            modalData.data.eventData.color,
+          )
+          .subscribe((calendar) => {
+            // this.calendar = calendar;
+          });
+          }
         });
         modalEl.present();
       });
@@ -335,14 +352,7 @@ events: Event;
     const reposeDateTime = date + 'T' + time;
     const endTime = new Date(reposeDateTime);
     endTime.setHours(endTime.getHours() + 24);
-    this.calendarService
-            .addDayOffEvent(
-              title,
-              start,
-              endTime,
-              color,
-            )
-            .subscribe(() => {});
+
   }
 
   closeOpenMonthViewDay() {

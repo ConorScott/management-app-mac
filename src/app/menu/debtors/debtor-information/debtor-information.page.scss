@@ -38,7 +38,7 @@ ion-card{
   width: 85%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 40px;
+  margin-top: 0px;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
   border-radius: 0.375rem;
 }
@@ -48,6 +48,7 @@ ion-card-header{
 ion-toolbar {
   --ion-toolbar-background: rgba(0, 0, 0, 0.0);
   --ion-toolbar-color: #1b3a57;
+  margin-top:-70px;
 }
 ion-item ion-label{
   font-size:14px;
@@ -111,4 +112,20 @@ ion-list {
 }
 ion-segment{
   margin-bottom: 30px;
+}
+.header{
+  background-color: #3880ff;
+  height: 90px;
+
+}
+form{
+  margin-top: -30px;
+  position: relative;
+  z-index: 20;
+}
+ion-title{
+  color: white;
+}
+ion-back-button{
+  color:white;
 }

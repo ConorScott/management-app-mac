@@ -8,6 +8,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { Debtor } from './debtor.model';
 import { DebtorService } from './debtor.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { BalanceRangePage } from 'src/app/shared/balance-range/balance-range.page';
 
 
 @Component({
@@ -26,7 +27,10 @@ export class DebtorsPage implements OnInit, OnDestroy {
   totalBalance: number;
   startDate;
   endDate;
+  startValue;
+  endValue;
   filterSelected = false;
+  filterAmountSelected = false;
   debtor: Debtor[];
   filteredDebtor: Debtor[];
   isLoading = false;
@@ -129,6 +133,20 @@ export class DebtorsPage implements OnInit, OnDestroy {
         item.deceasedName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
       ));
   }
+  loadBalanceResults(start, end) {
+    console.log(start);
+    if (!start || !end) {
+      return;
+    }
+    this.startValue = start;
+    this.endValue = end;
+
+    this.filtered = this.filteredDebtor.filter((item) => isWithinInterval(new Date(item.totalBalance), {
+        start: this.startValue,
+        end: this.endValue,
+      }));
+    this.filterAmountSelected = true;
+  }
 
   loadResults(start, end) {
     console.log(start);
@@ -167,12 +185,41 @@ export class DebtorsPage implements OnInit, OnDestroy {
       });
   }
 
+  onFilterBalance() {
+    this.modalCtrl
+      .create({
+        component: BalanceRangePage,
+        cssClass: 'cal-modal',
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          }
+          console.log(modalData.data);
+          this.loadBalanceResults(
+            modalData.data.amount.start,
+            modalData.data.amount.end
+          );
+        });
+        modalEl.present();
+      });
+  }
+
   clearDateFilter() {
     this.startDate = null;
     this.endDate = null;
     this.filtered = this.debtor;
     this.filterSelected = false;
   }
+
+  clearAmountFilter() {
+    this.startValue = null;
+    this.endValue = null;
+    this.filtered = this.debtor;
+    this.filterAmountSelected = false;
+  }
+
 
   isToggle(){
     this.sharedService.changeToggle();

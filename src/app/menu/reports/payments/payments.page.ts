@@ -13,6 +13,7 @@ import { ViewPaymentModalPage } from 'src/app/shared/view-payment-modal/view-pay
 import { DebtorService } from '../../debtors/debtor.service';
 import { ReceiptLayoutPage } from '../receipts/receipt-layout/receipt-layout.page';
 import { ReceiptService } from '../receipts/receipt.service';
+import { PaymentStatsPage } from './payment-stats/payment-stats.page';
 import { PaymentService } from './payment.service';
 import { ViewPaymentPage } from './view-payment/view-payment.page';
 
@@ -69,6 +70,9 @@ export class PaymentsPage implements OnInit {
         (acc, val) => (this.overallTotal = acc += val.amount),
         0
       );
+      if(this.overallTotal === undefined){
+        this.overallTotal = 0;
+      }
     });
     this.getCashTotal('cash');
     this.getCardTotal('card');
@@ -290,6 +294,26 @@ export class PaymentsPage implements OnInit {
         modalEl.present();
       });
   }
+
+  viewPaymentStats() {
+    this.modalCtrl
+    .create({
+      component: PaymentStatsPage,
+      cssClass: 'new-donation',
+      componentProps: {
+        cashTotal: this.cashTotal,
+        cardTotal: this.cardTotal,
+        eftTotal: this.eftTotal,
+        chequeTotal: this.chequeTotal,
+        draftTotal: this.draftTotal,
+        overallTotal: this.overallTotal
+      },
+    })
+    .then((modalEl) => {
+      modalEl.onDidDismiss().then((modalData) => {
+      });
+      modalEl.present();
+    });  }
 
   // printDiv(receipt){
   //   if(document.getElementById('print_div').innerHTML != null){

@@ -13,6 +13,7 @@ import { ReceiptLayoutPage } from '../menu/reports/receipts/receipt-layout/recei
 import { ViewReceiptPage } from '../menu/reports/receipts/view-receipt/view-receipt.page';
 import { ViewReceiptLayoutPage } from '../menu/reports/receipts/view-receipt-layout/view-receipt-layout.page';
 import { EditReceiptPage } from '../menu/reports/receipts/edit-receipt/edit-receipt.page';
+import { BalanceRangePage } from './balance-range/balance-range.page';
 
 
 
@@ -28,10 +29,11 @@ import { EditReceiptPage } from '../menu/reports/receipts/edit-receipt/edit-rece
     EditPaymentModalPage,
     ViewReceiptPage,
     ViewReceiptLayoutPage,
-    EditReceiptPage
+    EditReceiptPage,
+    BalanceRangePage
   ],
   imports: [CommonModule, IonicModule,FormsModule, ReactiveFormsModule],
-  exports: [PaymentModalComponent, HeaderPage, DateRangePage, ReceiptLayoutPage, ViewReceiptLayoutPage],
+  exports: [PaymentModalComponent, HeaderPage, DateRangePage, ReceiptLayoutPage, ViewReceiptLayoutPage, BalanceRangePage],
   entryComponents: [PaymentModalComponent]
 })
 export class SharedModule {}

@@ -1,13 +1,14 @@
-<ion-header class="ion-no-border">
+<ion-content>
+
+  <div class="header">
+
+  </div>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/menu/tabs/data-entry/invoicing"></ion-back-button>
     </ion-buttons>
     <ion-title>Invoice Information</ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content>
   <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>
@@ -166,6 +167,14 @@
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="total-balance">Total Balance:</ion-label>
                 <ion-label class="ion-text-start">€{{invoice.totalBalance}}</ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Created By User:</ion-label>
+                <ion-label>{{invoice.createdBy}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>

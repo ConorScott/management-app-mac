@@ -1,13 +1,15 @@
-<ion-header class="ion-no-border">
+
+
+<ion-content>
+  <div class="header">
+
+  </div>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/menu/tabs/data-entry/invoicing"></ion-back-button>
     </ion-buttons>
     <ion-title>Edit Invoice</ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content>
   <div *ngIf="isLoading" class="ion-text-center">
     <ion-spinner color="primary"></ion-spinner>
   </div>
