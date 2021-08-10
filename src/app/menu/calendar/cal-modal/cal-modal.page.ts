@@ -29,6 +29,10 @@ const colors: any = {
   lightRed: {
     primary:'#f29c96',
     secondary: '#f29c96',
+  },
+  purple: {
+    primary:'#d73ae8',
+    secondary: '#ad32ba',
   }
 };
 
@@ -78,10 +82,19 @@ export class CalModalPage implements OnInit {
       desc: new FormControl(null, {
         updateOn: 'blur',
       }),
+      dayIn: new FormControl(null, {
+        updateOn: 'blur',
+      }),
     });
   }
 
-  addEventDayOff(){
+  addEventDayOff(action: string){
+    let selectedColour: string;
+    if(action === 'dayOff'){
+      selectedColour = colors.lightBlue;
+    } else if(action === 'dayIn'){
+      selectedColour = colors.purple;
+    }
     const startDate = this.form.value.start.split('T')[0];
     const endDate = this.form.value.end.split('T')[0];
     const myTime = 'T00:00:00.001+01:00';
@@ -99,9 +112,9 @@ export class CalModalPage implements OnInit {
           title: this.form.value.title,
           start: startTime,
           end: finalEndtime,
-          color: colors.lightBlue,
+          color: selectedColour,
           allDay: this.form.value.allDay,
-          action: 'dayOff'
+          action
         }
       },
       'confirm'

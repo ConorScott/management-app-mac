@@ -26,6 +26,7 @@ export class InvoicingPage implements OnInit, OnDestroy {
   filteredInvoice: Invoice[];
   isLoading = false;
   filterSelected = false;
+  searchbarOpened = false;
   private invoiceSub: Subscription;
 
   constructor(

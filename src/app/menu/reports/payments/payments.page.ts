@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   ActionSheetController,
   LoadingController,
@@ -22,7 +22,7 @@ import { ViewPaymentPage } from './view-payment/view-payment.page';
   templateUrl: './payments.page.html',
   styleUrls: ['./payments.page.scss'],
 })
-export class PaymentsPage implements OnInit {
+export class PaymentsPage implements OnInit, OnDestroy {
   // @ViewChild(CdkVirtualScrollViewport)
   // viewport: CdkVirtualScrollViewport;
   @ViewChild(ReceiptLayoutPage) child: ReceiptLayoutPage;
@@ -45,7 +45,6 @@ export class PaymentsPage implements OnInit {
   overallTotal: number;
 
   private paymentSub: Subscription;
-  private paymentTotalSub: Subscription;
   private cashTotalSub: Subscription;
   private cardTotalSub: Subscription;
   private eftTotalSub: Subscription;
@@ -70,7 +69,7 @@ export class PaymentsPage implements OnInit {
         (acc, val) => (this.overallTotal = acc += val.amount),
         0
       );
-      if(this.overallTotal === undefined){
+      if (this.overallTotal === undefined) {
         this.overallTotal = 0;
       }
     });
@@ -93,7 +92,7 @@ export class PaymentsPage implements OnInit {
       .fetchCashPayments(method)
       .subscribe((payment) => {
         payment.reduce((acc, val) => (this.cashTotal = acc += val.amount), 0);
-        if(this.cashTotal === undefined){
+        if (this.cashTotal === undefined) {
           this.cashTotal = 0;
         }
       });
@@ -103,7 +102,7 @@ export class PaymentsPage implements OnInit {
       .fetchCashPayments(method)
       .subscribe((payment) => {
         payment.reduce((acc, val) => (this.cardTotal = acc += val.amount), 0);
-        if(this.cardTotal === undefined){
+        if (this.cardTotal === undefined) {
           this.cardTotal = 0;
         }
       });
@@ -113,7 +112,7 @@ export class PaymentsPage implements OnInit {
       .fetchCashPayments(method)
       .subscribe((payment) => {
         payment.reduce((acc, val) => (this.eftTotal = acc += val.amount), 0);
-        if(this.eftTotal === undefined){
+        if (this.eftTotal === undefined) {
           this.eftTotal = 0;
         }
       });
@@ -123,7 +122,7 @@ export class PaymentsPage implements OnInit {
       .fetchCashPayments(method)
       .subscribe((payment) => {
         payment.reduce((acc, val) => (this.chequeTotal = acc += val.amount), 0);
-        if(this.chequeTotal === undefined){
+        if (this.chequeTotal === undefined) {
           this.chequeTotal = 0;
         }
       });
@@ -133,7 +132,7 @@ export class PaymentsPage implements OnInit {
       .fetchCashPayments(method)
       .subscribe((payment) => {
         payment.reduce((acc, val) => (this.draftTotal = acc += val.amount), 0);
-        if(this.draftTotal === undefined){
+        if (this.draftTotal === undefined) {
           this.draftTotal = 0;
         }
       });
@@ -289,7 +288,6 @@ export class PaymentsPage implements OnInit {
               modalData.data.editPayment.paymentAmount
             );
           }
-
         });
         modalEl.present();
       });
@@ -297,23 +295,23 @@ export class PaymentsPage implements OnInit {
 
   viewPaymentStats() {
     this.modalCtrl
-    .create({
-      component: PaymentStatsPage,
-      cssClass: 'new-donation',
-      componentProps: {
-        cashTotal: this.cashTotal,
-        cardTotal: this.cardTotal,
-        eftTotal: this.eftTotal,
-        chequeTotal: this.chequeTotal,
-        draftTotal: this.draftTotal,
-        overallTotal: this.overallTotal
-      },
-    })
-    .then((modalEl) => {
-      modalEl.onDidDismiss().then((modalData) => {
+      .create({
+        component: PaymentStatsPage,
+        cssClass: 'new-donation',
+        componentProps: {
+          cashTotal: this.cashTotal,
+          cardTotal: this.cardTotal,
+          eftTotal: this.eftTotal,
+          chequeTotal: this.chequeTotal,
+          draftTotal: this.draftTotal,
+          overallTotal: this.overallTotal,
+        },
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {});
+        modalEl.present();
       });
-      modalEl.present();
-    });  }
+  }
 
   // printDiv(receipt){
   //   if(document.getElementById('print_div').innerHTML != null){
@@ -371,5 +369,14 @@ export class PaymentsPage implements OnInit {
       .then((actionSheetEl) => {
         actionSheetEl.present();
       });
+  }
+
+  ngOnDestroy(){
+  this.paymentSub.unsubscribe();
+  this.cashTotalSub.unsubscribe();
+  this.cardTotalSub.unsubscribe();
+  this.eftTotalSub.unsubscribe();
+  this.chequeTotalSub.unsubscribe();
+  this.draftTotalSub.unsubscribe();
   }
 }

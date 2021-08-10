@@ -118,7 +118,7 @@ export class CalendarService {
         newCalendar = new Event(Math.random().toString(), uid, title, start, end, color, allDay, desc);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
-          { ...newCalendar }
+          { ...newCalendar, id: null }
         );
       }),
       switchMap((resData) => {
@@ -127,6 +127,7 @@ export class CalendarService {
       }),
       take(1),
       tap((calendar) => {
+        newCalendar.id = generateId;
         newCalendar.uid = generateId;
         this._calendar.next(calendar.concat(newCalendar));
       })

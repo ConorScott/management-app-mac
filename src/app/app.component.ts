@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.sharedService.cast.subscribe(data => this.isVisible = data);
 
-    if(window.screen.width < 988)
+    if(window.screen.width <= 1024)
     {
       this.isVisible = false;
     }

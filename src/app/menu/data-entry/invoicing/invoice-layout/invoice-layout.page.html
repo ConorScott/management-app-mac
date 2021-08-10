@@ -4,10 +4,7 @@
     <h1 class="date">Invoice Date: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</h1>
     <h1 class="main-heading">FUNERAL EXPENSES OF THE LATE</h1>
     <p class="deceasedInfo">{{invoice.deceasedName}}</p>
-    <p class="date-death">{{invoice.address1}}</p>
-    <p class="date-death">{{invoice.address2}}</p>
-    <p class="date-death">{{invoice.address3}}</p>
-    <p class="date-death">{{invoice.county}}</p>
+    <p class="date-death">{{invoice.address1}}, {{invoice.address2}}, {{invoice.address3}}, {{invoice.county}}</p>
     <p class="date-death">Date of Death: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</p>
     </div>
 
@@ -18,7 +15,7 @@
           <p>{{invoice.services}}</p>
         </div>
         <div class="col-2">
-          <p class="price">€{{invoice.servicesPrice}}</p>
+          <p class="price">€{{invoice.servicesPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.coffinDetails">
@@ -26,7 +23,7 @@
           <p>Coffin Details: {{invoice.coffinDetails}}</p>
         </div>
         <div class="col-2 entry-div" >
-          <p class="price">€{{invoice.coffinPrice}}</p>
+          <p class="price">€{{invoice.coffinPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.casketCover">
@@ -34,7 +31,7 @@
           <p>Casket Cover:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.casketCoverPrice}}</p>
+          <p class="price">€{{invoice.casketCoverPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.coronerDoctorCert">
@@ -42,7 +39,7 @@
           <p>Coroner/Doctor Cert:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.coronerDoctorCertPrice}}</p>
+          <p class="price"> €{{invoice.coronerDoctorCertPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.cremation">
@@ -50,7 +47,7 @@
           <p>Cremation:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.cremationPrice}}</p>
+          <p class="price"> €{{invoice.cremationPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.urn">
@@ -58,7 +55,7 @@
           <p>Urn:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.urnPrice}}</p>
+          <p class="price"> €{{invoice.urnPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.churchOfferring">
@@ -66,7 +63,7 @@
           <p>Church Offering:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.churchOfferringPrice}}</p>
+          <p class="price"> €{{invoice.churchOfferringPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry " *ngIf="invoice.sacristian">
@@ -74,7 +71,7 @@
           <p>Sacristian:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.sacristianPrice}}</p>
+          <p class="price">€{{invoice.sacristianPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.flowers">
@@ -82,7 +79,7 @@
           <p>Flowers:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.flowersPrice}}</p>
+          <p class="price">€{{invoice.flowersPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.graveOpen">
@@ -90,7 +87,7 @@
           <p>Grave Open:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.graveOpenPrice}}</p>
+          <p class="price">€{{invoice.graveOpenPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.gravePurchaseToCouncil">
@@ -98,7 +95,7 @@
           <p>Grave Purchase to Council:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.gravePurchasePrice}}</p>
+          <p class="price">€{{invoice.gravePurchasePrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.graveMarker">
@@ -106,7 +103,7 @@
           <p>Grave Marker:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.graveMarkerPrice}}</p>
+          <p class="price">€{{invoice.graveMarkerPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.graveMatsTimbers">
@@ -114,15 +111,15 @@
           <p>Grave Mats & Timbers:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.graveMatsTimbersPrice}}</p>
+          <p class="price">€{{invoice.graveMatsTimbersPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.cloths">
         <div class="col-10 entry-div">
-          <p>Cloths:</p>
+          <p>Clothes:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.clothsPrice}}</p>
+          <p class="price">€{{invoice.clothsPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.hairdresser">
@@ -130,7 +127,7 @@
           <p>Hairdresser</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.hairdresserPrice}}</p>
+          <p class="price">€{{invoice.hairdresserPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.radioDeathNotices">
@@ -138,7 +135,7 @@
           <p>Radio Death Notices:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.radioNoticePrice}}</p>
+          <p class="price">€{{invoice.radioNoticePrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.paperDeathNotices">
@@ -146,7 +143,7 @@
           <p>Paper Death Notices:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.paperNoticePrice}}</p>
+          <p class="price">€{{invoice.paperNoticePrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.organist">
@@ -154,7 +151,7 @@
           <p>Organist:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.organistPrice}}</p>
+          <p class="price">€{{invoice.organistPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.soloist">
@@ -162,7 +159,7 @@
           <p>Soloist:</p>
         </div>
         <div class="col-2 entry-div">
-          <p class="price">€{{invoice.soloistPrice}}</p>
+          <p class="price">€{{invoice.soloistPrice | number : '1.2-2'}}</p>
         </div>
       </div>
       <div class="row entry" *ngIf="invoice.otherDetails">
@@ -171,7 +168,7 @@
           <p>{{invoice.otherDetails}}</p>
         </div>
         <div class="col-2">
-          <p class="price">€{{invoice.otherDetailsPrice}}</p>
+          <p class="price">€{{invoice.otherDetailsPrice | number : '1.2-2'}}</p>
         </div>
       </div>
     </div>
@@ -181,7 +178,7 @@
           <p>Total Balance:</p>
         </div>
         <div class="col-2">
-          <p class="price">€{{invoice.totalBalance}}</p>
+          <p class="price">€{{invoice.totalBalance | number : '1.2-2'}}</p>
         </div>
       </div>
     </div>

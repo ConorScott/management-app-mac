@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Cemetery } from './cemetery.model';
 import { CemeteryService } from './cemetery.service';
 import { EditCemetryPage } from './edit-cemetery/edit-cemetery.page';
+import { NewCemetryPage } from './new-cemetery/new-cemetery.page';
 
 @Component({
   selector: 'app-cemetry-list',
@@ -68,6 +69,23 @@ cssClass:'new-donation',
       modalEl.present();
     });
   }
+
+  onAddNew() {
+    this.modalCtrl
+      .create({
+        component: NewCemetryPage,
+        cssClass: 'new-donation'
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          }
+        });
+        modalEl.present();
+      });
+  }
+
   onDeleteEntry(invoiceId: string, event: any) {
     event.stopPropagation();
     this.actionSheetCtrl

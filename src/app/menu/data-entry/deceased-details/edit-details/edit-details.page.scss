@@ -130,3 +130,21 @@ ion-back-button{
   height: 90px;
 
 }
+@media only screen and (max-width: 576px) {
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width:1024px)
+{
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-label{
+    font-size: .875rem;
+  }
+}

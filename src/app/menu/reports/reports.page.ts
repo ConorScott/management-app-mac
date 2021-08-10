@@ -36,7 +36,12 @@ export class ReportsPage implements OnInit {
       {
         label: 'Cash Book',
         link: 'cashbook',
-        index: 3
+        index: 4
+      },
+      {
+        label: 'Tips',
+        link: 'tips',
+        index: 5
       },
     ];
    }

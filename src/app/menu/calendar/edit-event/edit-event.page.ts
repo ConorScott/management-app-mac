@@ -61,12 +61,12 @@ export class EditEventPage implements OnInit {
         .create({
           header: 'An error occurred!',
           message:
-            'Donation information could not be fetched. Please try again later.',
+            'Event information could not be fetched. Please try again later.',
           buttons: [
             {
               text: 'Okay',
               handler: () => {
-                this.router.navigate(['/menu/tabs/reports/donations']);
+                this.router.navigate(['/menu/tabs/calendar']);
               },
             },
           ],

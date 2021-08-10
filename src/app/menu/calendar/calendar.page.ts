@@ -332,6 +332,17 @@ events: Event;
           .subscribe((calendar) => {
             // this.calendar = calendar;
           });
+          } else if(modalData.data.eventData.action === 'dayIn'){
+            this.calendarService
+          .addDayOffEvent(
+            modalData.data.eventData.title + ' Day In Lieu',
+            modalData.data.eventData.start,
+            modalData.data.eventData.end,
+            modalData.data.eventData.color,
+          )
+          .subscribe((calendar) => {
+            // this.calendar = calendar;
+          });
           }
         });
         modalEl.present();

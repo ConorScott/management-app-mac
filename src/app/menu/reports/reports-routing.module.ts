@@ -66,6 +66,14 @@ const routes: Routes = [
         ],
       },
       {
+        path: 'tips',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./tips/tips.module').then( m => m.TipsPageModule)          },
+        ],
+      },
+      {
         path: '',
         redirectTo: '/menu/tabs/reports/payments',
         pathMatch: 'full',

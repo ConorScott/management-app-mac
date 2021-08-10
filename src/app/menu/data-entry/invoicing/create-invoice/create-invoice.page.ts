@@ -47,6 +47,7 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
   form: FormGroup;
 
   selected_port = null;
+  isMobile = false;
   private deceasedSub: Subscription;
   private coffinSub: Subscription;
   private deceasedAddressSub: Subscription;
@@ -62,6 +63,10 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if(window.screen.width < 576)
+    {
+      this.isMobile = true;
+    }
     this.userService.getUserName().subscribe(user => {
       console.log(user);
       user.map(createdBy => {

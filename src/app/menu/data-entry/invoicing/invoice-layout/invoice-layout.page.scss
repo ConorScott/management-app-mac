@@ -27,7 +27,7 @@ h1{
   margin-left: 30%;
 }
 .price{
-  text-align: center;
+  padding-left: 50px;
 }
 .items-group .entry{
   border-top: solid lightgray 1pt;
@@ -38,6 +38,7 @@ h1{
 .entry-div{
   height: 2em;
   line-height: 2em;
+
 }
 @media screen {
   :host {
@@ -56,4 +57,10 @@ h1{
   margin-left: 30%;
   font-size:36px;
 }
+.container{
+  font-family: Helvetica, sans-serif;
+}
+.col-2{
+  text-align: start !important;
 
+}

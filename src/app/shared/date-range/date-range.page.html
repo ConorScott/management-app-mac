@@ -12,17 +12,30 @@
 
     </ion-card-header>
     <ion-card-content>
-      <ion-item>
-        <ion-label class="form-label">Start Date</ion-label>
-        <ion-datetime class="label" displayFormat="DD/MM/YYYY"  [(ngModel)]="startDate"></ion-datetime>
-      </ion-item>
-      <ion-item>
-        <ion-label class="form-label">End Date</ion-label>
-        <ion-datetime class="label" displayFormat="DD/MM/YYYY" [min]="startDate"  [(ngModel)]="endDate"></ion-datetime>
-      </ion-item>
-      <ion-button class="submit-button" type="submit" expand="block" (click)="onSubmitDate()">
-        Submit Dates
-      </ion-button>
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size=10>
+            <ion-item>
+              <ion-label class="form-label">Start Date</ion-label>
+              <ion-datetime class="label" displayFormat="DD/MM/YYYY"  [(ngModel)]="startDate"></ion-datetime>
+            </ion-item>
+          </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label class="form-label">End Date</ion-label>
+          <ion-datetime class="label" displayFormat="DD/MM/YYYY" [min]="startDate"  [(ngModel)]="endDate"></ion-datetime>
+        </ion-item>
+      </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="8">
+          <ion-button class="submit-button" type="submit" expand="block" (click)="onSubmitDate()">
+            Submit Dates
+          </ion-button>
+        </ion-col>
+        </ion-row>
+
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>

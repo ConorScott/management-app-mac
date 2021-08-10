@@ -79,7 +79,7 @@
 
               <div formGroupName="contact">
                 <ion-row>
-                  <ion-col size-md="6" size="6">
+                  <ion-col size-xs="12" size-md="6" size="6">
                     <ion-item lines="none" class="ion-text-start">
                       <ion-label class="form-label">Responsible:</ion-label>
                       <ion-label>{{deceased.contact.responsible}}</ion-label>
@@ -93,7 +93,7 @@
                       <ion-label>{{deceased.contact.phoneNo}}</ion-label>
                     </ion-item>
                   </ion-col>
-                  <ion-col size-md="6" size="6">
+                  <ion-col size-xs="12" size-md="6" size="6">
                     <ion-item lines="none" class="ion-text-start">
                       <ion-label class="form-label">Address Line 1:</ion-label>
                       <ion-label>{{deceased.contact.resAddress1}}</ion-label>
@@ -120,7 +120,7 @@
 
                   <div formGroupName="contact">
                     <ion-row>
-                      <ion-col size-md="6" size="6">
+                      <ion-col size-xs="12" size-md="6" size="6">
                         <ion-item lines="none" class="ion-text-start">
                           <ion-label class="form-label">Contact:</ion-label>
                           <ion-label>{{deceased.contact.responsible2}}</ion-label>
@@ -134,7 +134,7 @@
                           <ion-label>{{deceased.contact.phoneNo2}}</ion-label>
                         </ion-item>
                       </ion-col>
-                      <ion-col size-md="6" size="6">
+                      <ion-col size-xs="12" size-md="6" size="6">
                         <ion-item lines="none" class="ion-text-start">
                           <ion-label class="form-label">Address Line 1:</ion-label>
                           <ion-label>{{deceased.contact.resAddress12}}</ion-label>
@@ -161,7 +161,7 @@
               </ion-card-header>
 
                     <ion-row>
-                      <ion-col size-md="6" size="6">
+                      <ion-col size-xs="12" size-md="6" size="6">
                         <ion-item lines="none" class="ion-text-start">
                           <ion-label class="form-label">Doctor:</ion-label>
                           <ion-label>{{deceased.doctor}}</ion-label>
@@ -177,10 +177,10 @@
                 <ion-card-subtitle class="card-title">Funeral Information</ion-card-subtitle>
               </ion-card-header>
               <ion-row>
-                <ion-col size-md="6" size="6">
+                <ion-col size-xs="12" size-md="6" size="6">
                   <ion-item lines="none" class="ion-text-start">
-                    <ion-label class="form-label">Church:</ion-label>
-                    <ion-label>{{deceased.church}}</ion-label>
+                    <ion-label class="form-label ">Church:</ion-label>
+                    <ion-label class="ion-text-wrap">{{deceased.church}}</ion-label>
                   </ion-item>
                   <ion-item lines="none" class="ion-text-start">
                     <ion-label class="form-label">Cemetery:</ion-label>
@@ -188,7 +188,7 @@
                   </ion-item>
                   <ion-item lines="none" class="ion-text-start">
                     <ion-label class="form-label">Grave Details:</ion-label>
-                    <ion-label>{{deceased.grave}}</ion-label>
+                    <ion-label class="ion-text-wrap">{{deceased.grave}}</ion-label>
                   </ion-item>
                   <ion-item lines="none" class="ion-text-start">
                     <ion-label class="form-label">Clergy:</ion-label>
@@ -203,7 +203,7 @@
                     <ion-label>{{deceased.reposeTime | date: "shortTime"}}</ion-label>
                   </ion-item>
                 </ion-col>
-                <ion-col size-md="6" size="6">
+                <ion-col size-xs="12" size-md="6" size="6">
 
                   <ion-item lines="none" class="ion-text-start">
                     <ion-label class="form-label">Removal Date:</ion-label>
@@ -232,7 +232,7 @@
                 </ion-col>
               </ion-row>
               <ion-row>
-                <ion-col size="6">
+                <ion-col size-xs="12" size-lg="6" size-md="6">
                   <ion-item lines="none" class="ion-text-start">
                     <ion-label class="form-label">Created By User:</ion-label>
                     <ion-label>{{deceased.createdBy}}</ion-label>
@@ -240,9 +240,14 @@
                 </ion-col>
               </ion-row>
                   <ion-row>
-                    <ion-col size="12" size-md="6" size-lg="3">
+                    <ion-col size="6" size-md="6" size-lg="3">
                       <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="onEdit(deceased.id)">
                         Edit Information
+                      </ion-button>
+                    </ion-col>
+                    <ion-col size="6" size-md="6" size-lg="3">
+                      <ion-button class="new-entry-button" color="danger" type="submit" expand="block" (click)="onDeleteEntry(deceased.id)">
+                        Delete Information
                       </ion-button>
                     </ion-col>
                   </ion-row>

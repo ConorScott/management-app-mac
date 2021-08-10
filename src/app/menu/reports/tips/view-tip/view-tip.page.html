@@ -1,0 +1,65 @@
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+  <!-- <div *ngIf="isLoading"> -->
+    <ion-card *ngIf="!isLoading">
+      <ion-card-header>
+        <ion-item lines="none">
+          <ion-label class="card-title" >
+            Tip Information
+          </ion-label>
+          <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+        </ion-item>
+
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+        <ion-item>
+          <ion-label class="form-label">Entry Date:</ion-label>
+          <ion-label class="label"> {{tips.entryDate | date: 'dd/MM/YYYY'}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Entry Amount: </ion-label>
+          <ion-label class="label">€{{tips.entryAmount}}</ion-label>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="stacked" class="form-label-desc">Entry Description: </ion-label>
+          <ion-textarea class="label-desc">{{tips.entryDesc}}</ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Payee Name:</ion-label>
+          <ion-label class="label"> {{tips.payeeName}}</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="tips.paymentDate">
+          <ion-label  class="form-label">Payment Date:</ion-label>
+          <ion-label class="label"> {{tips.paymentDate | date: 'dd/MM/YYYY'}}</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="!tips.paymentDate">
+          <ion-label class="form-label">Payment Date:</ion-label>
+          <ion-label class="label no-payment-date">No payment date provided!</ion-label>
+        </ion-item>
+        <ion-row class="ion-justify-content-center">
+        <ion-col  *ngIf="!tips.paymentDate" size-lg="8">
+          <ion-button class="submit-button" type="submit" expand="block" (click)="onEditDonation()">
+            Add Payment Date
+          </ion-button>
+        </ion-col>
+        <ion-col *ngIf="tips.paymentDate" size-lg="6">
+          <ion-button class="submit-button" type="submit" expand="block" (click)="onEditDonation()">
+            Edit Entry
+          </ion-button>
+        </ion-col>
+        <ion-col *ngIf="tips.paymentDate" size-lg="6">
+          <ion-button class="submit-button" color="danger" type="submit" expand="block" (click)="onDeleteDonation()">
+            Delete Entry
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  <!-- </div> -->
+</ion-content>

@@ -12,6 +12,7 @@ import { CemeteryService } from '../cemetery.service';
 export class NewCemetryPage implements OnInit {
 
   form: FormGroup;
+  modal: HTMLIonModalElement;
 
   constructor(
     private cemeteryService: CemeteryService,
@@ -42,9 +43,14 @@ export class NewCemetryPage implements OnInit {
         ).subscribe(() => {
           loadingEl.dismiss();
           this.form.reset();
+          this.modal.dismiss();
         });
       });
 
+  }
+
+  onCancel(){
+    this.modal.dismiss(null, 'cancel');
   }
 
 

@@ -44,9 +44,9 @@ ion-toolbar {
   font-weight: 600;
   font-size: .875rem;
 }
-.col-border{
-  border-right: 1px solid rgba(0,0,0,.1);
-}
+// .col-border{
+//   border-right: 1px solid rgba(0,0,0,.1);
+// }
 .form-input{
   font-size: .875rem;
     transition: all 1.15s ease-in-out;
@@ -97,4 +97,41 @@ ion-title{
 }
 ion-back-button{
   color:white;
+}
+ion-col{
+  margin-left: 0px !important;
+}
+@media only screen and (max-width: 576px) {
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-label{
+    font-size: .875rem;
+  }
+  .price-input ion-item::part(native){
+    --padding-start: 20px !important;
+  }
+  .col-border{
+    border-right: none;
+  }
+
+}
+@media only screen and (min-width: 768px) and (max-width:1024px)
+{
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-label{
+    font-size: .875rem;
+  }
+  .col-border{
+    border-right: none;
+  }
+  ion-col{
+    margin-left: 0px !important;
+  }
 }

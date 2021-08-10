@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Church } from './church.model';
 import { ChurchService } from './church.service';
 import { EditChurchPage } from './edit-church/edit-church.page';
+import { NewChurchPage } from './new-church/new-church.page';
 
 @Component({
   selector: 'app-church-list',
@@ -55,6 +56,23 @@ export class ChurchListPage implements OnInit, OnDestroy {
   //   ]);
   //   console.log('Editing item', churchId);
   // }
+
+  onAddNew() {
+    this.modalCtrl
+      .create({
+        component: NewChurchPage,
+        cssClass: 'new-donation'
+      })
+      .then((modalEl) => {
+        modalEl.onDidDismiss().then((modalData) => {
+          if (!modalData.data) {
+            return;
+          }
+        });
+        modalEl.present();
+      });
+  }
+
   onDeleteEntry(churchId: string) {
     this.actionSheetCtrl
       .create({

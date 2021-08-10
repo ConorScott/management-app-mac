@@ -1,0 +1,146 @@
+p {
+  font-size: 16px;
+}
+.ion-label {
+  font-size: 0.875rem;
+  padding: 12px 24px;
+}
+.name {
+  color: #525f7f;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.ion-item {
+  font-size: 14px;
+  cursor: pointer;
+}
+ion-item{
+  --ion-item-background:white;
+  border-radius: 8px;
+}
+ion-col{
+  padding: 10px;
+}
+ion-grid{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.payment-grid{
+  padding: 0;
+}
+ion-card-content{
+  padding: 0;
+}
+ion-grid{
+  padding: 0;
+}
+ion-card{
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -30px;
+  box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
+  border-radius: 0.375rem;
+}
+ion-card-header{
+  padding-bottom: 0px;
+}
+ion-toolbar {
+  --ion-toolbar-background: rgba(0, 0, 0, 0.0);
+  --ion-toolbar-color: #1b3a57;
+}
+ion-item ion-label{
+  font-size:14px;
+}
+.form-label{
+  color: #525f7f;
+  font-weight: 600;
+  font-size: .875rem;
+  min-width: 60%;
+    max-width: 60%;
+}
+.hr{
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,.1);
+  margin-left: 1.8em;
+  margin-right: 1.8em;
+}
+.entry-label{
+  margin-bottom: 1.375rem;
+
+  color: #525f7f;
+  font-weight: 600;
+  font-size: .875rem;
+}
+.entry-textarea{
+  font-size: .850rem;
+}
+ion-segment{
+  justify-content: start;
+  width: 50%;
+}
+ion-segment-button::part(native){
+
+}
+ion-list {
+  padding-bottom: 0px;
+}
+
+.list-item::part(native) {
+  padding-inline-start: 0px;
+}
+.th {
+  --background: #f6f9fc;
+  line-height: 0.5;
+  ion-label {
+    color: #8898aa;
+    font-weight: 400;
+  }
+}
+.card-details {
+  padding: 0;
+}
+.button-round {
+  --padding-start: 1em;
+  --padding-end: 1em;
+}
+ion-segment{
+  margin-bottom: 30px;
+}
+.viewport {
+  height: 380px;
+  width: 100%;
+
+  box-shadow: 1px 1px 1px grey;
+}
+.virtualScroll {
+  display: flex;
+  align-self: center;
+}
+ion-icon:hover {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.5);
+  transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  -ms-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -webkit-transition: all 300ms ease;
+}
+.header{
+  background-color: #3880ff;
+  height: 60px;
+  border-radius: 0px 0px 20px 20px;
+}
+.no-date{
+  font-size: 0.875rem;
+  padding: 12px 24px;
+  color: #eb445a;
+  font-weight: 600;
+  font-size: 0.875rem;
+}

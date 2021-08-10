@@ -5,8 +5,7 @@
   </div>
 
   <ion-grid>
-    <ion-row>
-      <ion-col size-lg="8" size-sm="12">
+
         <ion-card>
           <ion-card-header>
             <ion-card-subtitle class="card-title">Cemetery List</ion-card-subtitle>
@@ -17,6 +16,12 @@
 
                 <ion-col size="8">
                   <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+                </ion-col>
+                <ion-col size="4" class="ion-align-self-center">
+                  <ion-button class="new-entry-button" (click)="onAddNew()">
+                    <ion-icon slot="start" name="add-outline"></ion-icon>
+                    New Entry
+                  </ion-button>
                 </ion-col>
               </ion-row>
               <ion-row>
@@ -37,7 +42,7 @@
                     </div>
                     <div class="virtualScroll">
                     <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && cemetery.length > 0">
-                    <ion-item *cdkVirtualFor="let cemetery of filtered" class="ion-item list-item">
+                    <ion-item *cdkVirtualFor="let cemetery of filtered.reverse()" class="ion-item list-item">
                       <ion-label class="ion-label name">{{cemetery.cemeteryName}}</ion-label>
                       <ion-icon name="create" color="primary" (click)="onEdit(cemetery.id)"></ion-icon>
                       <ion-icon name="trash" color="danger" (click)="onDeleteEntry(cemetery.id, $event)"></ion-icon>
@@ -51,10 +56,6 @@
             </ion-grid>
           </ion-card-content>
         </ion-card>
-      </ion-col>
-      <ion-col size-lg="4" size-sm="12">
-        <app-new-cemetry></app-new-cemetry>
-      </ion-col>
-    </ion-row>
+
   </ion-grid>
 </ion-content>

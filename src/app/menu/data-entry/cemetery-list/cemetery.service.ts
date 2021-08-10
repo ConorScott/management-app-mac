@@ -73,7 +73,7 @@ export class CemeteryService {
             cemetery.push(new Cemetery(key, resData[key].cemeteryName));
           }
         }
-        return cemetery.reverse();
+        return cemetery;
       }),
       tap((cemetery) => {
         this._cemetery.next(cemetery);

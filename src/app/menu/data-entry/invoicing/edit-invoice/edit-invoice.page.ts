@@ -24,6 +24,7 @@ export class EditInvoicePage implements OnInit, OnDestroy {
   form: FormGroup;
   isLoading = false;
   coffin: Coffin[];
+  isMobile = false;
   private invoiceSub: Subscription;
   private coffinSub: Subscription;
 
@@ -39,6 +40,10 @@ export class EditInvoicePage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if(window.screen.width < 576)
+    {
+      this.isMobile = true;
+    }
     this.coffinSub = this.coffinService.coffin.subscribe((coffin) => {
       this.coffin = coffin;
       this.coffin.map((coffins) => {

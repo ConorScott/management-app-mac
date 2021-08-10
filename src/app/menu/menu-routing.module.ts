@@ -84,14 +84,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/menu/tabs/debtors',
+        redirectTo: '/menu/tabs/data-entry/deceased',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/menu/tabs/debtors',
+    redirectTo: '/menu/tabs/data-entry/deceased',
     pathMatch: 'full'
   },
   {

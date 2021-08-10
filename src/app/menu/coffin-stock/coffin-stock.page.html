@@ -49,7 +49,7 @@
                     </div>
                     <div class="virtualScroll">
                     <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && coffin.length > 0">
-                      <ion-item *cdkVirtualFor="let coffin of filtered" class="ion-item list-item">
+                      <ion-item *cdkVirtualFor="let coffin of filtered.reverse()" class="ion-item list-item">
                         <ion-label class="ion-label name">{{coffin.coffinName}}</ion-label>
                         <ion-label class="ion-label">{{coffin.stockLevel}}</ion-label>
                         <ion-icon name="create" color="primary" (click)="onEdit(coffin.id)"></ion-icon>

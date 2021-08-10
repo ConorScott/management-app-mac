@@ -130,3 +130,30 @@ ion-back-button{
 .alert-wrapper{
   --max-width: 35%;
 }
+@media only screen and (max-width: 576px) {
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-label{
+    font-size: .875rem;
+  }
+  ion-col{
+    padding:0px;
+  }
+  .contact{
+    padding-left:20px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width:1024px)
+{
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-label{
+    font-size: .875rem;
+  }
+}

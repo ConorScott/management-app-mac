@@ -79,7 +79,7 @@ export class ChurchService {
               );
             }
           }
-          return church.reverse();
+          return church;
         }),
         tap((church) => {
           this._church.next(church);

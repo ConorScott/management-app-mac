@@ -32,7 +32,7 @@
           <ion-col size="5" >
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Start Date</ion-label>
-              <ion-datetime class="form-input-date" type="text" placeholder="Start Date" formControlName="start"></ion-datetime>
+              <ion-datetime class="form-input-date" type="text" placeholder="Start Date" formControlName="start" #start></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col size="5" >
@@ -44,7 +44,7 @@
           <ion-col size="5">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">End Date</ion-label>
-              <ion-datetime class="form-input-date" type="text" placeholder="End Date" formControlName="end"></ion-datetime>
+              <ion-datetime class="form-input-date" type="text" placeholder="End Date" formControlName="end" [min]="form.controls['start'].value"></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col size="5">
@@ -62,6 +62,12 @@
 
         </ion-row>
         <ion-row class="ion-justify-content-center" *ngIf="dayOff.checked">
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="fixed" class="card-title">Day In Lieu</ion-label>
+              <ion-checkbox name="dayIn" #dayIn></ion-checkbox>
+            </ion-item>
+          </ion-col>
 
           <ion-col size="10">
             <ion-item lines="none">
@@ -79,18 +85,24 @@
           <ion-col size="10">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Return Date</ion-label>
-              <ion-datetime class="form-input-date" type="text" placeholder="End Date" formControlName="end"></ion-datetime>
+              <ion-datetime class="form-input-date" type="text" placeholder="End Date" formControlName="end" [min]="form.controls['start'].value"></ion-datetime>
             </ion-item>
+          </ion-col>
+          <ion-col size="8" *ngIf="dayOff.checked && dayIn.checked">
+            <ion-button [disabled]="!form.valid"  class="submit-button" type="submit" expand="block" (click)="addEventDayOff('dayIn')">
+              Submit
+            </ion-button>
+          </ion-col>
+          <ion-col size="8" *ngIf="dayOff.checked && !dayIn.checked">
+            <ion-button [disabled]="!form.valid" class="submit-button" type="submit" expand="block" (click)="addEventDayOff('dayOff')">
+              Submit
+            </ion-button>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-      <ion-col size="8" *ngIf="dayOff.checked">
-        <ion-button class="submit-button" type="submit" expand="block" (click)="addEventDayOff()">
-          Submit
-        </ion-button>
-      </ion-col>
+
       <ion-col size="8" *ngIf="!dayOff.checked">
-        <ion-button class="submit-button" type="submit" expand="block" (click)="addEvent()">
+        <ion-button [disabled]="!form.valid"  class="submit-button" type="submit" expand="block" (click)="addEvent()">
           Submit
         </ion-button>
       </ion-col>

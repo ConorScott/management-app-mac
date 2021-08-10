@@ -34,6 +34,6 @@ import { BalanceRangePage } from './balance-range/balance-range.page';
   ],
   imports: [CommonModule, IonicModule,FormsModule, ReactiveFormsModule],
   exports: [PaymentModalComponent, HeaderPage, DateRangePage, ReceiptLayoutPage, ViewReceiptLayoutPage, BalanceRangePage],
-  entryComponents: [PaymentModalComponent]
+  entryComponents: [PaymentModalComponent, DateRangePage]
 })
 export class SharedModule {}

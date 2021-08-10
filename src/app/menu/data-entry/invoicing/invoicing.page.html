@@ -4,18 +4,27 @@
   </div>
   <ion-card>
     <ion-card-header>
-      <ion-item lines="none">
         <ion-card-subtitle class="card-title">Invoice List</ion-card-subtitle>
 
-      </ion-item>
+
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col size="8">
-            <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+          <ion-col size-xs="12" size-md="8" *ngIf="searchbarOpened">
+            <ion-searchbar  *ngIf="searchbarOpened" showCancelButton="true" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true" (ionCancel)="searchbarOpened=false"></ion-searchbar>
+
           </ion-col>
-          <ion-col size="4" class="ion-align-self-center">
+          <ion-col size-lg="8" size-md="7" size-xs="4" class="ion-align-self-center">
+            <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
+            <ion-buttons *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search">
+              <ion-button class="search-icon">
+                <ion-icon name="search"></ion-icon>
+                Search Name
+              </ion-button>
+            </ion-buttons>
+          </ion-col>
+          <ion-col size-lg="4" size-md="5" size-xs="8"  class="col-buttons ion-align-self-center" *ngIf="!searchbarOpened">
             <ion-button (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates

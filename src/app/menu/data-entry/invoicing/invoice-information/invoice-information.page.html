@@ -51,127 +51,151 @@
           <ion-row>
             <ion-col size="12" size-md="6" size-lg="8">
               <ion-item lines="none">
-                <ion-label class="entry-label" position="floating">Services</ion-label>
+                <ion-label class="entry-label" position="stacked">Services</ion-label>
                 <p class="entry-textarea">{{invoice.services}}</p>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4">
+            <ion-col size="12" size-xs="8" size-md="4" size-lg="4">
               <ion-item lines="none">
                 <ion-label class="form-label">Services Price:</ion-label>
-                <p >€{{invoice.servicesPrice}}</p>
+                <p >€{{invoice.servicesPrice | number : '1.2-2'}}</p>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row >
-            <ion-col size-md="6" size="6" *ngIf="invoice.coffinDetails">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.coffinDetails">
               <ion-item lines="none" class="ion-text-start">
                 <ion-label class="form-label">Coffin:</ion-label>
-                <ion-label>€{{invoice.coffinPrice}}</ion-label>
+                <ion-label>€{{invoice.coffinPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.casketCover">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.casketCover">
               <ion-item lines="none" class="ion-text-start">
                 <ion-label class="form-label">Casket Cover:</ion-label>
-                <ion-label>€{{invoice.casketCoverPrice}}</ion-label>
+                <ion-label>€{{invoice.casketCoverPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.churchOfferring">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.coronerDoctorCert">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Coroner/Doctor Cert:</ion-label>
+                <ion-label>€{{invoice.coronerDoctorCertPrice | number : '1.2-2'}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.cremation">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Cremation:</ion-label>
+                <ion-label>€{{invoice.cremationPrice | number : '1.2-2'}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.urn">
+              <ion-item lines="none" class="ion-text-start">
+                <ion-label class="form-label">Urn:</ion-label>
+                <ion-label>€{{invoice.urnPrice | number : '1.2-2'}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.churchOfferring">
               <ion-item lines="none" class="ion-text-start">
                 <ion-label class="form-label">Church Offerring:</ion-label>
-                <ion-label>€{{invoice.churchOfferringPrice}}</ion-label>
+                <ion-label>€{{invoice.churchOfferringPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.sacristianPrice">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.sacristianPrice">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Sacristian:</ion-label>
-                <ion-label>€{{invoice.sacristianPrice}}</ion-label>
+                <ion-label>€{{invoice.sacristianPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.flowersPrice">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.flowersPrice">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Flowers:</ion-label>
-                <ion-label>€{{invoice.flowersPrice}}</ion-label>
+                <ion-label>€{{invoice.flowersPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.graveOpenPrice">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.graveOpenPrice">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Grave Open:</ion-label>
-                <ion-label>€{{invoice.graveOpenPrice}}</ion-label>
+                <ion-label>€{{invoice.graveOpenPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.gravePurchasePrice">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.gravePurchasePrice">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Grave Purchase to Council:</ion-label>
-                <ion-label>€{{invoice.gravePurchasePrice}}</ion-label>
+                <ion-label>€{{invoice.gravePurchasePrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.graveMarker">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.graveMarker">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Grave Marker:</ion-label>
-                <ion-label>€{{invoice.graveMarkerPrice}}</ion-label>
+                <ion-label>€{{invoice.graveMarkerPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.graveMatsTimbers">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.graveMatsTimbers">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Grave Mats Timbers:</ion-label>
-                <ion-label>€{{invoice.graveMatsTimbersPrice}}</ion-label>
+                <ion-label>€{{invoice.graveMatsTimbersPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.cloths">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.cloths">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Cloths:</ion-label>
-                <ion-label>€{{invoice.clothsPrice}}</ion-label>
+                <ion-label class="form-label">Clothes:</ion-label>
+                <ion-label>€{{invoice.clothsPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.radioDeathNotices">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.hairdresser">
+              <ion-item lines="none" class="ion-text-start" >
+                <ion-label class="form-label">Hairdresser</ion-label>
+                <ion-label>€{{invoice.hairdresserPrice | number : '1.2-2'}}</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.radioDeathNotices">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Radio Death Notices:</ion-label>
-                <ion-label>€{{invoice.radioNoticePrice}}</ion-label>
+                <ion-label>€{{invoice.radioNoticePrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.paperDeathNotices">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.paperDeathNotices">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Paper Death Notice:</ion-label>
-                <ion-label>€{{invoice.paperNoticePrice}}</ion-label>
+                <ion-label>€{{invoice.paperNoticePrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.organist">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.organist">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Organist:</ion-label>
-                <ion-label>€{{invoice.organistPrice}}</ion-label>
+                <ion-label>€{{invoice.organistPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size="6" *ngIf="invoice.soloist">
+            <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.soloist">
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="form-label">Soloist:</ion-label>
-                <ion-label>€{{invoice.soloistPrice}}</ion-label>
+                <ion-label>€{{invoice.soloistPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row *ngIf="invoice.otherDetailsPrice">
-            <ion-col size="12" size-md="6" size-lg="8" *ngIf="invoice.otherDetailsPrice">
+            <ion-col size-xs="12" size="12" size-md="6" size-lg="8" *ngIf="invoice.otherDetailsPrice">
               <ion-item lines="none">
                 <ion-label position="floating" class="entry-label">Other Details</ion-label>
                 <p class="entry-textarea">{{invoice.otherDetails}}</p>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="4">
+            <ion-col size-xs="12" size="12" size-md="6" size-lg="4">
               <ion-item lines="none">
                 <ion-label class="form-label">Other Details Price:</ion-label>
-                <p >€{{invoice.otherDetailsPrice}}</p>
+                <p >€{{invoice.otherDetailsPrice | number : '1.2-2'}}</p>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row *ngIf="invoice.totalBalance">
-            <ion-col size-md="6" size="6" >
+            <ion-col size-xs="12" size-md="6" size="6" >
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="total-balance">Total Balance:</ion-label>
-                <ion-label class="ion-text-start">€{{invoice.totalBalance}}</ion-label>
+                <ion-label class="ion-text-start">€{{invoice.totalBalance | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="6">
+            <ion-col size-xs="12" size-md="6" size="6">
               <ion-item lines="none" class="ion-text-start">
                 <ion-label class="form-label">Created By User:</ion-label>
                 <ion-label>{{invoice.createdBy}}</ion-label>

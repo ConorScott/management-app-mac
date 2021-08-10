@@ -14,10 +14,12 @@ export class ViewEventPage implements OnInit {
   @Input() end: string;
   @Input() allDay: boolean;
   desc: string;
+  returnDate: Date;
   eventDesc: string;
   modal: HTMLIonModalElement;
   dayOff = false;
   dayOffDesc = 'Day Off';
+  dayIn = 'Day In Lieu';
 
 
   constructor(private modalCtrl: ModalController, private calendarService: CalendarService) { }
@@ -27,6 +29,12 @@ export class ViewEventPage implements OnInit {
     this.calendarService.getEventEdit(this.eventId).subscribe(event => {
       console.log(event);
       this.desc = event.desc;
+
+      if(this.allDay === true){
+        this.returnDate = new Date(event.end);
+      this.returnDate.setHours(this.returnDate.getHours() + 1);
+      console.log(this.returnDate);
+      }
     });
     if(this.allDay === true){
       this.dayOff = true;

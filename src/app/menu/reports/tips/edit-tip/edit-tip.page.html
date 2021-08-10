@@ -1,0 +1,58 @@
+<form [formGroup]="form" *ngIf="!isLoading">
+  <ion-card>
+    <ion-card-header>
+      <ion-item lines="none">
+        <ion-label class="card-title" >
+          Edit Entry
+        </ion-label>
+        <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+      </ion-item>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="10">
+            <div *ngIf="isLoading" class="ion-text-center">
+              <ion-spinner color="primary"></ion-spinner>
+            </div>
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Entry Date</ion-label>
+              <ion-datetime class="form-input-date" type="text" placeholder="Entry Date" formControlName="entryDate"></ion-datetime>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked" [ngClass]="tips.paymentDate != null ? 'form-label' : 'form-label no-date'">Payment Date</ion-label>
+              <ion-datetime class="form-input-date" type="text" placeholder="Payment Date" formControlName="paymentDate"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Entry Amount</ion-label>
+              <ion-input class="form-input" type="number" placeholder="Entry Amount" formControlName="entryAmount"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Entry Description</ion-label>
+              <ion-textarea rows="5" class="form-input" type="text" placeholder="Entry Description" formControlName="entryDesc"></ion-textarea>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Name</ion-label>
+              <ion-input class="form-input" type="text" placeholder="Name" formControlName="payeeName"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+      <ion-col size="8">
+        <ion-button class="submit-button" type="submit" expand="block" (click)="onUpdateDonation()">
+          Submit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</form>

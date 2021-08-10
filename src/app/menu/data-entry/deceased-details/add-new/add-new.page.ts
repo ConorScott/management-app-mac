@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CalendarService } from 'src/app/menu/calendar/calendar.service';
 import { CashbookService } from 'src/app/menu/reports/cashbook/cashbook.service';
+import { TipsService } from 'src/app/menu/reports/tips/tips.service';
 import { UserService } from 'src/app/menu/users/user.service';
 import { Cemetery } from '../../cemetery-list/cemetery.model';
 import { CemeteryService } from '../../cemetery-list/cemetery.service';
@@ -48,6 +49,7 @@ export class AddNewPage implements OnInit {
   listType = 'standard';
   userId: string;
   userName: string;
+  sacristanSligo: string;
   private churchSub: Subscription;
   private cemeterySub: Subscription;
 
@@ -57,10 +59,10 @@ export class AddNewPage implements OnInit {
     private deceasedService: DeceasedService,
     private cemeteryService: CemeteryService,
     private churchService: ChurchService,
-    private calendarService: CalendarService,
+    private tipService: TipsService,
     private authService: AuthService,
     private userService: UserService,
-    private cashbookService: CashbookService
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
@@ -246,12 +248,22 @@ export class AddNewPage implements OnInit {
 
   onCreateEntry() {
     // this.reposeDate();
+    console.log(this.sacristanSligo);
+    console.log(this.form.value.church);
     if(this.form.value.cemetery === 'Sligo Cemetery'){
-      this.cashbookService.addGraveDiggerPayment(this.createdAt, this.form.value.deceasedName, this.form.value.cemetery).subscribe();
+      this.tipService.addGraveDiggerPaymentBrian(this.createdAt, this.form.value.deceasedName, this.form.value.cemetery).subscribe();
+      this.tipService.addGraveDiggerPaymentTerry(this.createdAt, this.form.value.deceasedName, this.form.value.cemetery).subscribe();
+
+    }
+    if(this.form.value.church === 'The Cathedral of The Immaculate Conception, Sligo'){
+      console.log('success');
+      console.log(this.sacristanSligo);
+      this.tipService.addSligoCathedralPayment(this.createdAt, this.sacristanSligo).subscribe();
     }
     if(this.form.value.church === 'St. Anne’s Church Sligo'){
-      this.cashbookService.addSacristanPayment(this.createdAt,).subscribe();
+      this.tipService.addSacristanPayment(this.createdAt).subscribe();
     }
+
     this.loadingCtrl
       .create({
         message: 'Creating Entry',
@@ -294,6 +306,38 @@ export class AddNewPage implements OnInit {
             this.router.navigate(['/menu/tabs/data-entry/deceased']);
           });
       });
+  }
+
+  async churchSelect(event){
+  console.log(event.detail.value);
+  if(event.detail.value === 'The Cathedral of The Immaculate Conception, Sligo'){
+    const alert = await this.alertCtrl.create({
+      header: 'Select Sacristan',
+      inputs: [
+        {
+          type: 'radio',
+          label: 'Ray Murtagh',
+          value: 'Ray Murtagh',
+        },
+        {
+          type: 'radio',
+          label: 'Kieran Maughan',
+          value: 'Kieran Maughan',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Submit',
+          handler: (data: any) => {
+            this.sacristanSligo = data;
+            console.log(this.sacristanSligo);
+          }
+        }
+      ]
+    });
+    await alert.present();
+
+  }
   }
 
   listTypeChange(event) {

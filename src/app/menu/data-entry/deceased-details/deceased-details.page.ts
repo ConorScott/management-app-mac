@@ -23,6 +23,7 @@ export class DeceasedDetailsPage implements OnInit, OnDestroy {
   isLoading = false;
   filterSelected = false;
   filteredDeceased: Deceased[];
+  searchbarOpened = false;
   private deceasedSub: Subscription;
 
   constructor(

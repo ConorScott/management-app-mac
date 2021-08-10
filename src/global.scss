@@ -63,7 +63,14 @@
  background-color: transparent;
  box-shadow: none;
 }
-
+.new-tip{
+  --height:100%;
+  --background-color: transparent;
+}
+.new-tip .modal-wrapper{
+  background-color: transparent;
+  box-shadow: none;
+ }
 .event-modal{
   --border-radius: 10px;
   --width: 38%;
@@ -71,7 +78,7 @@
 .new-filter-button{
   border-color: #fff;
   color: #3880ff;
-    box-shadow: 0, 4px, 6px rgb(50, 50, 93 / 0.11), 0, 1px, 3px rgb(0, 0, 0 / 0.08);
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
     border-radius: .25rem;
     font-size: .75em;
     font-weight:600;
@@ -150,6 +157,37 @@
     transform: translateY(-1px);
 
 }
+.custom-payee .alert-wrapper .alert-input-group .alert-input{
+  font-size: .875rem;
+    transition: all 1.15s ease-in-out;
+    height: calc(1.5em + 1.25rem + 5px);
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    box-shadow: 0 3px 2px rgba(233, 236, 239, 0.05);
+    width:100%;
+    font-weight: 500;
+    line-height: 1.5;
+    --placeholder-font-weight:500;
+    --padding-start:.625rem;
+    --font-weight: 500;
+    padding:.625rem;
+
+}
+.custom-payee .alert-wrapper .alert-input-group{
+  padding-top:0px;
+    padding-bottom:0px;
+
+}
+
+.custom-payee .alert-wrapper .alert-head .alert-title{
+  color: #525f7f;
+  margin-bottom: .8rem;
+  font-weight: 600;
+  font-size: .875rem;
+}
+.custom-payee .alert-wrapper .alert-head{
+  padding-bottom: 0px;
+}
 @media screen and (max-width: 767px){
   ion-searchbar .searchbar-input-container input::placeholder {
     font-size: 14px;
@@ -160,4 +198,12 @@
 }
 .ionic-selectable-modal span{
 color:white;
+}
+@media only screen and (max-width: 576px) {
+  .card-title {
+    font-size: .875rem;
+    font-weight: 600;
+    color: #32325d;
+    margin-bottom:0px;
+}
 }

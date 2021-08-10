@@ -36,6 +36,7 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
   isLoading = false;
   segment = 'information';
   title = 'Debtor Information';
+  isMobile = false;
   private debtorSub: Subscription;
   private paymentSub: Subscription;
   private receiptSub: Subscription;
@@ -53,6 +54,10 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if(window.screen.width < 576)
+    {
+      this.isMobile = true;
+    }
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('debtorId')) {
         this.navCtrl.navigateBack('/menu/tabs/debtors');

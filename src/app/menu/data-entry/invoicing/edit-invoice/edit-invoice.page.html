@@ -42,21 +42,21 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="10.6" class="ion-align-self-end">
+            <ion-col size="12" size-md="9" size-lg="10.6" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="form-label" position="stacked">Services</ion-label>
                 <ion-textarea rows="5" class="form-input" formControlName="services"></ion-textarea>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.4" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="7" size-md="2" offset-md="1" size-lg="1.4" class="ion-align-self-end price-input">
               <ion-item lines="none">
-
+                <ion-label *ngIf="isMobile" class="form-label">Services Price:</ion-label>
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="servicesPrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Coffin</ion-label>
                 <ion-select class="form-input-select" placeholder="{{invoice.coffinDetails}}" formControlName="coffinDetails" okText="Okay" cancelText="Dismiss">
@@ -64,227 +64,227 @@
                 </ion-select>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="coffinPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Casket cover</ion-label>
                 <ion-checkbox formControlName="casketCover"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="casketCoverPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Coroner/Doctor Cert</ion-label>
                 <ion-checkbox formControlName="coronerDoctorCert"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="coronerDoctorCertPrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Cremation</ion-label>
                 <ion-checkbox formControlName="cremation"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="cremationPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Urn</ion-label>
                 <ion-checkbox formControlName="urn"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="urnPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Church Offering</ion-label>
                 <ion-checkbox formControlName="churchOfferring"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="churchOfferringPrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Sacristian</ion-label>
                 <ion-checkbox formControlName="sacristian"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="churchOfferringPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Flowers</ion-label>
                 <ion-checkbox formControlName="flowers"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="flowersPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Grave Open</ion-label>
                 <ion-checkbox formControlName="graveOpen"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="graveOpenPrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Grave Purchase</ion-label>
                 <ion-checkbox formControlName="gravePurchaseToCouncil"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="gravePurchasePrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Grave Marker</ion-label>
                 <ion-checkbox formControlName="graveMarker"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="graveMarkerPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Grave Mats Timbers</ion-label>
                 <ion-checkbox formControlName="graveMatsTimbers"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="graveMatsTimbersPrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
-                <ion-label class="checkbox-label">Cloths</ion-label>
+                <ion-label class="checkbox-label">Clothes</ion-label>
                 <ion-checkbox formControlName="cloths"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="clothsPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Hairdresser</ion-label>
                 <ion-checkbox formControlName="hairdresser"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="hairdresserPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Radio Death Notices</ion-label>
                 <ion-checkbox formControlName="radioDeathNotices"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="radioNoticePrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Paper Death Notice</ion-label>
                 <ion-checkbox formControlName="paperDeathNotices"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="paperNoticePrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Organist</ion-label>
                 <ion-checkbox formControlName="organist"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end col-border price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end col-border price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="organistPrice"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="2.7" class="ion-align-self-end">
+            <ion-col size="12" size-xs="7" size-md="6" size-lg="2.7" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="checkbox-label">Soloist</ion-label>
                 <ion-checkbox formControlName="soloist"></ion-checkbox>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.3" class="ion-align-self-end price-input">
+            <ion-col size="12" size-xs="3" size-md="2" offset-md="1" size-lg="1.3" class="ion-align-self-end price-input">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="soloistPrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="10.6" class="ion-align-self-end">
+            <ion-col size="12" size-md="9" size-lg="10.6" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label class="form-label" position="stacked">Other Details</ion-label>
                 <ion-textarea rows="5" class="form-input" formControlName="otherDetails"></ion-textarea>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="1.4" class="ion-align-self-end">
+            <ion-col size="12" size-md="2" offset-md="1" size-lg="1.4" class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-input class="form-input" type="number" placeholder="€0.00" formControlName="otherDetailsPrice"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size-md="6" size="6" >
+            <ion-col size-md="6" size-xs="12" size="6" >
               <ion-item lines="none" class="ion-text-start" >
                 <ion-label class="total-balance">Total Balance:</ion-label>
-                <ion-label class="ion-text-start">€{{invoice.totalBalance}}</ion-label>
+                <ion-label class="ion-text-start">€{{invoice.totalBalance | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>

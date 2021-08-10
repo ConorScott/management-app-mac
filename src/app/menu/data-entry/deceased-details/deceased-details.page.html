@@ -6,10 +6,10 @@
   <ion-card>
     <ion-card-header>
       <ion-row>
-        <ion-col size-xs="8" size-lg="10" size-md="9" class="ion-align-self-center">
+        <ion-col size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
           <ion-card-subtitle class="card-title">Deceased Information</ion-card-subtitle>
         </ion-col>
-        <ion-col size-xs="4" size-lg="2" size-md="3" class="ion-text-center">
+        <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center">
 
             <ion-select (ionChange)="listTypeChange($event)" value="standard">
               <ion-select-option value="standard">Standard</ion-select-option>
@@ -24,17 +24,27 @@
 
       <ion-grid>
         <ion-row>
-          <ion-col size-lg="8" size-xs="9">
-            <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
+          <ion-col size-xs="12" size-md="8" class.searchbar="searchbarOpened" *ngIf="searchbarOpened">
+            <ion-searchbar  *ngIf="searchbarOpened" showCancelButton="true" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true" (ionCancel)="searchbarOpened=false"></ion-searchbar>
+
           </ion-col>
-          <ion-col size-lg="2" size-xs="4" class="ion-align-self-center ion-text-end">
+          <ion-col size-lg="8" size-md="7" size-xs="4" class="ion-align-self-center">
+            <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
+          </ion-col>
+          <ion-col size-lg="4" size-md="5" size-xs="8" class="col-buttons ion-align-self-center" *ngIf="!searchbarOpened">
+            <ion-buttons *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search">
+              <ion-button class="search-icon">
+                <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
+                Search
+              </ion-button>
+            </ion-buttons>
             <ion-button  (click)="onFilterDates()" class="new-filter-button">
-              <ion-icon slot="start" name="funnel-outline"></ion-icon>
-              Filter Dates</ion-button>
-          </ion-col>
-          <ion-col size-lg="2" size-xs="4" class="ion-align-self-center ion-text-center">
+              <ion-icon slot="start" name="funnel-outline" class="btn-icon"></ion-icon>
+              Filter Dates
+            </ion-button>
+
             <ion-button class="new-entry-button" routerLink="/menu/tabs/data-entry/deceased/new">
-              <ion-icon slot="start" name="add-outline"></ion-icon>
+              <ion-icon slot="start" name="add-outline" class="btn-icon"></ion-icon>
               New Entry
             </ion-button>
           </ion-col>

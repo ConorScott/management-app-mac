@@ -11,6 +11,7 @@ import { ChurchService } from '../church.service';
 export class NewChurchPage implements OnInit {
 
   form: FormGroup;
+  modal: HTMLIonModalElement;
 
   constructor(
     private churchService: ChurchService,
@@ -40,9 +41,14 @@ export class NewChurchPage implements OnInit {
         ).subscribe(() => {
           loadingEl.dismiss();
           this.form.reset();
+          this.modal.dismiss();
         });
       });
 
+  }
+
+  onCancel(){
+    this.modal.dismiss(null, 'cancel');
   }
 
 }
