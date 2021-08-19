@@ -189,6 +189,10 @@ export class EditDetailsPage implements OnInit {
                 updateOn: 'blur',
                 validators: [Validators.required]
               }),
+              reposeEndTime: new FormControl(this.deceased.reposeTime, {
+                updateOn: 'blur',
+                validators: [Validators.required]
+              }),
               removalDate: new FormControl(this.deceased.removalDate, {
                 updateOn: 'blur',
                 validators: [Validators.required]
@@ -270,6 +274,7 @@ export class EditDetailsPage implements OnInit {
             this.form.value.clergy,
             this.form.value.reposeDate,
             this.form.value.reposeTime,
+            this.form.value.reposeEndTime,
             this.form.value.removalDate,
             this.form.value.removalTime,
             this.form.value.churchArrivalDate,

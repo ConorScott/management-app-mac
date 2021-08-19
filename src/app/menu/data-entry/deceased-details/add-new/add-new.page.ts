@@ -47,6 +47,7 @@ export class AddNewPage implements OnInit {
   cemetery: Cemetery[];
   church: Church[];
   listType = 'standard';
+
   userId: string;
   userName: string;
   sacristanSligo: string;
@@ -209,6 +210,10 @@ export class AddNewPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
+      reposeEndTime: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
       removalDate: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required],
@@ -237,6 +242,10 @@ export class AddNewPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
+      noticePar1: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
     });
   }
 
@@ -258,7 +267,7 @@ export class AddNewPage implements OnInit {
     if(this.form.value.church === 'The Cathedral of The Immaculate Conception, Sligo'){
       console.log('success');
       console.log(this.sacristanSligo);
-      this.tipService.addSligoCathedralPayment(this.createdAt, this.sacristanSligo).subscribe();
+      this.tipService.addSligoCathedralPayment(this.createdAt, this.sacristanSligo, this.form.value.deceasedName).subscribe();
     }
     if(this.form.value.church === 'St. Anne’s Church Sligo'){
       this.tipService.addSacristanPayment(this.createdAt).subscribe();
@@ -290,6 +299,7 @@ export class AddNewPage implements OnInit {
             this.form.value.clergy,
             this.form.value.reposeDate,
             this.form.value.reposeTime,
+            this.form.value.reposeEndTime,
             this.form.value.removalDate,
             this.form.value.removalTime,
             this.form.value.churchArrivalDate,

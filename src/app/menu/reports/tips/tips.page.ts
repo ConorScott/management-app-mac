@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 import { DateRangePage } from 'src/app/shared/date-range/date-range.page';
 import { EditTipPage } from './edit-tip/edit-tip.page';
 import { NewTipPage } from './new-tip/new-tip.page';
+import { TipPayments } from './tip-payments.model';
+import { TipPaymentsService } from './tip-payments.service';
 import { TipStatsPage } from './tip-stats/tip-stats.page';
 import { Tips } from './tips.model';
 import { TipsService } from './tips.service';
@@ -23,12 +25,15 @@ import { ViewTipPage } from './view-tip/view-tip.page';
 export class TipsPage implements OnInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
   filtered = [];
+  filteredTP = [];
   searchTerm: string;
   startDate;
   endDate;
   filterSelected = false;
   tips: Tips[];
+  tipPayments: TipPayments[];
   filteredTips: Tips[];
+  filteredTipsPayments: Tips[];
   isLoading = false;
   invalidSelection = false;
   rayTotal: number;
@@ -39,8 +44,10 @@ export class TipsPage implements OnInit, OnDestroy {
   otherTotal: number;
   overallTotal: number;
   paymentDate = false;
+  tipPayment = false;
 
   private tipsSub: Subscription;
+  private tipPaymentSub: Subscription;
   private rayTotalSub: Subscription;
   private kieranTotalSub: Subscription;
   private terryTotalSub: Subscription;
@@ -52,12 +59,14 @@ export class TipsPage implements OnInit, OnDestroy {
     private tipService: TipsService,
     private modalCtrl: ModalController,
     private actionSheetCtrl: ActionSheetController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private tipPaymentService: TipPaymentsService
   ) {}
 
   ngOnInit() {
     this.tipsSub = this.tipService.tips.subscribe((tips) => {
       this.tips = tips;
+
 
       this.filteredTips = this.tips;
       this.filtered = [...this.tips];
@@ -69,14 +78,12 @@ export class TipsPage implements OnInit, OnDestroy {
       if (this.overallTotal === undefined) {
         this.overallTotal = 0;
       }
-      tips.map(tip => {
-        console.log(tip.paymentDate);
-        if(tip.paymentDate === null){
-          this.paymentDate = false;
-        } else {
-          this.paymentDate = true;
-        }
-      });
+    });
+
+    this.tipPaymentSub = this.tipPaymentService.tipPayment.subscribe((tipPayment) => {
+      this.tipPayments = tipPayment;
+      this.filteredTipsPayments = this.tipPayments;
+      this.filteredTP = [...this.tipPayments];
     });
 
     this.getRayTotal();
@@ -90,6 +97,10 @@ export class TipsPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.isLoading = true;
     this.tipService.fetchTips().subscribe(() => {
+      this.isLoading = false;
+    });
+
+    this.tipPaymentService.fetchTipPayments().subscribe(() => {
       this.isLoading = false;
     });
   }
@@ -155,7 +166,7 @@ export class TipsPage implements OnInit, OnDestroy {
   //   });
   // }
 
-  onEdit(tipId: string, event?: any) {
+  onEdit(tipId: string, type?: string, event?: any) {
     if (event) {
       event.stopPropagation();
     }
@@ -167,6 +178,7 @@ export class TipsPage implements OnInit, OnDestroy {
           // eslint-disable-next-line quote-props
           // eslint-disable-next-line object-shorthand
           tipId: tipId,
+          type
         },
       })
       .then((modalEl) => {
@@ -213,11 +225,49 @@ export class TipsPage implements OnInit, OnDestroy {
       });
   }
 
+  onDeleteTipPayment(cashbookId: string, event?: any) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.actionSheetCtrl
+      .create({
+        header: 'Delete Tip?',
+        buttons: [
+          {
+            text: 'Delete',
+            role: 'destructive',
+            handler: () => {
+              this.loadingCtrl
+                .create({ message: 'Deleting Tip Entry...' })
+                .then((loadingEl) => {
+                  loadingEl.present();
+                  this.tipPaymentService.deleteTipPayment(cashbookId).subscribe(() => {
+                    setTimeout(() => {
+                      loadingEl.dismiss();
+                    }, 2000);
+                  });
+                });
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ],
+      })
+      .then((actionSheetEl) => {
+        actionSheetEl.present();
+      });
+  }
+
   onAddNew() {
     this.modalCtrl
       .create({
         component: NewTipPage,
         cssClass: 'new-donation',
+        componentProps: {
+          tipPayment: this.tipPayment
+        }
       })
       .then((modalEl) => {
         modalEl.onDidDismiss().then((modalData) => {
@@ -229,23 +279,29 @@ export class TipsPage implements OnInit, OnDestroy {
       });
   }
 
-  onView(tipId: string) {
+  onView(tipId: string, type: string) {
     this.modalCtrl
       .create({
         component: ViewTipPage,
         cssClass: 'new-donation',
         componentProps: {
           tipId,
+          type
         },
       })
       .then((modalEl) => {
         modalEl.onDidDismiss().then((modalData) => {
           if (!modalData.data) {
             return;
-          } else if (modalData.data.editTip.action === 'edit') {
-            this.onEdit(modalData.data.editTip.tipId);
-          } else if (modalData.data.editTip.action === 'delete') {
+          } else if (modalData.data.editTip.action === 'edit' && modalData.data.editTip.type === 'tip') {
+            this.onEdit(modalData.data.editTip.tipId, modalData.data.editTip.type);
+          } else if (modalData.data.editTip.action === 'edit' && modalData.data.editTip.type === 'tipPayment') {
+            this.onEdit(modalData.data.editTip.tipId, modalData.data.editTip.type);
+          }
+           else if (modalData.data.editTip.action === 'delete' && modalData.data.editTip.type === 'tip') {
             this.onDeleteEntry(modalData.data.editTip.tipId);
+          } else if (modalData.data.editTip.action === 'delete' && modalData.data.editTip.type === 'tipPayment') {
+            this.onDeleteTipPayment(modalData.data.editTip.tipId);
           }
         });
         modalEl.present();
@@ -311,6 +367,18 @@ export class TipsPage implements OnInit, OnDestroy {
         });
         modalEl.present();
       });
+  }
+
+  listTypeChange(event){
+    console.log(event.target.value);
+    if(event.target.value === 'tips'){
+      this.tipPayment = false;
+      // this.tipService.fetchTips().subscribe(() => {
+      //   this.isLoading = false;
+      // });
+    } else if(event.target.value === 'tipPayments') {
+      this.tipPayment = true;
+    }
   }
 
   viewPaymentStats() {

@@ -43,7 +43,7 @@ export class TipsService {
       }),
       take(1),
       switchMap((token) => {
-        newEntry = new Tips(Math.random().toString(), createdAt, entryAmount, entryDesc, payeeName, entryDate);
+        newEntry = new Tips(Math.random().toString(), entryDate, entryAmount, entryDesc, payeeName);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tips.json?auth=${token}`,
           { ...newEntry, id: null }
@@ -199,11 +199,11 @@ export class TipsService {
     );
   }
 
-  addSligoCathedralPayment(entryDate: Date, sacristanName: string) {
+  addSligoCathedralPayment(entryDate: Date, sacristanName: string, deceasedName: string) {
     let generateId: string;
     let newEntry: Tips;
     let fetchedUserId: string;
-    const entryDesc = `Sacristan Payment of €50 made to ${sacristanName}`;
+    const entryDesc = `Sacristan Payment of €50 made to ${sacristanName} for the funeral of ${deceasedName}`;
     const entryAmount = 50;
     const name = 'Sacristan';
     return this.authService.userId.pipe(
@@ -252,7 +252,6 @@ export class TipsService {
               resData[key].entryAmount,
               resData[key].entryDesc,
               resData[key].payeeName,
-              resData[key].paymentDate
               ));
           }
         }
@@ -276,7 +275,6 @@ export class TipsService {
          resData.entryAmount,
          resData.entryDesc,
          resData.payeeName,
-         resData.paymentDate
          ))
     );
   }
@@ -310,8 +308,7 @@ export class TipsService {
           entryDate,
           entryAmount,
           entryDesc,
-          payeeName,
-          paymentDate
+          payeeName
         );
         return this.http.put<Tips>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tips/${tipId}.json?auth=${fetchedToken}`,

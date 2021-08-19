@@ -372,7 +372,10 @@ export class PaymentsPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-  this.paymentSub.unsubscribe();
+    if(this.paymentSub){
+      this.paymentSub.unsubscribe();
+
+    }
   this.cashTotalSub.unsubscribe();
   this.cardTotalSub.unsubscribe();
   this.eftTotalSub.unsubscribe();

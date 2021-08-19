@@ -265,10 +265,19 @@
             </ion-col>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Repose Time</ion-label>
+                <ion-label position="stacked" class="form-label">Repose Start Time</ion-label>
                 <ion-datetime class="form-input-date" placeholder="Repose Time" display-format="h:mm A" picker-format="h:mm A" formControlName="reposeTime"></ion-datetime>
               </ion-item>
             </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Repose End Time</ion-label>
+                <ion-datetime class="form-input-date" placeholder="Repose Time" display-format="h:mm A" picker-format="h:mm A" formControlName="reposeEndTime"></ion-datetime>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Removal Date</ion-label>
@@ -281,8 +290,6 @@
                 <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Removal Time" picker-format="h:mm A" formControlName="removalTime"></ion-datetime>
               </ion-item>
             </ion-col>
-          </ion-row>
-          <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Church Arrival Date</ion-label>
@@ -295,6 +302,9 @@
                 <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Church Arrival Time" picker-format="h:mm A" formControlName="churchArrivalTime"></ion-datetime>
               </ion-item>
             </ion-col>
+
+          </ion-row>
+          <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Mass Date:</ion-label>

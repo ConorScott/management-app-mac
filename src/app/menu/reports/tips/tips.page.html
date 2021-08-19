@@ -5,14 +5,14 @@
   <ion-card>
     <ion-card-header>
       <ion-row>
-        <ion-col size-xs="8" size-lg="9" size-md="9.5" size-sm="10" class="ion-align-self-center">
+        <ion-col size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
           <ion-card-subtitle class="card-title">Tips</ion-card-subtitle>
         </ion-col>
-        <ion-col size-xs="4" size-lg="3" size-md="2.5" size-sm="3" class="ion-text-end">
-          <ion-button class="new-entry-button" (click)="onAddNew()">
-            <ion-icon slot="start" name="add-outline"></ion-icon>
-            New Entry
-          </ion-button>
+        <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center">
+          <ion-select (ionChange)="listTypeChange($event)" value="tips">
+            <ion-select-option value="tips">Tips</ion-select-option>
+            <ion-select-option value="tipPayments">Tip Payments</ion-select-option>
+          </ion-select>
         </ion-col>
       </ion-row>
 
@@ -20,17 +20,22 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col size="8">
+          <ion-col size="7">
             <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
           </ion-col>
-          <ion-col size="4" class="ion-align-self-center">
+          <ion-col size="5" class="ion-align-self-center">
+            <ion-button (click)="viewPaymentStats()" class="new-entry-button">
+              <ion-icon slot="start" name="cash-outline"></ion-icon>
+              Payment Stats
+            </ion-button>
             <ion-button (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates
             </ion-button>
-            <ion-button (click)="viewPaymentStats()" class="new-entry-button">
-              <ion-icon slot="start" name="cash-outline"></ion-icon>
-              Payment Stats
+
+            <ion-button class="new-entry-button" (click)="onAddNew()">
+              <ion-icon slot="start" name="add-outline"></ion-icon>
+              New Entry
             </ion-button>
           </ion-col>
         </ion-row>
@@ -46,7 +51,7 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="card-details">
+          <ion-col class="card-details" >
 
             <ion-item class="list-item th">
               <ion-label class="ion-label" color="primary" style="font-weight: 300;">
@@ -67,22 +72,37 @@
             <div class="ion-text-center no-info" *ngIf="!isLoading && filtered.length <= 0">
               <p>No Tip Information Found!</p>
             </div>
+            <div class="ion-text-center no-info" *ngIf="!isLoading && tipPayment && filteredTP.length <= 0">
+              <p>No Tip Payments Found!</p>
+            </div>
             <div class="virtualScroll">
-              <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && filtered.length > 0">
+              <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!tipPayment && !isLoading && filtered.length > 0">
                 <ion-item *cdkVirtualFor="let cashbook of filtered.reverse()" class="ion-item list-item"
-                  (click)="onView(cashbook.id)">
-                  <ion-label  [ngClass]="{'ion-label name': cashbook.paymentDate != null, 'no-date': cashbook.paymentDate == null}">{{cashbook.payeeName}}<ion-icon *ngIf="cashbook.paymentDate == null" slot="start" name="alert-circle-outline"></ion-icon></ion-label>
+                  (click)="onView(cashbook.id, 'tip')">
+                  <ion-label class="ion-label name">{{cashbook.payeeName}}</ion-label>
                   <ion-label class="ion-label">{{cashbook.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
                   <ion-label class="ion-label">€{{cashbook.entryAmount}}</ion-label>
-                  <ion-icon name="create" color="primary" (click)="onEdit(cashbook.id, $event)"></ion-icon>
+                  <ion-icon name="create" color="primary" (click)="onEdit(cashbook.id, 'tip', $event)"></ion-icon>
                   <ion-icon name="trash" color="danger" (click)="onDeleteEntry(cashbook.id, $event)"></ion-icon>
+                </ion-item>
+              </cdk-virtual-scroll-viewport>
+              <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="tipPayment && !isLoading && filtered.length > 0">
+                <ion-item *cdkVirtualFor="let tipPayment of filteredTP.reverse()" class="ion-item list-item"
+                  (click)="onView(tipPayment.id, 'tipPayment')">
+                  <ion-label class="ion-label name">{{tipPayment.payeeName}}</ion-label>
+                  <ion-label class="ion-label">{{tipPayment.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
+                  <ion-label class="ion-label">€{{tipPayment.entryAmount}}</ion-label>
+                  <ion-icon name="create" color="primary" (click)="onEdit(tipPayment.id,  'tipPayment', $event)"></ion-icon>
+                  <ion-icon name="trash" color="danger" (click)="onDeleteTipPayment(tipPayment.id, $event)"></ion-icon>
                 </ion-item>
               </cdk-virtual-scroll-viewport>
             </div>
           </ion-col>
 
+
         </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
+
 </ion-content>

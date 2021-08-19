@@ -14,6 +14,7 @@ import { SharedService } from './shared/shared.service';
 export class AppComponent implements OnInit, OnDestroy {
   isVisible = true;
   lg: boolean;
+  electron: boolean;
 
   private authSub: Subscription;
   private previousAuthState = false;
@@ -51,7 +52,32 @@ export class AppComponent implements OnInit, OnDestroy {
     {
       this.isVisible = false;
     }
+
+    if(this.isElectron()){
+      this.electron = true;
+  }else{
+    this.electron = false;
   }
+  }
+
+  isElectron() {
+    // Renderer process
+    if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+        return true;
+    }
+
+    // Main process
+    if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+        return true;
+    }
+
+    // Detect the user agent when the `nodeIntegration` option is set to true
+    if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+        return true;
+    }
+
+    return false;
+}
 
   isToggle(){
     // this.sharedService.changeToggle();

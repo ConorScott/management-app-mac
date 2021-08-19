@@ -5,6 +5,5 @@ export class Tips {
     public entryAmount: number,
     public entryDesc: string,
     public payeeName: string,
-    public paymentDate?: Date
   ) {}
 }

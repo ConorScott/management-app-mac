@@ -294,16 +294,17 @@ export class CalendarService {
     );
   }
 
-  reposeDate(deceasedName, reposeDate, reposeTime) {
+  reposeDate(deceasedName, reposeDate, reposeTime, reposeEndTime) {
     const date = reposeDate.split('T')[0];
     const time = reposeTime.split('T')[1];
+    const end = reposeEndTime.split('T')[1];
     const reposeDateTime = date + 'T' + time;
-    const endTime = new Date(reposeDateTime);
-    endTime.setHours(endTime.getHours() + 1);
+    const endTime = date + 'T' + end;
+
     this.addReposeEvent(
       deceasedName + ' Repose Date',
       new Date(reposeDateTime),
-      endTime,
+      new Date(endTime),
       colors.blue
     ).subscribe();
   }
@@ -348,17 +349,18 @@ export class CalendarService {
     ).subscribe();
   }
 
-  updateReposeDate(id, deceasedName, reposeDate, reposeTime) {
+  updateReposeDate(id, deceasedName, reposeDate, reposeTime, reposeEndTime) {
     const date = reposeDate.split('T')[0];
     const time = reposeTime.split('T')[1];
+    const end = reposeEndTime.split('T')[1];
     const reposeDateTime = date + 'T' + time;
-    const endTime = new Date(reposeDateTime);
-    endTime.setHours(endTime.getHours() + 1);
+    const endTime = date + 'T' + end;
+
     this.updateEventTimes(
       id,
       deceasedName + ' Repose Date',
       new Date(reposeDateTime),
-      endTime,
+      new Date(endTime),
     ).subscribe();
   }
 

@@ -14,6 +14,7 @@ export class AuthPage implements OnInit {
   isLoading = false;
   isLogin = true;
   modal: HTMLIonModalElement;
+  electron: boolean;
 
   constructor(
     private authService: AuthService,
@@ -25,10 +26,11 @@ export class AuthPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.modalCtrl.dismiss();
-    // if(this.modal){
-    //   this.modal.dismiss();
-    // }
+    if(this.isElectron()){
+      this.electron = true;
+  }else{
+    this.electron = false;
+  }
   }
 
   ionViewWillEnter(){
@@ -43,6 +45,25 @@ export class AuthPage implements OnInit {
   async closeModal(){
     await this.modal.dismiss();
   }
+
+  isElectron() {
+    // Renderer process
+    if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+        return true;
+    }
+
+    // Main process
+    if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+        return true;
+    }
+
+    // Detect the user agent when the `nodeIntegration` option is set to true
+    if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+        return true;
+    }
+
+    return false;
+}
 
   authenticate(email: string, password: string) {
     this.isLoading = true;

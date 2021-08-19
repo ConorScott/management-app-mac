@@ -21,6 +21,7 @@ export class Deceased {
     public clergy: string,
     public reposeDate: Date,
     public reposeTime: Date,
+    public reposeEndTime: Date,
     public removalDate: Date,
     public removalTime: Date,
     public churchArrivalDate: Date,

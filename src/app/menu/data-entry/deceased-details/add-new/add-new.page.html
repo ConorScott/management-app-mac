@@ -111,9 +111,13 @@
     </ion-card>
     <ion-card>
       <ion-card-header>
+        <ion-row>
+          <ion-col class="subtitle">
         <ion-card-subtitle class="card-title">
           Family Contact Information
         </ion-card-subtitle>
+        </ion-col>
+        </ion-row>
       </ion-card-header>
       <ion-card-content>
         <ion-grid>
@@ -223,7 +227,7 @@
 
       <ion-card-header>
         <ion-row>
-          <ion-col size="10.5" size-lg="10" size-md="9" class="ion-align-self-end">
+          <ion-col class="subtitle">
             <ion-card-subtitle class="card-title">
               Doctor Information
             </ion-card-subtitle>
@@ -251,9 +255,13 @@
       </ion-card-content>
     </ion-card>
     <ion-card>
+      <ion-row>
+        <ion-col class="subtitle">
       <ion-card-header>
         <ion-card-subtitle class="card-title">Funeral Information</ion-card-subtitle>
       </ion-card-header>
+        </ion-col>
+        </ion-row>
       <ion-card-content>
         <ion-grid>
           <ion-row>
@@ -295,10 +303,19 @@
             </ion-col>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
-                <ion-label position="stacked" class="form-label">Repose Time</ion-label>
-                <ion-datetime class="form-input-date" placeholder="Repose Time" display-format="h:mm A" picker-format="h:mm A" formControlName="reposeTime"></ion-datetime>
+                <ion-label position="stacked" class="form-label">Repose Start Time</ion-label>
+                <ion-datetime class="form-input-date" placeholder="Repose Start Time" display-format="h:mm A" picker-format="h:mm A" formControlName="reposeTime" #reposeStart></ion-datetime>
               </ion-item>
             </ion-col>
+            <ion-col size="12" size-md="6" size-lg="3">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Repose End Time</ion-label>
+                <ion-datetime class="form-input-date" placeholder="Repose End Time" display-format="h:mm A" picker-format="h:mm A" formControlName="reposeEndTime"></ion-datetime>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Removal Date</ion-label>
@@ -311,8 +328,6 @@
                 <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Removal Time" picker-format="h:mm A" formControlName="removalTime"></ion-datetime>
               </ion-item>
             </ion-col>
-          </ion-row>
-          <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Church Arrival Date</ion-label>
@@ -325,6 +340,9 @@
                 <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Church Arrival Time" picker-format="h:mm A" formControlName="churchArrivalTime"></ion-datetime>
               </ion-item>
             </ion-col>
+
+          </ion-row>
+          <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Mass Date:</ion-label>
@@ -337,6 +355,41 @@
                 <ion-datetime class="form-input-date" display-format="h:mm A" placeholder="Mass Time" picker-format="h:mm A" formControlName="massTime"></ion-datetime>
               </ion-item>
             </ion-col>
+          </ion-row>
+
+
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+
+      <ion-card-header>
+        <ion-row>
+          <ion-col class="subtitle">
+            <ion-card-subtitle class="card-title">
+              Death Notice
+            </ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="12">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Doctor Name</ion-label>
+                <ion-textarea  class="form-input" placeholder="Doctor Name" type="text" rows="5" formControlName="noticePar1"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3.5">
+              <ion-item lines="none">
+                <ion-label position="stacked" class="form-label">Phone No.</ion-label>
+                <ion-input class="form-input" placeholder="Phone No." type="number" formControlName="doctorNo"></ion-input>
+              </ion-item>
+            </ion-col>
+
           </ion-row>
           <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">

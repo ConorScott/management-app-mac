@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { TipPayments } from '../tip-payments.model';
+import { TipPaymentsService } from '../tip-payments.service';
 import { Tips } from '../tips.model';
 import { TipsService } from '../tips.service';
 
@@ -11,8 +13,10 @@ import { TipsService } from '../tips.service';
 })
 export class ViewTipPage implements OnInit {
   @Input() tipId;
+  @Input() type;
   isLoading = false;
   tips: Tips;
+  tipPayments: TipPayments;
   modal: HTMLIonModalElement;
   isGraveDigger = false;
   isSacristan = false;
@@ -21,28 +25,33 @@ export class ViewTipPage implements OnInit {
 
   constructor(
     private tipService: TipsService,
+    private tipPaymentService: TipPaymentsService,
     private navCtrl: NavController
   ) { }
 
   ngOnInit() {
     if (!this.tipId) {
-      this.navCtrl.navigateBack('/menu/tabs/reports/donations');
+      this.modal.dismiss();
       return;
     }
-
-    this.isLoading = true;
-    this.tipSub = this.tipService
+    if(this.type === 'tip'){
+      this.isLoading = true;
+      this.tipSub = this.tipService
+      .getTips(this.tipId)
+      .subscribe((tips) => {
+        this.tips = tips;
+        this.isLoading = false;
+      });
+    } else if (this.type === 'tipPayment'){
+      this.isLoading = true;
+    this.tipSub = this.tipPaymentService
     .getTips(this.tipId)
     .subscribe((tips) => {
-      this.tips = tips;
+      this.tipPayments = tips;
       this.isLoading = false;
-      if(this.tips.payeeName === 'Grave Diggers'){
-        this.isGraveDigger = true;
-      }
-      if(this.tips.payeeName === 'Sacristan'){
-        this.isSacristan = true;
-      }
     });
+    }
+
   }
 
   onEditDonation(){
@@ -50,7 +59,8 @@ export class ViewTipPage implements OnInit {
       {
         editTip: {
           tipId: this.tipId,
-          action: 'edit'
+          action: 'edit',
+          type: 'tip'
         }
       },
       'confirm'
@@ -63,7 +73,35 @@ export class ViewTipPage implements OnInit {
       {
         editTip: {
           tipId: this.tipId,
-          action: 'delete'
+          action: 'delete',
+          type: 'tip'
+        }
+      },
+      'confirm'
+    );
+  }
+
+  onEditTipPayment(){
+    this.modal.dismiss(
+      {
+        editTip: {
+          tipId: this.tipId,
+          action: 'edit',
+          type: 'tipPayment'
+        }
+      },
+      'confirm'
+    );
+
+  }
+
+  onDeleteTipPayment(){
+    this.modal.dismiss(
+      {
+        editTip: {
+          tipId: this.tipId,
+          action: 'delete',
+          type: 'tipPayment'
         }
       },
       'confirm'

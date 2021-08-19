@@ -19,6 +19,8 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { NgxElectronModule } from 'ngx-electron';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +32,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatTabsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    NgxElectronModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

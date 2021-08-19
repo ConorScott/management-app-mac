@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { TipPaymentsService } from '../tip-payments.service';
 import { TipsService } from '../tips.service';
 
 @Component({
@@ -9,6 +10,8 @@ import { TipsService } from '../tips.service';
   styleUrls: ['./new-tip.page.scss'],
 })
 export class NewTipPage implements OnInit {
+  @Input() tipPayment: boolean;
+
   form: FormGroup;
   modal: HTMLIonModalElement;
 
@@ -18,11 +21,13 @@ export class NewTipPage implements OnInit {
 
   constructor(
     private tipsService: TipsService,
+    private tipPaymentService: TipPaymentsService,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
+    console.log(this.tipPayment);
     this.payees = ['Ray Murtagh', 'Kieran Maughan', 'Terry Butler', 'Brian Scanlon', 'St. Anne’s Church Sligo', 'Other'];
     this.form = new FormGroup({
       entryDate: new FormControl(null, {
@@ -49,6 +54,29 @@ export class NewTipPage implements OnInit {
         loadingEl.present();
         this.tipsService
           .addTips(
+            this.form.value.entryDate,
+            this.form.value.entryAmount,
+            this.form.value.entryDesc,
+            this.form.value.payeeName,
+            this.createdAt
+          )
+          .subscribe(() => {
+            loadingEl.dismiss();
+            this.form.reset();
+            this.modal.dismiss();
+          });
+      });
+  }
+
+  onAddTipPayment(){
+    this.loadingCtrl
+      .create({
+        message: 'Creating Entry',
+      })
+      .then((loadingEl) => {
+        loadingEl.present();
+        this.tipPaymentService
+          .addTipPayment(
             this.form.value.entryDate,
             this.form.value.entryAmount,
             this.form.value.entryDesc,

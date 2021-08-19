@@ -30,6 +30,7 @@ interface DeceasedData {
   clergy: string;
   reposeDate: Date;
   reposeTime: Date;
+  reposeEndTime: Date;
   removalDate: Date;
   removalTime: Date;
   churchArrivalDate: Date;
@@ -78,6 +79,7 @@ export class DeceasedService {
     clergy: string,
     reposeDate: Date,
     reposeTime: Date,
+    reposeEndTime: Date,
     removalDate: Date,
     removalTime: Date,
     churchArrivalDate: Date,
@@ -122,6 +124,7 @@ export class DeceasedService {
           clergy,
           reposeDate,
           reposeTime,
+          reposeEndTime,
           removalDate,
           removalTime,
           churchArrivalDate,
@@ -145,7 +148,7 @@ export class DeceasedService {
       take(1),
       tap((deceased) => {
         newDeceased.id = generateId;
-        this.calendarService.reposeDate( deceasedName, reposeDate, reposeTime);
+        this.calendarService.reposeDate( deceasedName, reposeDate, reposeTime, reposeEndTime);
         this.calendarService.removalTime( deceasedName, removalDate, removalTime);
         this.calendarService.churchArrivalTime( deceasedName, churchArrivalDate, churchArrivalTime);
         this.calendarService.massTime( deceasedName, massDate, massTime);
@@ -231,6 +234,7 @@ export class DeceasedService {
                 resData[key].clergy,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
+                resData[key].reposeEndTime,
                 resData[key].removalDate,
                 resData[key].removalTime,
                 resData[key].churchArrivalDate,
@@ -289,6 +293,7 @@ export class DeceasedService {
                 resData[key].clergy,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
+                resData[key].reposeEndTime,
                 resData[key].removalDate,
                 resData[key].removalTime,
                 resData[key].churchArrivalDate,
@@ -352,6 +357,7 @@ export class DeceasedService {
                 resData[key].clergy,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
+                resData[key].reposeEndTime,
                 resData[key].removalDate,
                 resData[key].removalTime,
                 resData[key].churchArrivalDate,
@@ -402,6 +408,7 @@ export class DeceasedService {
           resData.clergy,
           resData.reposeDate,
           resData.reposeTime,
+          resData.reposeEndTime,
           resData.removalDate,
           resData.removalTime,
           resData.churchArrivalDate,
@@ -436,6 +443,7 @@ export class DeceasedService {
     clergy: string,
     reposeDate: Date,
     reposeTime: Date,
+    reposeEndTime: Date,
     removalDate: Date,
     removalTime: Date,
     churchArrivalDate: Date,
@@ -450,7 +458,7 @@ export class DeceasedService {
     massDateId: string,
     churchArrivalId: string
   ) {
-    this.calendarService.updateReposeDate(reposeId, deceasedName, reposeDate, reposeTime);
+    this.calendarService.updateReposeDate(reposeId, deceasedName, reposeDate, reposeTime, reposeEndTime);
     this.calendarService.updateRemovalTime(removalId, deceasedName, removalDate, removalTime);
     this.calendarService.updateMassTime(massDateId, deceasedName, massDate, massTime);
     this.calendarService.updateChurchArrivalTime(churchArrivalId, deceasedName, churchArrivalDate, churchArrivalTime);
@@ -496,6 +504,7 @@ export class DeceasedService {
           clergy,
           reposeDate,
           reposeTime,
+          reposeEndTime,
           removalDate,
           removalTime,
           churchArrivalDate,

@@ -16,7 +16,8 @@
     <ion-grid>
       <ion-row>
         <ion-col class="ion-text-center">
-          <ion-img src="../../assets/ezgif.com-gif-maker.png"></ion-img>
+          <ion-img *ngIf="electron" src="../assets/ezgif.com-gif-maker.png"></ion-img>
+          <ion-img *ngIf="!electron" src="../../assets/ezgif.com-gif-maker.png"></ion-img>
         </ion-col>
       </ion-row>
       <hr class="hr">
