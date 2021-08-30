@@ -1,7 +1,13 @@
+/* eslint-disable prefer-const */
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import {
+  AlertController,
+  LoadingController,
+  NavController,
+} from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CalendarService } from 'src/app/menu/calendar/calendar.service';
 import { Deceased } from '../deceased.model';
@@ -30,11 +36,12 @@ export class EditDetailsPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private calendarService: CalendarService
-  ) { }
+    private calendarService: CalendarService,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
+    this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('deceasedId')) {
         this.navCtrl.navigateBack('/menu/tabs/data-entry/deceased');
         return;
@@ -44,197 +51,268 @@ export class EditDetailsPage implements OnInit {
       this.deceasedSub = this.deceasedService
         .getDeceased(paramMap.get('deceasedId'))
         .subscribe(
-          deceased => {
-            this.calendarService.getEvent(deceased.deceasedName + ' Repose Date').subscribe(event => {
-              this.reposeId = event.id;
-              console.log(this.reposeId);
-            });
-            this.calendarService.getEvent(deceased.deceasedName + ' Removal Date').subscribe(event => {
-              this.removalId = event.id;
-              console.log(this.removalId);
-            });
-            this.calendarService.getEvent(deceased.deceasedName + ' Mass Date').subscribe(event => {
-              this.massDateId = event.id;
-              console.log(this.massDateId);
-            });
-            this.calendarService.getEvent(deceased.deceasedName + ' church Arrival Date').subscribe(event => {
-              this.churchArrivalId = event.id;
-              console.log(this.churchArrivalId);
-            });
+          (deceased) => {
             this.deceased = deceased;
+            if (this.deceased.reposeDate !== undefined) {
+              this.calendarService
+                .getEvent(deceased.deceasedName + ' Repose Date')
+                .subscribe((event) => {
+                  this.reposeId = event.id;
+                  console.log(this.reposeId);
+                });
+            }
+            if (this.deceased.removalDate !== undefined) {
+              this.calendarService
+                .getEvent(deceased.deceasedName + ' Removal Date')
+                .subscribe((event) => {
+                  this.removalId = event.id;
+                  console.log(this.removalId);
+                });
+            }
+            if (this.deceased.massDate) {
+              this.calendarService
+                .getEvent(deceased.deceasedName + ' Mass Date')
+                .subscribe((event) => {
+                  this.massDateId = event.id;
+                  console.log(this.massDateId);
+                });
+            }
+
+            if (this.deceased.churchArrivalDate !== undefined) {
+              this.calendarService
+                .getEvent(deceased.deceasedName + ' church Arrival Date')
+                .subscribe((event) => {
+                  this.churchArrivalId = event.id;
+                  console.log(this.churchArrivalId);
+                });
+            }
+
             this.form = new FormGroup({
               deceasedName: new FormControl(this.deceased.deceasedName, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               deathDate: new FormControl(this.deceased.deathDate, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               age: new FormControl(this.deceased.age, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
-              dob: new FormControl(this.deceased.age, {
+              dob: new FormControl(this.deceased.dob, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               deathPlace: new FormControl(this.deceased.deathPlace, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               address1: new FormControl(this.deceased.address1, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               address2: new FormControl(this.deceased.address2, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               address3: new FormControl(this.deceased.address3, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               county: new FormControl(this.deceased.county, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               contact: new FormGroup({
-                responsible: new FormControl(this.deceased.contact.responsible, {
+                responsible: new FormControl(
+                  this.deceased.contact?.responsible,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                relationship: new FormControl(
+                  this.deceased.contact?.relationship,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                phoneNo: new FormControl(this.deceased.contact?.phoneNo, {
                   updateOn: 'blur',
-                  validators: [Validators.required]
+
                 }),
-                relationship: new FormControl(this.deceased.contact.relationship, {
+                resAddress1: new FormControl(
+                  this.deceased.contact?.resAddress1,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                resAddress2: new FormControl(
+                  this.deceased.contact?.resAddress2,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                resAddress3: new FormControl(
+                  this.deceased.contact?.resAddress3,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                resCounty: new FormControl(this.deceased.contact?.resCounty, {
                   updateOn: 'blur',
-                  validators: [Validators.required]
+
                 }),
-                phoneNo: new FormControl(this.deceased.contact.phoneNo, {
+                responsible2: new FormControl(
+                  this.deceased.contact?.responsible2,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                relationship2: new FormControl(
+                  this.deceased.contact?.relationship2,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                phoneNo2: new FormControl(this.deceased.contact?.phoneNo2, {
                   updateOn: 'blur',
-                  validators: [Validators.required]
+
                 }),
-                resAddress1: new FormControl(this.deceased.contact.resAddress1, {
+                resAddress12: new FormControl(
+                  this.deceased.contact?.resAddress12,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                resAddress22: new FormControl(
+                  this.deceased.contact?.resAddress22,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                resAddress32: new FormControl(
+                  this.deceased.contact?.resAddress32,
+                  {
+                    updateOn: 'blur',
+
+                  }
+                ),
+                resCounty2: new FormControl(this.deceased.contact?.resCounty2, {
                   updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                resAddress2: new FormControl(this.deceased.contact.resAddress2, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                resAddress3: new FormControl(this.deceased.contact.resAddress3, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                resCounty: new FormControl(this.deceased.contact.resCounty, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                responsible2: new FormControl(this.deceased.contact.responsible2, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                relationship2: new FormControl(this.deceased.contact.relationship2, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                phoneNo2: new FormControl(this.deceased.contact.phoneNo2, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                resAddress12: new FormControl(this.deceased.contact.resAddress12, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                resAddress22: new FormControl(this.deceased.contact.resAddress22, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                resAddress32: new FormControl(this.deceased.contact.resAddress32, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
-                }),
-                resCounty2: new FormControl(this.deceased.contact.resCounty2, {
-                  updateOn: 'blur',
-                  validators: [Validators.required]
+
                 }),
               }),
               doctor: new FormControl(this.deceased.doctor, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               doctorNo: new FormControl(this.deceased.doctorNo, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               church: new FormControl(this.deceased.church, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               cemetry: new FormControl(this.deceased.cemetry, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               grave: new FormControl(this.deceased.grave, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               clergy: new FormControl(this.deceased.clergy, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
+              }),
+              reposingAt: new FormControl(this.deceased.reposingAt, {
+                updateOn: 'blur',
+
               }),
               reposeDate: new FormControl(this.deceased.reposeDate, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               reposeTime: new FormControl(this.deceased.reposeTime, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
-              reposeEndTime: new FormControl(this.deceased.reposeTime, {
+              reposeEndTime: new FormControl(this.deceased.reposeEndTime, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               removalDate: new FormControl(this.deceased.removalDate, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               removalTime: new FormControl(this.deceased.removalTime, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
-              churchArrivalDate: new FormControl(this.deceased.churchArrivalDate, {
-                updateOn: 'blur',
-                validators: [Validators.required]
-              }),
-              churchArrivalTime: new FormControl(this.deceased.churchArrivalTime, {
-                updateOn: 'blur',
-                validators: [Validators.required]
-              }),
+              churchArrivalDate: new FormControl(
+                this.deceased.churchArrivalDate,
+                {
+                  updateOn: 'blur',
+
+                }
+              ),
+              churchArrivalTime: new FormControl(
+                this.deceased.churchArrivalTime,
+                {
+                  updateOn: 'blur',
+
+                }
+              ),
               massDate: new FormControl(this.deceased.massDate, {
                 updateOn: 'blur',
-                validators: [Validators.required]
+
               }),
               massTime: new FormControl(this.deceased.massTime, {
                 updateOn: 'blur',
-                validators: [Validators.required]
-              })
+
+              }),
+              noticePar1: new FormControl(this.deceased.noticePar1, {
+                updateOn: 'blur',
+
+              }),
+              noticePar2: new FormControl(this.deceased.noticePar2, {
+                updateOn: 'blur',
+
+              }),
+              specialRequests: new FormControl(this.deceased.specialRequests, {
+                updateOn: 'blur',
+
+              }),
             });
             this.isLoading = false;
           },
-          error => {
+          (error) => {
             this.alertCtrl
               .create({
                 header: 'An error occurred!',
-                message: 'Deceased information could not be fetched. Please try again later.',
+                message:
+                  'Deceased information could not be fetched. Please try again later.',
                 buttons: [
                   {
                     text: 'Okay',
                     handler: () => {
                       this.router.navigate(['/menu/tabs/data-entry/deceased']);
-                    }
-                  }
-                ]
+                    },
+                  },
+                ],
               })
-              .then(alertEl => {
+              .then((alertEl) => {
                 alertEl.present();
               });
           }
@@ -242,16 +320,16 @@ export class EditDetailsPage implements OnInit {
     });
   }
 
-  onUpdateDeceased(){
+  onUpdateDeceased() {
     if (!this.form.valid) {
       return;
     }
-    console.log('fucked');
+    this.updateNotice();
     this.loadingCtrl
       .create({
-        message: 'Updating Deceased Information...'
+        message: 'Updating Deceased Information...',
       })
-      .then(loadingEl => {
+      .then((loadingEl) => {
         loadingEl.present();
         this.deceasedService
           .updateDeceased(
@@ -272,6 +350,7 @@ export class EditDetailsPage implements OnInit {
             this.form.value.cemetry,
             this.form.value.grave,
             this.form.value.clergy,
+            this.form.value.reposingAt,
             this.form.value.reposeDate,
             this.form.value.reposeTime,
             this.form.value.reposeEndTime,
@@ -284,10 +363,13 @@ export class EditDetailsPage implements OnInit {
             this.deceased.entryDate,
             this.deceased.formType,
             this.deceased.createdBy,
+            this.form.value.noticePar1,
+            this.form.value.noticePar2,
+            this.form.value.specialRequests,
             this.reposeId,
             this.removalId,
             this.massDateId,
-            this.churchArrivalId,
+            this.churchArrivalId
           )
           .subscribe(() => {
             loadingEl.dismiss();
@@ -297,4 +379,27 @@ export class EditDetailsPage implements OnInit {
       });
   }
 
+  updateNotice() {
+    let nameDeceased: string;
+    let name: string;
+    name = this.form.value.deceasedName;
+    nameDeceased = name.split(' ')[0];
+
+    let noticeReposeStart: string;
+    noticeReposeStart = this.form.value.reposeTime;
+    noticeReposeStart = this.datePipe.transform(noticeReposeStart, 'hh:mm a');
+
+    let noticeReposeEnd: string;
+    noticeReposeEnd = this.form.value.reposeEndTime;
+    noticeReposeEnd = this.datePipe.transform(noticeReposeEnd, 'hh:mm a');
+
+    let massTime: string;
+    massTime = this.form.value.massTime;
+    massTime = this.datePipe.transform(massTime, 'hh:mm a');
+
+    this.form.controls.noticePar2.setValue(
+      // eslint-disable-next-line max-len
+      `Reposing at ${this.form.value.reposingAt} from ${noticeReposeStart} to ${noticeReposeEnd}. Funeral will leave ${this.form.value.reposingAt} to arrive at ${this.form.value.church} for Requiem mass at ${massTime}. Funeral will proceed to ${this.form.value.cemetry}. Due to current restrictions, ${nameDeceased}'s funeral will be private to family, relatives and friends. House private please (optional) Family flowers only. Donations in lieu of flowers if desired to (Charity) care of McGowan's funeral home, Emmet St, Ballina, Co. Mayo (or Foley & McGowan's Funeral Home, Market Yard, Sligo)You are welcome to send a message of condolence to his/her family on the funeral home website.`
+    );
+  }
 }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/quotes */
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -43,14 +45,22 @@ const colors: any = {
 })
 export class AddNewPage implements OnInit {
   form: FormGroup;
+  horizon: FormGroup;
   createdAt = new Date();
   cemetery: Cemetery[];
   church: Church[];
   listType = 'standard';
+  formType;
 
   userId: string;
   userName: string;
   sacristanSligo: string;
+  noticeString: string;
+  noticeRemovalDate: string;
+  noticeReposeStart: string;
+  noticeReposeEnd: string;
+  // eslint-disable-next-line max-len
+  deathNotice = `Reposing at (Place) from (Repose Start Time) to (Repose End Time). Funeral will leave(Place) to arrive at (Church) for Requiem mass at (Mass Start Time). Funeral will proceed to (Cemetery). Due to current restrictions, (Person) funeral will be private to family, relatives and friends. House private please (optional) Family flowers only. Donations in lieu of flowers if desired to (Charity) care of McGowan's funeral home, Emmet St, Ballina, Co. Mayo (or Foley & McGowan's Funeral Home, Market Yard, Sligo)You are welcome to send a message of condolence to his/her family on the funeral home website.`;
   private churchSub: Subscription;
   private cemeterySub: Subscription;
 
@@ -63,10 +73,12 @@ export class AddNewPage implements OnInit {
     private tipService: TipsService,
     private authService: AuthService,
     private userService: UserService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
+
     this.cemeterySub = this.cemeteryService.cemetery.subscribe((cemetery) => {
       this.cemetery = cemetery;
     });
@@ -123,59 +135,59 @@ export class AddNewPage implements OnInit {
       contact: new FormGroup({
         responsible: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         relationship: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         phoneNo: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resAddress1: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resAddress2: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resAddress3: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resCounty: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         responsible2: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         relationship2: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         phoneNo2: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resAddress12: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resAddress22: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resAddress32: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
         resCounty2: new FormControl(null, {
           updateOn: 'blur',
-          validators: [Validators.required],
+
         }),
       }),
       doctor: new FormControl(null, {
@@ -199,6 +211,10 @@ export class AddNewPage implements OnInit {
         validators: [Validators.required],
       }),
       clergy: new FormControl(null, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
+      reposingAt: new FormControl(null, {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
@@ -246,6 +262,13 @@ export class AddNewPage implements OnInit {
         updateOn: 'blur',
         validators: [Validators.required],
       }),
+      noticePar2: new FormControl(this.deathNotice, {
+        updateOn: 'blur',
+        validators: [Validators.required],
+      }),
+      specialRequests: new FormControl(null, {
+        updateOn: 'blur',
+      }),
     });
   }
 
@@ -253,6 +276,58 @@ export class AddNewPage implements OnInit {
     this.cemeteryService.fetchCemeterys().subscribe(() => {});
 
     this.churchService.fetchChurches().subscribe(() => {});
+  }
+  reposingAtNotice(event){
+    let nameDeceased: string;
+    nameDeceased = this.form.value.deceasedName;
+    nameDeceased = nameDeceased.split(' ')[0];
+    const reposingAt = event.target.value;
+    const massTime = this.datePipe.transform(this.form.value.massTime, 'h:mm a');
+    // eslint-disable-next-line max-len
+    this.form.controls.noticePar2.setValue(`Reposing at ${reposingAt} from ${this.noticeReposeStart} to ${this.noticeReposeEnd}. Funeral will leave ${reposingAt} to arrive at ${this.form.value.church} for Requiem mass at ${massTime}. Funeral will proceed to ${this.form.value.cemetery}. Due to current restrictions, ${nameDeceased}'s funeral will be private to family, relatives and friends. House private please (optional) Family flowers only. Donations in lieu of flowers if desired to (Charity) care of McGowan's funeral home, Emmet St, Ballina, Co. Mayo (or Foley & McGowan's Funeral Home, Market Yard, Sligo)You are welcome to send a message of condolence to his/her family on the funeral home website.`);
+  }
+
+  reposeStartTimeNotice(event){
+    if(event.detail.value !== "")
+    {
+      let nameDeceased: string;
+      nameDeceased = this.form.value.deceasedName;
+      nameDeceased = nameDeceased.split(' ')[0];
+      this.noticeReposeStart = event.target.value;
+      this.noticeReposeStart = this.datePipe.transform(this.noticeReposeStart, 'h:mm a');
+      const massTime = this.datePipe.transform(this.form.value.massTime, 'h:mm a');
+      // eslint-disable-next-line max-len
+      this.form.controls.noticePar2.setValue(`Reposing at ${this.form.value.reposingAt} from ${this.noticeReposeStart} to ${this.noticeReposeEnd}. Funeral will leave ${this.form.value.reposingAt} to arrive at ${this.form.value.church} for Requiem mass at ${massTime}. Funeral will proceed to ${this.form.value.cemetery}. Due to current restrictions, ${nameDeceased}'s funeral will be private to family, relatives and friends. House private please (optional) Family flowers only. Donations in lieu of flowers if desired to (Charity) care of McGowan's funeral home, Emmet St, Ballina, Co. Mayo (or Foley & McGowan's Funeral Home, Market Yard, Sligo)You are welcome to send a message of condolence to his/her family on the funeral home website.`);
+    }
+  }
+
+  reposeEndTimeNotice(event){
+    if(event.detail.value !== ""){
+      let nameDeceased: string;
+      nameDeceased = this.form.value.deceasedName;
+      nameDeceased = nameDeceased.split(' ')[0];
+      this.noticeReposeEnd = event.target.value;
+      this.noticeReposeEnd = this.datePipe.transform(this.noticeReposeEnd, 'h:mm a');
+      const massTime = this.datePipe.transform(this.form.value.massTime, 'h:mm a');
+      // eslint-disable-next-line max-len
+      this.form.controls.noticePar2.setValue(`Reposing at ${this.form.value.reposingAt} from ${this.noticeReposeStart} to ${this.noticeReposeEnd}. Funeral will leave ${this.form.value.reposingAt} to arrive at ${this.form.value.church} for Requiem mass at ${massTime}. Funeral will proceed to ${this.form.value.cemetery}. Due to current restrictions, ${nameDeceased}'s funeral will be private to family, relatives and friends. House private please (optional) Family flowers only. Donations in lieu of flowers if desired to (Charity) care of McGowan's funeral home, Emmet St, Ballina, Co. Mayo (or Foley & McGowan's Funeral Home, Market Yard, Sligo)You are welcome to send a message of condolence to his/her family on the funeral home website.`);
+    }
+
+
+  }
+
+  massTimeNotice(event){
+    if(event.detail.value !== ""){
+      let nameDeceased: string;
+      nameDeceased = this.form.value.deceasedName;
+      nameDeceased = nameDeceased.split(' ')[0];
+      let masstime = event.target.value;
+      masstime = this.datePipe.transform(masstime, 'h:mm a');
+      // eslint-disable-next-line max-len
+      this.form.controls.noticePar2.setValue(`Reposing at ${this.form.value.reposingAt} from ${this.noticeReposeStart} to ${this.noticeReposeEnd}. Funeral will leave ${this.form.value.reposingAt} to arrive at ${this.form.value.church} for Requiem mass at ${masstime}. Funeral will proceed to ${this.form.value.cemetery}. Due to current restrictions, ${nameDeceased}'s funeral will be private to family, relatives and friends. House private please (optional) Family flowers only. Donations in lieu of flowers if desired to (Charity) care of McGowan's funeral home, Emmet St, Ballina, Co. Mayo (or Foley & McGowan's Funeral Home, Market Yard, Sligo)You are welcome to send a message of condolence to his/her family on the funeral home website.`);
+    }
+
+
   }
 
   onCreateEntry() {
@@ -297,6 +372,7 @@ export class AddNewPage implements OnInit {
             this.form.value.cemetery,
             this.form.value.grave,
             this.form.value.clergy,
+            this.form.value.reposingAt,
             this.form.value.reposeDate,
             this.form.value.reposeTime,
             this.form.value.reposeEndTime,
@@ -308,7 +384,10 @@ export class AddNewPage implements OnInit {
             this.form.value.massTime,
             this.createdAt,
             this.form.value.formType,
-            this.userName
+            this.userName,
+            this.form.value.noticePar1,
+            this.form.value.noticePar2,
+            this.form.value.specialRequests
           )
           .subscribe(() => {
             loadingEl.dismiss();
@@ -353,5 +432,99 @@ export class AddNewPage implements OnInit {
   listTypeChange(event) {
     this.listType = event.target.value;
     console.log(this.listType);
+    if(this.listType === 'horizon'){
+      this.form.get('deceasedName').clearValidators();
+      this.form.get('deceasedName').updateValueAndValidity();
+      this.form.get('deathDate').clearValidators();
+      this.form.get('deathDate').updateValueAndValidity();
+      this.form.get('age').clearValidators();
+      this.form.get('age').updateValueAndValidity();
+      this.form.get('dob').clearValidators();
+      this.form.get('dob').updateValueAndValidity();
+      this.form.get('deathPlace').clearValidators();
+      this.form.get('deathPlace').updateValueAndValidity();
+      this.form.get('address1').clearValidators();
+      this.form.get('address1').updateValueAndValidity();
+      this.form.get('address2').clearValidators();
+      this.form.get('address2').updateValueAndValidity();
+      this.form.get('address3').clearValidators();
+      this.form.get('address3').updateValueAndValidity();
+      this.form.get('county').clearValidators();
+      this.form.get('county').updateValueAndValidity();
+      this.form.get('contact').clearValidators();
+      this.form.get('contact').updateValueAndValidity();
+      // this.form.get('responsible').clearValidators();
+      // this.form.get('responsible').updateValueAndValidity();
+      // this.form.get('relationship').clearValidators();
+      // this.form.get('relationship').updateValueAndValidity();
+      // this.form.get('phoneNo').clearValidators();
+      // this.form.get('phoneNo').updateValueAndValidity();
+      // this.form.get('resAddress1').clearValidators();
+      // this.form.get('resAddress1').updateValueAndValidity();
+      // this.form.get('resAddress2').clearValidators();
+      // this.form.get('resAddress2').updateValueAndValidity();
+      // this.form.get('resAddress3').clearValidators();
+      // this.form.get('resAddress3').updateValueAndValidity();
+      // this.form.get('resCounty').clearValidators();
+      // this.form.get('resCounty').updateValueAndValidity();
+      // this.form.get('responsible2').clearValidators();
+      // this.form.get('responsible2').updateValueAndValidity();
+      // this.form.get('relationship2').clearValidators();
+      // this.form.get('relationship2').updateValueAndValidity();
+      // this.form.get('phoneNo2').clearValidators();
+      // this.form.get('phoneNo2').updateValueAndValidity();
+      // this.form.get('resAddress12').clearValidators();
+      // this.form.get('resAddress12').updateValueAndValidity();
+      // this.form.get('resAddress22').clearValidators();
+      // this.form.get('resAddress22').updateValueAndValidity();
+      // this.form.get('resAddress32').clearValidators();
+      // this.form.get('resAddress32').updateValueAndValidity();
+      // this.form.get('resCounty2').clearValidators();
+      // this.form.get('resCounty2').updateValueAndValidity();
+      this.form.get('doctor').clearValidators();
+      this.form.get('doctor').updateValueAndValidity();
+      this.form.get('doctorNo').clearValidators();
+      this.form.get('doctorNo').updateValueAndValidity();
+      this.form.get('church').clearValidators();
+      this.form.get('church').updateValueAndValidity();
+      this.form.get('cemetery').clearValidators();
+      this.form.get('cemetery').updateValueAndValidity();
+      this.form.get('grave').clearValidators();
+      this.form.get('grave').updateValueAndValidity();
+      this.form.get('clergy').clearValidators();
+      this.form.get('clergy').updateValueAndValidity();
+      this.form.get('reposingAt').clearValidators();
+      this.form.get('reposingAt').updateValueAndValidity();
+      this.form.get('reposeDate').clearValidators();
+      this.form.get('reposeDate').updateValueAndValidity();
+      this.form.get('reposeTime').clearValidators();
+      this.form.get('reposeTime').updateValueAndValidity();
+      this.form.get('reposeEndTime').clearValidators();
+      this.form.get('reposeEndTime').updateValueAndValidity();
+      this.form.get('removalDate').clearValidators();
+      this.form.get('removalDate').updateValueAndValidity();
+      this.form.get('removalTime').clearValidators();
+      this.form.get('removalTime').updateValueAndValidity();
+      this.form.get('churchArrivalDate').clearValidators();
+      this.form.get('churchArrivalDate').updateValueAndValidity();
+      this.form.get('churchArrivalTime').clearValidators();
+      this.form.get('churchArrivalTime').updateValueAndValidity();
+      this.form.get('massDate').clearValidators();
+      this.form.get('massDate').updateValueAndValidity();
+      this.form.get('massTime').clearValidators();
+      this.form.get('massTime').updateValueAndValidity();
+      this.form.get('formType').clearValidators();
+      this.form.get('formType').updateValueAndValidity();
+      this.form.get('noticePar1').clearValidators();
+      this.form.get('noticePar1').updateValueAndValidity();
+      this.form.get('noticePar2').clearValidators();
+      this.form.get('noticePar2').updateValueAndValidity();
+      this.formType = this.horizon;
+    } else if (this.listType === 'standard'){
+      this.formType = this.form;
+    } else if (this.listType === 'preNeed'){
+
+      this.formType = this.form;
+    }
   }
 }

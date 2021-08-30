@@ -28,6 +28,7 @@ interface DeceasedData {
   cemetry: string;
   grave: string;
   clergy: string;
+  reposingAt: string;
   reposeDate: Date;
   reposeTime: Date;
   reposeEndTime: Date;
@@ -40,6 +41,9 @@ interface DeceasedData {
   entryDate: Date;
   formType: string;
   createdBy: string;
+  noticePar1: string;
+  noticePar2: string;
+  specialRequests: string;
 }
 
 @Injectable({
@@ -77,6 +81,7 @@ export class DeceasedService {
     cemetry: string,
     grave: string,
     clergy: string,
+    reposingAt: string,
     reposeDate: Date,
     reposeTime: Date,
     reposeEndTime: Date,
@@ -88,7 +93,10 @@ export class DeceasedService {
     massTime: Date,
     entryDate: Date,
     formType: string,
-    createdBy: string
+    createdBy: string,
+    noticePar1: string,
+    noticePar2: string,
+    specialRequests: string
   ) {
     let generateId: string;
     let newDeceased: Deceased;
@@ -122,6 +130,7 @@ export class DeceasedService {
           cemetry,
           grave,
           clergy,
+          reposingAt,
           reposeDate,
           reposeTime,
           reposeEndTime,
@@ -133,7 +142,10 @@ export class DeceasedService {
           massTime,
           entryDate,
           formType,
-          createdBy
+          createdBy,
+          noticePar1,
+          noticePar2,
+          specialRequests
         );
         this.addContact(contact).subscribe();
         return this.http.post<{ name: string }>(
@@ -148,10 +160,19 @@ export class DeceasedService {
       take(1),
       tap((deceased) => {
         newDeceased.id = generateId;
-        this.calendarService.reposeDate( deceasedName, reposeDate, reposeTime, reposeEndTime);
-        this.calendarService.removalTime( deceasedName, removalDate, removalTime);
-        this.calendarService.churchArrivalTime( deceasedName, churchArrivalDate, churchArrivalTime);
-        this.calendarService.massTime( deceasedName, massDate, massTime);
+        if(reposeDate !== null){
+          this.calendarService.reposeDate( deceasedName, reposeDate, reposeTime, reposeEndTime);
+        }
+        if(removalDate !== null){
+          this.calendarService.removalTime( deceasedName, removalDate, removalTime);
+
+        }
+        if(churchArrivalDate !== null){
+          this.calendarService.churchArrivalTime( deceasedName, churchArrivalDate, churchArrivalTime);
+        }
+        if(massDate !== null){
+          this.calendarService.massTime( deceasedName, massDate, massTime);
+        }
         // eslint-disable-next-line no-underscore-dangle
         this._deceased.next(deceased.concat(newDeceased));
       })
@@ -232,6 +253,7 @@ export class DeceasedService {
                 resData[key].cemetry,
                 resData[key].grave,
                 resData[key].clergy,
+                resData[key].reposingAt,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
                 resData[key].reposeEndTime,
@@ -243,7 +265,10 @@ export class DeceasedService {
                 resData[key].massTime,
                 resData[key].entryDate,
                 resData[key].formType,
-                resData[key].createdBy
+                resData[key].createdBy,
+                resData[key].noticePar1,
+                resData[key].noticePar2,
+                resData[key].specialRequests
               )
             );
           }
@@ -291,6 +316,7 @@ export class DeceasedService {
                 resData[key].cemetry,
                 resData[key].grave,
                 resData[key].clergy,
+                resData[key].reposingAt,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
                 resData[key].reposeEndTime,
@@ -302,7 +328,10 @@ export class DeceasedService {
                 resData[key].massTime,
                 resData[key].entryDate,
                 resData[key].formType,
-                resData[key].createdBy
+                resData[key].createdBy,
+                resData[key].noticePar1,
+                resData[key].noticePar2,
+                resData[key].specialRequests
               )
             );
           }
@@ -355,6 +384,7 @@ export class DeceasedService {
                 resData[key].cemetry,
                 resData[key].grave,
                 resData[key].clergy,
+                resData[key].reposingAt,
                 resData[key].reposeDate,
                 resData[key].reposeTime,
                 resData[key].reposeEndTime,
@@ -366,7 +396,10 @@ export class DeceasedService {
                 resData[key].massTime,
                 resData[key].entryDate,
                 resData[key].formType,
-                resData[key].createdBy
+                resData[key].createdBy,
+                resData[key].noticePar1,
+                resData[key].noticePar2,
+                resData[key].specialRequests
               )
             );
           }
@@ -406,6 +439,7 @@ export class DeceasedService {
           resData.cemetry,
           resData.grave,
           resData.clergy,
+          resData.reposingAt,
           resData.reposeDate,
           resData.reposeTime,
           resData.reposeEndTime,
@@ -417,7 +451,10 @@ export class DeceasedService {
           resData.massTime,
           resData.entryDate,
           resData.formType,
-          resData.createdBy
+          resData.createdBy,
+          resData.noticePar1,
+          resData.noticePar2,
+          resData.specialRequests
         );
       })
     );
@@ -441,6 +478,7 @@ export class DeceasedService {
     cemetry: string,
     grave: string,
     clergy: string,
+    reposingAt: string,
     reposeDate: Date,
     reposeTime: Date,
     reposeEndTime: Date,
@@ -453,15 +491,30 @@ export class DeceasedService {
     createdAt: Date,
     formType: string,
     createdBy: string,
+    noticePar1: string,
+    noticePar2: string,
+    specialRequests: string,
     reposeId: string,
     removalId: string,
     massDateId: string,
     churchArrivalId: string
   ) {
-    this.calendarService.updateReposeDate(reposeId, deceasedName, reposeDate, reposeTime, reposeEndTime);
-    this.calendarService.updateRemovalTime(removalId, deceasedName, removalDate, removalTime);
-    this.calendarService.updateMassTime(massDateId, deceasedName, massDate, massTime);
-    this.calendarService.updateChurchArrivalTime(churchArrivalId, deceasedName, churchArrivalDate, churchArrivalTime);
+    if(reposeDate !== null){
+      this.calendarService.updateReposeDate(reposeId, deceasedName, reposeDate, reposeTime, reposeEndTime);
+
+    }
+    if(removalDate !== null){
+      this.calendarService.updateRemovalTime(removalId, deceasedName, removalDate, removalTime);
+
+    }
+    if(massDate !== null){
+      this.calendarService.updateMassTime(massDateId, deceasedName, massDate, massTime);
+
+    }
+    if(churchArrivalDate !== null){
+      this.calendarService.updateChurchArrivalTime(churchArrivalId, deceasedName, churchArrivalDate, churchArrivalTime);
+
+    }
     let updateDeceasedInfo: Deceased[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -502,6 +555,7 @@ export class DeceasedService {
           cemetry,
           grave,
           clergy,
+          reposingAt,
           reposeDate,
           reposeTime,
           reposeEndTime,
@@ -513,7 +567,113 @@ export class DeceasedService {
           massTime,
           createdAt,
           formType,
-          oldDeceasedInfo.createdBy
+          oldDeceasedInfo.createdBy,
+          noticePar1,
+          noticePar2,
+          specialRequests
+        );
+        return this.http.put(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/deceased-details/${deceasedId}.json?auth=${fetchedToken}`,
+          { ...updateDeceasedInfo[updateDeceasedIndex], id: null }
+        );
+      }),
+      tap(() => {
+        this._deceased.next(updateDeceasedInfo);
+      })
+    );
+  }
+
+  transferDeceased(
+    deceasedId: string,
+    deceasedName: string,
+    deathDate: string,
+    age: number,
+    dob: Date,
+    deathPlace: string,
+    address1: string,
+    address2: string,
+    address3: string,
+    county: string,
+    contact: Contact,
+    doctor: string,
+    doctorNo: number,
+    church: string,
+    cemetry: string,
+    grave: string,
+    clergy: string,
+    reposingAt: string,
+    reposeDate: Date,
+    reposeTime: Date,
+    reposeEndTime: Date,
+    removalDate: Date,
+    removalTime: Date,
+    churchArrivalDate: Date,
+    churchArrivalTime: Date,
+    massDate: Date,
+    massTime: Date,
+    createdAt: Date,
+    formType: string,
+    createdBy: string,
+    noticePar1: string,
+    noticePar2: string,
+    specialRequests: string,
+  ) {
+    let updateDeceasedInfo: Deceased[];
+    let fetchedToken: string;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        fetchedToken = token;
+        return this.deceased;
+      }),
+      take(1),
+      switchMap((places) => {
+        if (!places || places.length <= 0) {
+          return this.fetchDeceased(formType);
+        } else {
+          return of(places);
+        }
+      }),
+      switchMap((places) => {
+        const updateDeceasedIndex = places.findIndex(
+          (pl) => pl.id === deceasedId
+        );
+        updateDeceasedInfo = [...places];
+        const oldDeceasedInfo = updateDeceasedInfo[updateDeceasedIndex];
+        updateDeceasedInfo[updateDeceasedIndex] = new Deceased(
+          oldDeceasedInfo.id,
+          deceasedName,
+          deathDate,
+          age,
+          dob,
+          deathPlace,
+          address1,
+          address2,
+          address3,
+          county,
+          contact,
+          doctor,
+          doctorNo,
+          church,
+          cemetry,
+          grave,
+          clergy,
+          reposingAt,
+          reposeDate,
+          reposeTime,
+          reposeEndTime,
+          removalDate,
+          removalTime,
+          churchArrivalDate,
+          churchArrivalTime,
+          massDate,
+          massTime,
+          createdAt,
+          formType,
+          oldDeceasedInfo.createdBy,
+          noticePar1,
+          noticePar2,
+          specialRequests
         );
         return this.http.put(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/deceased-details/${deceasedId}.json?auth=${fetchedToken}`,

@@ -8,7 +8,14 @@ import { DeceasedInformationPageRoutingModule } from './deceased-information-rou
 
 import { DeceasedInformationPage } from './deceased-information.page';
 
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+
 @NgModule({
+  providers: [
+    File,
+    FileOpener,
+  ],
   imports: [
     CommonModule,
     FormsModule,

@@ -21,6 +21,9 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxElectronModule } from 'ngx-electron';
 
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,7 +48,10 @@ import { NgxElectronModule } from 'ngx-electron';
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    File,
+    FileOpener,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
