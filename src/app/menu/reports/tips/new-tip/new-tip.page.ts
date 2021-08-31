@@ -76,18 +76,18 @@ export class NewTipPage implements OnInit {
       .then((loadingEl) => {
         loadingEl.present();
         this.tipPaymentService
-          .addTipPayment(
+          .addTipPaymentInfo(
             this.form.value.entryDate,
             this.form.value.entryAmount,
             this.form.value.entryDesc,
             this.form.value.payeeName,
             this.createdAt
-          )
-          .subscribe(() => {
+          );
+
             loadingEl.dismiss();
             this.form.reset();
             this.modal.dismiss();
-          });
+
       });
   }
 

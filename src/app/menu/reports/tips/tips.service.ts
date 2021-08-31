@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { TipPaymentsService } from './tip-payments.service';
 import { Tips } from './tips.model';
 
 interface TipData {
@@ -22,16 +23,23 @@ interface TipData {
 export class TipsService {
   private _tip = new BehaviorSubject<Tips[]>([]);
 
+  private _tipStats = new BehaviorSubject<Tips[]>([]);
+
   get tips() {
     return this._tip.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  get tipStats() {
+    return this._tipStats.asObservable();
+  }
+
+  constructor(private http: HttpClient, private authService: AuthService, private tipPaymentService: TipPaymentsService) { }
 
   addTips(entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string, createdAt: Date) {
     let generateId: string;
     let newEntry: Tips;
     let fetchedUserId: string;
+    this.tipPaymentService.addTipPayee(payeeName, entryAmount);
     return this.authService.userId.pipe(
       take(1),
       switchMap((userId) => {
@@ -86,7 +94,7 @@ export class TipsService {
       return tips;
     }),
     tap((tips) => {
-      this._tip.next(tips);
+      this._tipStats.next(tips);
     })
     );
   }
@@ -98,6 +106,7 @@ export class TipsService {
     const entryDesc = `Payment of €30 made to Brian Scanlon for the burial of ${deceasedName}`;
     const entryAmount = 30;
     const name = 'Brian Scanlon';
+    this.tipPaymentService.addTipPayee(name, entryAmount);
     return this.authService.userId.pipe(
       take(1),
       switchMap((userId) => {
@@ -134,6 +143,7 @@ export class TipsService {
     const entryDesc = `Payment of €30 made to Terry Butler for the burial of ${deceasedName}`;
     const entryAmount = 30;
     const name = 'Terry Butler';
+    this.tipPaymentService.addTipPayee(name, entryAmount);
     return this.authService.userId.pipe(
       take(1),
       switchMap((userId) => {
@@ -169,7 +179,8 @@ export class TipsService {
     let fetchedUserId: string;
     const entryDesc = `Sacristan Payment of €50 made to St. Anne’s Church Sligo`;
     const entryAmount = 50;
-    const name = 'St. Anne’s Church';
+    const name = 'St. Anne’s Church Sligo';
+    this.tipPaymentService.addTipPayee(name, entryAmount);
     return this.authService.userId.pipe(
       take(1),
       switchMap((userId) => {
@@ -206,6 +217,7 @@ export class TipsService {
     const entryDesc = `Sacristan Payment of €50 made to ${sacristanName} for the funeral of ${deceasedName}`;
     const entryAmount = 50;
     const name = 'Sacristan';
+    this.tipPaymentService.addTipPayee(name, entryAmount);
     return this.authService.userId.pipe(
       take(1),
       switchMap((userId) => {

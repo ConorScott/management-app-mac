@@ -385,7 +385,7 @@
               </ion-item>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="!deceased.specialRequests">
+          <ion-row *ngIf="!deceased.specialRequests || deceased.formType != 'horizon'">
             <ion-col size="12" size-md="6" size-lg="3">
               <ion-button class="new-entry-button" color="success" type="submit" expand="block"
                 (click)="onUpdateDeceased()" [disabled]="!form?.valid">
@@ -397,7 +397,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card *ngIf="deceased.specialRequests">
+    <ion-card *ngIf="deceased.specialRequests || deceased.formType == 'horizon'">
 
       <ion-card-header>
 

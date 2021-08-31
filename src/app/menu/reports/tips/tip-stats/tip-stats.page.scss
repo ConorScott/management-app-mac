@@ -32,3 +32,15 @@ ion-icon:hover {
   -webkit-transition: all 300ms ease;
   cursor: pointer;
 }
+.viewport {
+  height: 380px;
+  width: 100%;
+}
+.virtualScroll {
+  display: flex;
+  align-self: center;
+}
+.total{
+
+  min-width: 57.5%;
+}

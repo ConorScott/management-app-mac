@@ -70,7 +70,6 @@ export class TipsPage implements OnInit, OnDestroy {
 
       this.filteredTips = this.tips;
       this.filtered = [...this.tips];
-      console.log(this.filtered);
       this.filterSelected = false;
       this.tips.reduce(
         (acc, val) => (this.overallTotal = acc += val.entryAmount), 0
@@ -86,11 +85,11 @@ export class TipsPage implements OnInit, OnDestroy {
       this.filteredTP = [...this.tipPayments];
     });
 
-    this.getRayTotal();
-    this.getKieranTotal();
-    this.getTerryTotal();
-    this.getBrianTotal();
-    this.getStAnnesTotal();
+    // this.getRayTotal();
+    // this.getKieranTotal();
+    // this.getTerryTotal();
+    // this.getBrianTotal();
+    // this.getStAnnesTotal();
     // this.getOtherTotal();
   }
 
@@ -105,56 +104,55 @@ export class TipsPage implements OnInit, OnDestroy {
     });
   }
 
-  getRayTotal() {
-    this.rayTotalSub = this.tipService
-    .fetchTotalPayments('Ray Murtagh').subscribe((total) => {
-      console.log(total);
-      total.reduce((acc, val) => (this.rayTotal = acc =+ val.entryAmount), 0);
-      if (this.rayTotal === undefined) {
-        this.rayTotal = 0;
-      }
-    });
-  }
+  // getRayTotal() {
+  //   this.rayTotalSub = this.tipService
+  //   .fetchTotalPayments('Ray Murtagh').subscribe((total) => {
+  //     total.reduce((acc, val) => (this.rayTotal = acc =+ val.entryAmount), 0);
+  //     if (this.rayTotal === undefined) {
+  //       this.rayTotal = 0;
+  //     }
+  //   });
+  // }
 
-  getKieranTotal() {
-    this.kieranTotalSub = this.tipService
-    .fetchTotalPayments('Kieran Maughan').subscribe((total) => {
-      total.reduce((acc, val) => (this.kieranTotal = acc =+ val.entryAmount), 0);
-      if (this.kieranTotal === undefined) {
-        this.kieranTotal = 0;
-      }
-    });
-  }
+  // getKieranTotal() {
+  //   this.kieranTotalSub = this.tipService
+  //   .fetchTotalPayments('Kieran Maughan').subscribe((total) => {
+  //     total.reduce((acc, val) => (this.kieranTotal = acc =+ val.entryAmount), 0);
+  //     if (this.kieranTotal === undefined) {
+  //       this.kieranTotal = 0;
+  //     }
+  //   });
+  // }
 
-  getTerryTotal() {
-    this.terryTotalSub = this.tipService
-    .fetchTotalPayments('Terry Butler').subscribe((total) => {
-      total.reduce((acc, val) => (this.terryTotal = acc =+ val.entryAmount), 0);
-      if (this.terryTotal === undefined) {
-        this.terryTotal = 0;
-      }
-    });
-  }
+  // getTerryTotal() {
+  //   this.terryTotalSub = this.tipService
+  //   .fetchTotalPayments('Terry Butler').subscribe((total) => {
+  //     total.reduce((acc, val) => (this.terryTotal = acc =+ val.entryAmount), 0);
+  //     if (this.terryTotal === undefined) {
+  //       this.terryTotal = 0;
+  //     }
+  //   });
+  // }
 
-  getBrianTotal() {
-    this.brianTotalSub = this.tipService
-    .fetchTotalPayments('Brian Scanlon').subscribe((total) => {
-      total.reduce((acc, val) => (this.brianTotal = acc =+ val.entryAmount), 0);
-      if (this.brianTotal === undefined) {
-        this.brianTotal = 0;
-      }
-    });
-  }
+  // getBrianTotal() {
+  //   this.brianTotalSub = this.tipService
+  //   .fetchTotalPayments('Brian Scanlon').subscribe((total) => {
+  //     total.reduce((acc, val) => (this.brianTotal = acc =+ val.entryAmount), 0);
+  //     if (this.brianTotal === undefined) {
+  //       this.brianTotal = 0;
+  //     }
+  //   });
+  // }
 
-  getStAnnesTotal() {
-    this.stAnnesTotalSub = this.tipService
-    .fetchTotalPayments('St. Anne’s Church Sligo').subscribe((total) => {
-      total.reduce((acc, val) => (this.stAnnesTotal = acc =+ val.entryAmount), 0);
-      if (this.stAnnesTotal === undefined) {
-        this.stAnnesTotal = 0;
-      }
-    });
-  }
+  // getStAnnesTotal() {
+  //   this.stAnnesTotalSub = this.tipService
+  //   .fetchTotalPayments('St. Anne’s Church Sligo').subscribe((total) => {
+  //     total.reduce((acc, val) => (this.stAnnesTotal = acc =+ val.entryAmount), 0);
+  //     if (this.stAnnesTotal === undefined) {
+  //       this.stAnnesTotal = 0;
+  //     }
+  //   });
+  // }
 
   // getOtherTotal() {
   //   this.otherTotalSub = this.tipService
@@ -238,7 +236,7 @@ export class TipsPage implements OnInit, OnDestroy {
             role: 'destructive',
             handler: () => {
               this.loadingCtrl
-                .create({ message: 'Deleting Tip Entry...' })
+                .create({ message: 'Deleting Tip Payment...' })
                 .then((loadingEl) => {
                   loadingEl.present();
                   this.tipPaymentService.deleteTipPayment(cashbookId).subscribe(() => {
@@ -392,7 +390,9 @@ export class TipsPage implements OnInit, OnDestroy {
           terryTotal: this.terryTotal,
           brianTotal: this.brianTotal,
           stAnnesTotal: this.stAnnesTotal,
-          overallTotal: this.overallTotal
+          overallTotal: this.overallTotal,
+          tips: this.filtered,
+          tipPayment: this.tipPayment
         },
       })
       .then((modalEl) => {
