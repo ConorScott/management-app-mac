@@ -11,6 +11,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NewUserPage } from './new-user/new-user.page';
 import { EditUserPage } from './edit-user/edit-user.page';
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +21,8 @@ import { EditUserPage } from './edit-user/edit-user.page';
     IonicModule,
     ReactiveFormsModule,
     UsersPageRoutingModule,
-    SharedModule
+    SharedModule,
+    ScrollingModule
   ],
   declarations: [UsersPage, NewUserPage, EditUserPage],
   entryComponents: [NewUserPage]

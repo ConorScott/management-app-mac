@@ -137,3 +137,28 @@ ion-icon:hover {
   height: 60px;
   border-radius: 0px 0px 20px 20px;
 }
+@media only screen and (max-width: 576px) {
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ion-label{
+    text-overflow: unset;
+    padding: 1rem 2.5rem 1rem 1rem;
+  }
+  ion-card-header{
+    padding-inline: 0px;
+  }
+  .mobile{
+    font-size: 10.5px;
+  }
+  .desktop{
+    display: none;
+  }
+}
+@media only screen and (min-width: 577px) {
+  .mobile{
+    display: none;
+}
+}

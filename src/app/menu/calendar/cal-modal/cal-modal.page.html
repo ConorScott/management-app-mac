@@ -12,7 +12,7 @@
     <ion-card-content>
       <ion-grid>
         <ion-row class="ion-justify-content-center">
-          <ion-col size="10">
+          <ion-col size-xs="12" size="10">
             <ion-item lines="none">
               <ion-label position="fixed" class="card-title">Day Off</ion-label>
               <ion-checkbox name="dayOff" #dayOff></ion-checkbox>
@@ -22,38 +22,38 @@
 
         <ion-row class="ion-justify-content-center" *ngIf="!dayOff.checked">
 
-          <ion-col size="10">
+          <ion-col size-xs="12" size="10">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Event Title</ion-label>
               <ion-input class="form-input" type="text" placeholder="Event Title" formControlName="title"></ion-input>
             </ion-item>
           </ion-col>
 
-          <ion-col size="5" >
+          <ion-col size-xs="6" size="5" >
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Start Date</ion-label>
               <ion-datetime class="form-input-date" type="text" placeholder="Start Date" formControlName="start" #start></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col size="5" >
+          <ion-col size-xs="6" size="5" >
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Start Time</ion-label>
               <ion-datetime display-format="h:mm A" picker-format="h:mm A" class="form-input-date" type="text" placeholder="Start Time" formControlName="startTime"></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col size="5">
+          <ion-col size-xs="6" size="5">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">End Date</ion-label>
               <ion-datetime class="form-input-date" type="text" placeholder="End Date" formControlName="end" [min]="form.controls['start'].value"></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col size="5">
+          <ion-col size-xs="6" size="5">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">End Time</ion-label>
               <ion-datetime display-format="h:mm A" picker-format="h:mm A" class="form-input-date" type="text" placeholder="End Time" formControlName="endTime"></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col size="10">
+          <ion-col size-xs="12" size="10">
             <ion-item lines="none">
               <ion-label class="form-label" position="stacked">Event Description</ion-label>
               <ion-textarea rows="5" class="form-input" type="text" placeholder="Event Description" formControlName="desc"></ion-textarea>
@@ -62,27 +62,27 @@
 
         </ion-row>
         <ion-row class="ion-justify-content-center" *ngIf="dayOff.checked">
-          <ion-col size="10">
+          <ion-col size-xs="12" size="10">
             <ion-item lines="none">
               <ion-label position="fixed" class="card-title">Day In Lieu</ion-label>
               <ion-checkbox name="dayIn" #dayIn></ion-checkbox>
             </ion-item>
           </ion-col>
 
-          <ion-col size="10">
+          <ion-col size-xs="12" size="10">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Employee Name</ion-label>
               <ion-input class="form-input" type="text" placeholder="Employee Name" formControlName="title"></ion-input>
             </ion-item>
           </ion-col>
 
-          <ion-col size="10" >
+          <ion-col size-xs="12" size="10" >
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Start Date</ion-label>
               <ion-datetime class="form-input-date" type="text" placeholder="Start Date" formControlName="start"></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col size="10">
+          <ion-col size-xs="12" size="10">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Return Date</ion-label>
               <ion-datetime class="form-input-date" type="text" placeholder="End Date" formControlName="end" [min]="form.controls['start'].value"></ion-datetime>

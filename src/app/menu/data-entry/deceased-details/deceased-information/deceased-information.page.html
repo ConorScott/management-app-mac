@@ -243,10 +243,16 @@
 
           <ion-card-header>
             <ion-row>
-              <ion-col size-xs="8" size-lg="4" size-md="9.5" size-sm="10" class="ion-align-self-center">
+              <ion-col size-xs="12" size-lg="4" size-md="9.5" size-sm="10" class="ion-align-self-center">
                 <ion-card-subtitle class="card-title sub">Death Notice</ion-card-subtitle>
                 </ion-col>
-                <ion-col size-xs="4" size-lg="8" size-md="2.5" size-sm="3" class="ion-text-end">
+                <ion-col size-xs="9" size-lg="8" size-md="2.5" size-sm="3" class="ion-text-end notice-lg">
+                <ion-button class="radio-notice" color="primary" (click)="viewPdf()">Radio Death Notice</ion-button>
+                <ion-button class="radio-notice" color="primary" (click)="viewPdfWeb()">Website Death Notice</ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row class="notice-mb">
+              <ion-col size-xs="12" size-lg="8" size-md="2.5" size-sm="3" class="ion-text-start">
                 <ion-button class="radio-notice" color="primary" (click)="viewPdf()">Radio Death Notice</ion-button>
                 <ion-button class="radio-notice" color="primary" (click)="viewPdfWeb()">Website Death Notice</ion-button>
               </ion-col>

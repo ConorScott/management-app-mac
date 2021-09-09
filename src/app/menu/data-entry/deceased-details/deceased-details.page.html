@@ -31,14 +31,15 @@
           </ion-col>
           <ion-col size-lg="8" size-md="7" size-xs="4" class="ion-align-self-center">
             <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
+            <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
+              <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
+              Search
+            </ion-button>
           </ion-col>
           <ion-col size-lg="4" size-md="5" size-xs="8" class="col-buttons ion-align-self-center" *ngIf="!searchbarOpened">
-            <ion-buttons *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search">
-              <ion-button class="search-icon">
-                <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
-                Search
-              </ion-button>
-            </ion-buttons>
+
+
+
             <ion-button  (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline" class="btn-icon"></ion-icon>
               Filter Dates

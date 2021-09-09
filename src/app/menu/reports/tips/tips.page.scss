@@ -170,3 +170,45 @@ ion-select::part(icon) {
   color: #32325d;
   opacity: 1;
 }
+@media only screen and (max-width: 576px) {
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ion-label{
+    text-overflow: unset;
+    padding: 1rem 2.5rem 1rem 1rem;
+  }
+  .desktopSearch{
+    display: none;
+  }
+  .search-icon{
+    border-color: #fff;
+    color: #3880ff;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    border-radius: 0.25rem;
+    font-size: 0.60em;
+    font-weight: 600;
+    --background: transparent;
+    transition: all 0.15s ease;
+  }
+  .new-entry-button{
+    font-size: .60em;
+  }
+  .new-filter-button{
+    font-size: .60em;
+  }
+  .btn-icon{
+    font-size: 16px;
+  }
+  .search-icon .btn-icon{
+    font-size: 16px;
+  }
+}
+@media only screen and (min-width: 577px)
+{
+  .mobile-search{
+    display: none;
+  }
+}

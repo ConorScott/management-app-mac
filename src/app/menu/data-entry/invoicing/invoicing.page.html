@@ -17,12 +17,12 @@
           </ion-col>
           <ion-col size-lg="8" size-md="7" size-xs="4" class="ion-align-self-center">
             <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
-            <ion-buttons *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search">
-              <ion-button class="search-icon">
+
+              <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
                 <ion-icon name="search"></ion-icon>
-                Search Name
+                Search
               </ion-button>
-            </ion-buttons>
+
           </ion-col>
           <ion-col size-lg="4" size-md="5" size-xs="8"  class="col-buttons ion-align-self-center" *ngIf="!searchbarOpened">
             <ion-button (click)="onFilterDates()" class="new-filter-button">

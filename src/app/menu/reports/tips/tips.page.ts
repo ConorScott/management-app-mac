@@ -45,6 +45,7 @@ export class TipsPage implements OnInit, OnDestroy {
   overallTotal: number;
   paymentDate = false;
   tipPayment = false;
+  searchbarOpened = false;
 
   private tipsSub: Subscription;
   private tipPaymentSub: Subscription;

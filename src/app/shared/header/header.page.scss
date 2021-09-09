@@ -88,6 +88,13 @@ ion-menu-button{
   ion-title{
     font-size: 1rem;
   }
+  ion-toolbar{
+    padding-left: 10px;
+    padding-right: 10px;
+    --background: white;
+    // --background: linear-gradient(87deg, #3880ff 0, #80aeff 100%) !important;
+    --background: #3880ff;
+  }
 }
 @media only screen and (min-width: 577px)
 {

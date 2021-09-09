@@ -6,22 +6,25 @@
   <ion-grid>
     <ion-row class="ion-text-center">
 
-      <ion-col size-lg="2.5" class="view-month">
+      <ion-col size-xs="6" size-lg="2.5" class="view-month">
         <h3 class="view-date">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
       </ion-col>
-      <ion-col size-lg="2" class="view-month">
+      <ion-col  size-xs="2" size-lg="2" class="view-month">
         <div class="btn-group">
 
         </div>
       </ion-col>
 
-      <ion-col size-lg=".5">
-
+      <ion-col  size-xs="4" size-lg=".5">
+        <ion-button color="primary" type="submit" expand="block" class="submit-button mobile-search" (click)="openCalModal()">
+          <ion-icon name="add-outline"></ion-icon>
+          Add New
+        </ion-button>
       </ion-col>
 
       <ion-col size-lg="7" class="ion-buttons">
         <div class="btn-group add-new">
-          <ion-button color="primary" type="submit" expand="block" class="submit-button" (click)="openCalModal()">
+          <ion-button color="primary" type="submit" expand="block" class="submit-button desktop-search" (click)="openCalModal()">
           <ion-icon name="add-outline"></ion-icon>
           Add New
         </ion-button>

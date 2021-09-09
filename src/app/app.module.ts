@@ -21,6 +21,9 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxElectronModule } from 'ngx-electron';
 
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 
@@ -30,7 +33,9 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      // mode: 'md'
+    }),
     AppRoutingModule,
     MatTabsModule,
     HttpClientModule,
@@ -51,7 +56,10 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
   providers: [
     File,
     FileOpener,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AppVersion,
+    InAppBrowser
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

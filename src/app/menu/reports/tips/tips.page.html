@@ -5,8 +5,11 @@
   <ion-card>
     <ion-card-header>
       <ion-row>
-        <ion-col size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
+        <ion-col *ngIf="!tipPayment" size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
           <ion-card-subtitle class="card-title">Tips</ion-card-subtitle>
+        </ion-col>
+        <ion-col *ngIf="tipPayment" size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
+          <ion-card-subtitle class="card-title">Tip Payments</ion-card-subtitle>
         </ion-col>
         <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center">
           <ion-select (ionChange)="listTypeChange($event)" value="tips">
@@ -20,10 +23,20 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col size="7">
-            <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+          <ion-col size-xs="12" size-md="8" class.searchbar="searchbarOpened" *ngIf="searchbarOpened">
+            <ion-searchbar  *ngIf="searchbarOpened" showCancelButton="true" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true" (ionCancel)="searchbarOpened=false"></ion-searchbar>
+
           </ion-col>
-          <ion-col size="5" class="ion-align-self-center">
+
+          <ion-col class="desktopSearch" size="7" size-xs="3">
+            <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+
+          </ion-col>
+          <ion-col size="5" size-xs="12" class="ion-align-self-center" *ngIf="!searchbarOpened">
+            <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
+              <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
+              Search
+            </ion-button>
             <ion-button (click)="viewPaymentStats()" class="new-entry-button">
               <ion-icon slot="start" name="cash-outline"></ion-icon>
               Payment Stats
@@ -33,9 +46,13 @@
               Filter Dates
             </ion-button>
 
-            <ion-button class="new-entry-button" (click)="onAddNew()">
+            <ion-button *ngIf="!tipPayment" class="new-entry-button" (click)="onAddNew()">
               <ion-icon slot="start" name="add-outline"></ion-icon>
               New Entry
+            </ion-button>
+            <ion-button *ngIf="tipPayment" class="new-entry-button" (click)="onAddNew()">
+              <ion-icon slot="start" name="add-outline"></ion-icon>
+              New Payment
             </ion-button>
           </ion-col>
         </ion-row>

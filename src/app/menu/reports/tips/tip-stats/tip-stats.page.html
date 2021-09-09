@@ -14,7 +14,7 @@
         <ion-grid>
           <div class="virtualScroll">
             <cdk-virtual-scroll-viewport itemSize="20" class="viewport" *ngIf="!tipPayment && !isLoading && filteredTips.length > 0">
-              <ion-item *ngFor="let stats of filteredTips">
+              <ion-item *cdkVirtualFor="let stats of filteredTips">
                 <ion-label class="form-label">{{stats.payeeName}}</ion-label>
                 <ion-label class="label"> €{{stats.entryAmount}}</ion-label>
               </ion-item>

@@ -108,7 +108,7 @@ ion-item.item-has-focus > .form-input{
 
   font-weight: 600;
   font-size: 1rem;
-  padding-left: 32px;
+  padding-left: 16px;
   padding-top: 16px;
 }
 .header{
@@ -135,6 +135,7 @@ ion-back-button{
     width: 95%;
     margin-left: auto;
     margin-right: auto;
+
   }
   .form-label{
     font-size: .875rem;
@@ -143,7 +144,14 @@ ion-back-button{
     padding:0px;
   }
   .contact{
-    padding-left:20px;
+    padding-left:0px;
+    font-size: 0.875rem;
+  }
+  .title-col{
+    align-self: center !important;
+  }
+  .address-row{
+    padding-top: 15px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width:1024px)
