@@ -33,6 +33,7 @@
     "@capacitor-community/native-market": "^0.1.4",
     "@capacitor/android": "^2.4.7",
     "@capacitor/core": "^2.4.7",
+    "@capacitor/ios": "^2.4.7",
     "@fullcalendar/angular": "^5.8.0",
     "@fullcalendar/daygrid": "^5.8.0",
     "@fullcalendar/interaction": "^5.8.0",
