@@ -129,6 +129,16 @@ ion-title{
 ion-back-button{
   color:white;
 }
+.viewport {
+  height: 320px;
+  width: 100%;
+
+  box-shadow: 1px 1px 1px grey;
+}
+.virtualScroll {
+  display: flex;
+  align-self: center;
+}
 @media only screen and (max-width: 576px) {
   ion-card {
     width: 95%;
@@ -145,5 +155,9 @@ ion-back-button{
   }
   .btn-col{
     padding: 0px;
+  }
+  .ion-label{
+    text-overflow: unset;
+    padding: 1rem 2.5rem 1rem 1rem;
   }
 }

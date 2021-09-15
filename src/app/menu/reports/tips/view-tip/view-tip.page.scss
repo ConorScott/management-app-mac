@@ -46,3 +46,20 @@ ion-icon:hover {
   color: #eb445a;
 }
 
+@media only screen and (max-width: 577px)
+{
+  .form-label-desc{
+    color: #525f7f;
+      font-weight: 600;
+      font-size: 0.875rem;
+      min-width: 60%;
+      max-width: 60%;
+  }
+  .form-label{
+      min-width: 40%;
+      max-width: 60%;
+  }
+  ion-card-content{
+    padding: 0;
+  }
+}

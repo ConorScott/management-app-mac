@@ -306,6 +306,22 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
     });
   }
 
+  onChangeR(event) {
+    const filteration = event.target.value;
+    this.filteredR = this.filterSearch(filteration);
+    if (filteration.length === 0) {
+      this.filteredR = this.filteredReceipts;
+    }
+  }
+
+  filterSearchR(searchTerm) {
+    return this.payments.filter((item) => {
+      return (
+        item.payeeName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+      );
+    });
+  }
+
   ngOnDestroy() {
     this.debtorSub.unsubscribe();
     this.paymentSub.unsubscribe();

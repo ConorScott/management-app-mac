@@ -24,7 +24,9 @@ ion-icon:hover:not(.menu-icon) {
   -moz-transition: all 300ms ease;
   -webkit-transition: all 300ms ease;
 }
-
+.new-entry{
+  text-align: end;
+}
 ion-card-content {
   padding: 0;
 }
@@ -125,4 +127,16 @@ ion-select::part(icon) {
 .header-row{
   padding:5px;
 }
+@media only screen and (max-width: 576px) {
 
+  .ion-label{
+    text-overflow: unset;
+    padding: 1rem 5.5rem 1rem 1rem;
+  }
+  .viewport {
+    height: 480px;
+    width: 100%;
+
+    box-shadow: 1px 1px 1px grey;
+  }
+}

@@ -191,7 +191,7 @@
         </ion-row>
           <ion-row>
             <ion-col size="12" size-md="6" size-lg="3">
-              <ion-button color="success" type="submit" expand="block" (click)="presentModal()">
+              <ion-button class="submit-button" color="success" type="submit" expand="block" (click)="presentModal()">
                 Make Payment
               </ion-button>
             </ion-col>
@@ -213,7 +213,7 @@
             <ion-col class="card-details">
 
               <ion-list>
-                <ion-item class="list-item th">
+                <ion-item class="list-item th" *ngIf="filtered.length <= 0">
                   <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                     Name
                   </ion-label>
@@ -234,13 +234,31 @@
                 <div class="ion-text-center no-info" *ngIf="!isLoading && filtered.length <= 0">
                   <p>No Payment Information Found!</p>
                 </div>
-                  <ion-item *ngFor="let payment of filtered" class="ion-item list-item" (click)="onViewPayment(payment.id, payment.paymentId)">
+                <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && payments.length > 0">
+                  <ion-item class="list-item th" *ngIf="filtered.length > 0">
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Name
+                    </ion-label>
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Date
+                    </ion-label>
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Amount
+                    </ion-label>
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Method
+                    </ion-label>
+                    <ion-icon></ion-icon>
+                  </ion-item>
+                  <ion-item *cdkVirtualFor="let payment of filtered" class="ion-item list-item" (click)="onViewPayment(payment.id, payment.paymentId)">
                     <ion-label class="ion-label name">{{payment.payeeName}}</ion-label>
                     <ion-label class="ion-label">{{payment.paymentDate | date: 'dd/MM/yyyy'}}</ion-label>
                     <ion-label class="ion-label">€{{payment.amount}}</ion-label>
                     <ion-label class="ion-label">{{payment.paymentMethod}}</ion-label>
                   <ion-icon name="trash" color="danger" (click)="deletePayment(payment.id, payment.paymentId,  payment.amount, $event)"></ion-icon>
                   </ion-item>
+                </cdk-virtual-scroll-viewport>
+
               </ion-list>
             </ion-col>
           </ion-row>
@@ -248,14 +266,14 @@
         <ion-grid *ngIf="segment === 'receipts'" class="payment-grid">
           <ion-row>
             <ion-col size="8">
-              <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
+              <ion-searchbar (ionChange)="onChangeR($event)" placeholder="Search by Name"></ion-searchbar>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col class="card-details">
 
               <ion-list>
-                <ion-item class="list-item th">
+                <ion-item class="list-item th" *ngIf="filteredR.length <= 0">
                   <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                     Name
                   </ion-label>
@@ -277,6 +295,23 @@
                 <div class="ion-text-center no-info" *ngIf="!isLoading && filteredR.length <= 0">
                   <p>No Receipt Information Found!</p>
                 </div>
+                <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && payments.length > 0">
+                  <ion-item class="list-item th" *ngIf="filteredR.length > 0">
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Name
+                    </ion-label>
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Date
+                    </ion-label>
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Amount
+                    </ion-label>
+                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                      Method
+                    </ion-label>
+                    <ion-icon></ion-icon>
+                    <ion-icon></ion-icon>
+                  </ion-item>
                   <ion-item *ngFor="let receipt of filteredR" class="ion-item list-item" (click)="onViewReceipt(receipt.id)" >
                     <ion-label class="ion-label name">{{receipt.payeeName}}</ion-label>
                     <ion-label class="ion-label">{{receipt.paymentDate | date: 'dd/MM/yyyy'}}</ion-label>
@@ -285,6 +320,7 @@
                     <ion-icon name="create" color="primary" (click)="onEditReceipt(receipt.id, $event)" ></ion-icon>
                   <ion-icon name="trash" color="danger" (click)="onDeleteReceipt(receipt.id, $event)"></ion-icon>
                   </ion-item>
+                </cdk-virtual-scroll-viewport>
               </ion-list>
             </ion-col>
           </ion-row>

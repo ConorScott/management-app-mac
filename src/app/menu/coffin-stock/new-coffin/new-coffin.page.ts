@@ -12,6 +12,7 @@ import { CoffinService } from '../coffin.service';
 export class NewCoffinPage implements OnInit {
 
   form: FormGroup;
+  modal: HTMLIonModalElement;
 
   constructor(
     private coffinService: CoffinService,
@@ -50,9 +51,14 @@ export class NewCoffinPage implements OnInit {
         ).subscribe(() => {
           loadingEl.dismiss();
           this.form.reset();
+          this.modal.dismiss();
         });
       });
 
+  }
+
+  onCancel(){
+    this.modal.dismiss(null, 'cancel');
   }
 
 }

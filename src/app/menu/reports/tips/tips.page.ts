@@ -263,7 +263,7 @@ export class TipsPage implements OnInit, OnDestroy {
     this.modalCtrl
       .create({
         component: NewTipPage,
-        cssClass: 'new-donation',
+        cssClass: 'new-tip',
         componentProps: {
           tipPayment: this.tipPayment
         }
@@ -282,7 +282,7 @@ export class TipsPage implements OnInit, OnDestroy {
     this.modalCtrl
       .create({
         component: ViewTipPage,
-        cssClass: 'new-donation',
+        cssClass: 'new-tip',
         componentProps: {
           tipId,
           type

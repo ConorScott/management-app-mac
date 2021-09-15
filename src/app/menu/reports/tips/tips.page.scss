@@ -178,7 +178,7 @@ ion-select::part(icon) {
   }
   .ion-label{
     text-overflow: unset;
-    padding: 1rem 2.5rem 1rem 1rem;
+    padding: 1rem 4.5rem 1rem 1rem;
   }
   .desktopSearch{
     display: none;
@@ -192,6 +192,7 @@ ion-select::part(icon) {
     font-weight: 600;
     --background: transparent;
     transition: all 0.15s ease;
+    text-transform: uppercase;
   }
   .new-entry-button{
     font-size: .60em;

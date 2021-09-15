@@ -128,10 +128,22 @@ ion-toolbar {
     text-overflow: unset;
     padding: 1rem 2.5rem 1rem 1rem;
   }
+  .card-title{
+    padding-left: 12px;
+  }
+  .desktop-btn{
+    display: none;
+  }
+  .mobile-btn{
+    text-align: right;
+  }
 }
 @media only screen and (min-width: 577px)
 {
   .mobile-search{
+    display: none;
+  }
+  .mobile-btn{
     display: none;
   }
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RoleGuard } from '../auth/role.guard';
 import { DataEntryPage } from './data-entry/data-entry.page';
 
 import { MenuPage } from './menu.page';
@@ -11,6 +12,7 @@ const routes: Routes = [
     children: [
       {
        path: 'data-entry',
+       canActivate:[RoleGuard],
        children: [
          {
            path: '',
@@ -22,6 +24,7 @@ const routes: Routes = [
 
       {
         path: 'debtors',
+        canActivate:[RoleGuard],
         children: [
           {
             path: '',
@@ -43,6 +46,7 @@ const routes: Routes = [
       },
       {
         path: 'coffin-list',
+        canActivate:[RoleGuard],
         children: [
           {
             path: '',
@@ -56,6 +60,7 @@ const routes: Routes = [
       },
       {
         path: 'reports',
+        canActivate:[RoleGuard],
         children: [
           {
             path: '',
@@ -74,6 +79,7 @@ const routes: Routes = [
       },
       {
         path: 'users',
+        canActivate:[RoleGuard],
         children: [
           {
             path: '',
@@ -93,10 +99,6 @@ const routes: Routes = [
     path: '',
     redirectTo: '/menu/tabs/data-entry/deceased',
     pathMatch: 'full'
-  },
-  {
-    path: 'event-calendar',
-    loadChildren: () => import('./event-calendar/event-calendar.module').then( m => m.EventCalendarPageModule)
   },
 
 ];

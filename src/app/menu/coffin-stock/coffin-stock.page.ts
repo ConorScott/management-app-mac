@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { Coffin } from './coffin.model';
 import { CoffinService } from './coffin.service';
 import { EditCoffinPage } from './edit-coffin/edit-coffin.page';
+import { NewCoffinPage } from './new-coffin/new-coffin.page';
 
 @Component({
   selector: 'app-coffin-stock',
@@ -72,6 +73,20 @@ export class CoffinStockPage implements OnInit, OnDestroy {
         ).subscribe(coffin => {
           this.coffin = [coffin];
         });
+      });
+      modalEl.present();
+    });
+  }
+
+  onAddNew(){
+    this.modalCtrl.create({
+      component: NewCoffinPage,
+      cssClass:'new-donation'
+    }).then((modalEl) => {
+      modalEl.onDidDismiss().then((modalData) => {
+        if (!modalData.data) {
+          return;
+        }
       });
       modalEl.present();
     });

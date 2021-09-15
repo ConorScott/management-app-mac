@@ -36,3 +36,8 @@ ion-icon:hover {
 :host{
   justify-content: center;
 }
+@media only screen and (max-width: 576px){
+  ion-card{
+    width: 95%;
+  }
+}

@@ -66,8 +66,12 @@ ion-icon:hover {
 {
   ion-card{
     width: 95%;
+    margin:auto;
   }
   .form-label{
     min-width: 0%;
+  }
+  ion-card-content{
+    padding: 0;
   }
 }

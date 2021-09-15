@@ -2,9 +2,13 @@
 <form [formGroup]="form">
     <ion-card>
       <ion-card-header>
-        <ion-card-subtitle class="card-title">
-          New Coffin Entry
-        </ion-card-subtitle>
+        <ion-item lines="none">
+          <ion-card-subtitle class="card-title">
+            New Coffin Entry
+          </ion-card-subtitle>
+          <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+        </ion-item>
+
       </ion-card-header>
 
       <ion-card-content>

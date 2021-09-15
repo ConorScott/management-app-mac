@@ -8,9 +8,20 @@
   </div>
   <ion-card>
     <ion-card-header>
-      <ion-item lines="none">
-        <ion-card-subtitle class="card-title">Debtor List</ion-card-subtitle>
-      </ion-item>
+        <ion-row>
+          <ion-col size-xs="7" class="ion-align-self-center">
+            <ion-card-subtitle class="card-title">Debtor List</ion-card-subtitle>
+
+          </ion-col>
+          <ion-col size-xs="5" class="mobile-btn">
+            <ion-button (click)="onFilterBalance()" class="new-entry-button ion-item-right ">
+              <ion-icon slot="start" name="cash-outline"></ion-icon>
+              Filter Balance
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
@@ -23,7 +34,7 @@
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates
             </ion-button>
-            <ion-button (click)="onFilterBalance()" class="new-entry-button">
+            <ion-button (click)="onFilterBalance()" class="new-entry-button desktop-btn">
               <ion-icon slot="start" name="cash-outline"></ion-icon>
               Filter Balance
             </ion-button>
