@@ -1,13 +1,23 @@
 {
-  "appId": "management.app",
-  "appName": "managementapp",
+  "appId": "com.mcgowans.managementapp",
+  "appName": "mcgowans-management-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
   "plugins": {
     "SplashScreen": {
-      "launchShowDuration": 0
+      "launchShowDuration": 1000
     }
   },
-  "cordova": {}
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
+    }
+  }
 }

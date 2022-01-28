@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const url = require("url");
 const path = require("path");
 
@@ -6,7 +6,7 @@ let mainWindow
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 800,
+    width: 1200,
     height: 600,
     webPreferences: {
       nodeIntegration: true
@@ -15,11 +15,17 @@ function createWindow() {
 
   mainWindow.loadURL(
     url.format({
-      pathname: path.join(__dirname, `/dist/electron-app/index.html`),
+      pathname: path.join(__dirname, `/dist/index.html`),
       protocol: "file:",
       slashes: true
     })
   );
+  // mainWindow.loadFile('index.html');
+  // mainWindow.on('closed', function () {
+  //   mainWindow = null;
+  // });
+
+
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
@@ -40,3 +46,6 @@ app.on('activate', function () {
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});
