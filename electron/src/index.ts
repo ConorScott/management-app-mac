@@ -1,9 +1,9 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/naming-convention */
+import {autoUpdater} from 'electron-updater';
 import {
   app,
-  autoUpdater,
   BrowserWindow,
   ipcMain,
   Menu,
@@ -92,7 +92,7 @@ class ElectronCapacitorApp {
     });
     this.MainWindow.maximize();
     this.MainWindow.once('ready-to-show', () => {
-      autoUpdater.checkForUpdates();
+      autoUpdater.checkForUpdatesAndNotify();
     });
 
     if (CapacitorFileConfig.backgroundColor) {
