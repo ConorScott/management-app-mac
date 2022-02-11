@@ -22,15 +22,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes),
-    SharedModule,
-    ScrollingModule
-  ],
-  declarations: [DebtorInformationPage],
-  entryComponents: []
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        SharedModule,
+        ScrollingModule
+    ],
+    declarations: [DebtorInformationPage]
 })
 export class DebtorInformationPageModule {}

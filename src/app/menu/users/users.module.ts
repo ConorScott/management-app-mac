@@ -15,16 +15,15 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    ReactiveFormsModule,
-    UsersPageRoutingModule,
-    SharedModule,
-    ScrollingModule
-  ],
-  declarations: [UsersPage, NewUserPage, EditUserPage],
-  entryComponents: [NewUserPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        ReactiveFormsModule,
+        UsersPageRoutingModule,
+        SharedModule,
+        ScrollingModule
+    ],
+    declarations: [UsersPage, NewUserPage, EditUserPage]
 })
 export class UsersPageModule {}

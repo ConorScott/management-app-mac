@@ -11,15 +11,14 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    DebtorsPageRoutingModule,
-    ScrollingModule,
-    SharedModule
-  ],
-  declarations: [DebtorsPage],
-  entryComponents:[]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        DebtorsPageRoutingModule,
+        ScrollingModule,
+        SharedModule
+    ],
+    declarations: [DebtorsPage]
 })
 export class DebtorsPageModule {}

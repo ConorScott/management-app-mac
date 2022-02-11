@@ -18,22 +18,21 @@ import { BalanceRangePage } from './balance-range/balance-range.page';
 
 
 @NgModule({
-  declarations: [
-    PaymentModalComponent,
-    HeaderPage,
-    PopoverComponent,
-    ViewPaymentModalPage,
-    DateRangePage,
-    ViewPaymentPage,
-    ReceiptLayoutPage,
-    EditPaymentModalPage,
-    ViewReceiptPage,
-    ViewReceiptLayoutPage,
-    EditReceiptPage,
-    BalanceRangePage
-  ],
-  imports: [CommonModule, IonicModule,FormsModule, ReactiveFormsModule],
-  exports: [PaymentModalComponent, HeaderPage, DateRangePage, ReceiptLayoutPage, ViewReceiptLayoutPage, BalanceRangePage],
-  entryComponents: [PaymentModalComponent, DateRangePage]
+    declarations: [
+        PaymentModalComponent,
+        HeaderPage,
+        PopoverComponent,
+        ViewPaymentModalPage,
+        DateRangePage,
+        ViewPaymentPage,
+        ReceiptLayoutPage,
+        EditPaymentModalPage,
+        ViewReceiptPage,
+        ViewReceiptLayoutPage,
+        EditReceiptPage,
+        BalanceRangePage
+    ],
+    imports: [CommonModule, IonicModule, FormsModule, ReactiveFormsModule],
+    exports: [PaymentModalComponent, HeaderPage, DateRangePage, ReceiptLayoutPage, ViewReceiptLayoutPage, BalanceRangePage]
 })
 export class SharedModule {}

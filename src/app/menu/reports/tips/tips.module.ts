@@ -14,15 +14,14 @@ import { NewTipPage } from './new-tip/new-tip.page';
 import { TipStatsPage } from './tip-stats/tip-stats.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TipsPageRoutingModule,
-    ReactiveFormsModule,
-    ScrollingModule
-  ],
-  declarations: [TipsPage, ViewTipPage, EditTipPage, NewTipPage, TipStatsPage],
-  entryComponents: [ViewTipPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        TipsPageRoutingModule,
+        ReactiveFormsModule,
+        ScrollingModule
+    ],
+    declarations: [TipsPage, ViewTipPage, EditTipPage, NewTipPage, TipStatsPage]
 })
 export class TipsPageModule {}

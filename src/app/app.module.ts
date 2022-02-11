@@ -29,37 +29,36 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot({
-      // mode: 'md'
-    }),
-    AppRoutingModule,
-    MatTabsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    NgxElectronModule,
-    FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the app is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-  ],
-  providers: [
-    File,
-    FileOpener,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AppVersion,
-    InAppBrowser
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot({
+        // mode: 'md'
+        }),
+        AppRoutingModule,
+        MatTabsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        NgxElectronModule,
+        FlatpickrModule.forRoot(),
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            // Register the ServiceWorker as soon as the app is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+    ],
+    providers: [
+        File,
+        FileOpener,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        AppVersion,
+        InAppBrowser
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -7,7 +7,6 @@ import { Debtor } from '../debtor.model';
 import { DebtorService } from '../debtor.service';
 import { PaymentModalComponent } from 'src/app/shared/payment-modal/payment-modal.component';
 import { Payment } from 'src/app/shared/payment.model';
-import { ThrowStmt } from '@angular/compiler';
 import { PaymentService } from '../../reports/payments/payment.service';
 import { ReceiptService } from '../../reports/receipts/receipt.service';
 import { Receipt } from '../../reports/receipts/receipt.model';
