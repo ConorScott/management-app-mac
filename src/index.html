@@ -2,21 +2,22 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <title>Ionic App</title>
 
-  <base href="./"/>
+  <base href="./" />
 
-  <meta name="color-scheme" content="light dark"/>
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <meta name="format-detection" content="telephone=no"/>
-  <meta name="msapplication-tap-highlight" content="no"/>
+  <meta name="color-scheme" content="light dark" />
+  <meta name="viewport"
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
 
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png"/>
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
 
   <!-- add to homescreen for ios -->
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <script src="https://unpkg.com/@ionic/pwa-elements@1.0.1/dist/ionicpwaelements.js"></script>
   <script></script>
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -40,46 +41,38 @@
   </div>
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
-  <div id="notification" class="hidden">
-    <p id="message"></p>
-    <button id="close-button" onClick="closeNotification()">
-      Close
-    </button>
-    <button id="restart-button" onClick="restartApp()" class="hidden">
-      Restart
-    </button>
-  </div>
+
   <script>
     const { ipcRenderer } = require('electron');
-    const version = document.getElementById('version');
+    const notification = document.getElementById('notification');
+    const message = document.getElementById('message');
+    const restartButton = document.getElementById('restart-button');
 
     ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
-      version.innerText = 'Version ' + arg.version;
     });
 
-    const notification = document.getElementById('notification');
-const message = document.getElementById('message');
-const restartButton = document.getElementById('restart-button');
-ipcRenderer.on('update_available', () => {
-  ipcRenderer.removeAllListeners('update_available');
-  message.innerText = 'A new update is available. Downloading now...';
-  notification.classList.remove('hidden');
-});
-ipcRenderer.on('update_downloaded', () => {
-  ipcRenderer.removeAllListeners('update_downloaded');
-  message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-  restartButton.classList.remove('hidden');
-  notification.classList.remove('hidden');
-});
+    ipcRenderer.on('update_available', () => {
+      ipcRenderer.removeAllListeners('update_available');
+      message.innerText = 'A new update is available. Downloading now...';
+      notification.classList.remove('hidden');
+    });
 
-function closeNotification() {
-  notification.classList.add('hidden');
-}
-function restartApp() {
-  ipcRenderer.send('restart_app');
-}
+    ipcRenderer.on('update_downloaded', () => {
+      ipcRenderer.removeAllListeners('update_downloaded');
+      message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+      restartButton.classList.remove('hidden');
+      notification.classList.remove('hidden');
+    });
+
+    function closeNotification() {
+      notification.classList.add('hidden');
+    }
+
+    function restartApp() {
+      ipcRenderer.send('restart_app');
+    }
 
   </script>
 </body>
