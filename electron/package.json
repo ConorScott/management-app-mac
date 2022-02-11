@@ -2,6 +2,10 @@
   "name": "mcgowans-management-app",
   "version": "1.0.0",
   "description": "An Amazing Capacitor App",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ConorScott/management-app.git"
+  },
   "main": "./build/src/index.js",
   "scripts": {
     "build": "tsc",
