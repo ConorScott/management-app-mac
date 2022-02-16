@@ -31,6 +31,8 @@
 
 <body>
   <div id="notification" class="hidden">
+    <h1>Electron Auto Update Example</h1>
+  <p id="version"></p>
     <p id="message"></p>
     <button id="close-button" onClick="closeNotification()">
       Close
@@ -39,11 +41,11 @@
       Restart
     </button>
   </div>
-  <app-root></app-root>
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
+
 
   <script>
     const { ipcRenderer } = require('electron');
+    const version = document.getElementById('version');
     const notification = document.getElementById('notification');
     const message = document.getElementById('message');
     const restartButton = document.getElementById('restart-button');
@@ -51,6 +53,7 @@
     ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
+      version.innerText = 'Version ' + arg.version;
     });
 
     ipcRenderer.on('update_available', () => {
@@ -67,14 +70,18 @@
     });
 
     function closeNotification() {
+      console.log('not working');
       notification.classList.add('hidden');
     }
 
     function restartApp() {
       ipcRenderer.send('restart_app');
+      console.log('restart');
     }
-
   </script>
+
+<app-root></app-root>
+<noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 
 </html>

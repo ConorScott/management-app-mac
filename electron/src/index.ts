@@ -1,7 +1,3 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-/* eslint-disable @typescript-eslint/member-ordering */
-/* eslint-disable @typescript-eslint/naming-convention */
-import {autoUpdater} from 'electron-updater';
 import {
   app,
   BrowserWindow,
@@ -10,30 +6,31 @@ import {
   MenuItem,
   nativeImage,
   Tray,
-} from 'electron';
-import { join } from 'path';
-import electronIsDev from 'electron-is-dev';
-import electronServe from 'electron-serve';
+} from "electron";
+import { autoUpdater} from "electron-updater"
+import { join } from "path";
+import electronIsDev from "electron-is-dev";
+import electronServe from "electron-serve";
 import {
   CapElectronEventEmitter,
   CapacitorSplashScreen,
   getCapacitorConfig,
   setupCapacitorElectronPlugins,
   setupElectronDeepLinking,
-} from '@capacitor-community/electron';
+} from "@capacitor-community/electron";
 
 // Get Config options from capacitor.config file
 const CapacitorFileConfig = getCapacitorConfig();
 
 /////////////////////// Menus and Configs - Modify Freely //////////////////////////////////////////////
-const TrayMenuTemplate = [new MenuItem({ label: 'Quit App', role: 'quit' })];
+const TrayMenuTemplate = [new MenuItem({ label: "Quit App", role: "quit" })];
 const AppMenuBarMenuTemplate = [
-  { role: process.platform === 'darwin' ? 'appMenu' : 'fileMenu' },
-  { role: 'viewMenu' },
+  { role: process.platform === "darwin" ? "appMenu" : "fileMenu" },
+  { role: "viewMenu" },
 ];
 const DeepLinkingConfig = {
   customProtocol:
-    CapacitorFileConfig.deepLinkingCustomProtocol ?? 'mycapacitorapp',
+    CapacitorFileConfig.deepLinkingCustomProtocol ?? "mycapacitorapp",
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,10 +45,12 @@ class ElectronCapacitorApp {
 
   constructor() {
     this.loadWebApp = electronServe({
-      directory: join(app.getAppPath(), 'app'),
+      directory: join(app.getAppPath(), "app"),
       // The scheme can be changed to whatever you'd like (ex: someapp)
-      scheme: CapacitorFileConfig.customUrlScheme ?? 'capacitor-electron',
+      scheme: CapacitorFileConfig.customUrlScheme ?? "capacitor-electron",
     });
+
+    autoUpdater.checkForUpdatesAndNotify();
   }
 
   private async loadMainWindow(thisRef: any) {
@@ -66,8 +65,8 @@ class ElectronCapacitorApp {
     const icon = nativeImage.createFromPath(
       join(
         app.getAppPath(),
-        'assets',
-        process.platform === 'win32' ? 'appIcon.ico' : 'appIcon.png'
+        "assets",
+        process.platform === "win32" ? "appIcon.ico" : "appIcon.png"
       )
     );
 
@@ -81,25 +80,33 @@ class ElectronCapacitorApp {
         // Note: any windows you spawn that you want to include capacitor plugins must have this preload.
         preload: join(
           app.getAppPath(),
-          'node_modules',
-          '@capacitor-community',
-          'electron',
-          'dist',
-          'runtime',
-          'electron-rt.js'
+          "node_modules",
+          "@capacitor-community",
+          "electron",
+          "dist",
+          "runtime",
+          "electron-rt.js"
         ),
       },
+
+
     });
-    this.MainWindow.maximize();
+
     this.MainWindow.once('ready-to-show', () => {
       autoUpdater.checkForUpdatesAndNotify();
     });
+
+
+
+    this.MainWindow.maximize();
+
+
 
     if (CapacitorFileConfig.backgroundColor) {
       this.MainWindow.setBackgroundColor(CapacitorFileConfig.backgroundColor);
     }
 
-    this.MainWindow.on('closed', () => {
+    this.MainWindow.on("closed", () => {
       if (
         this.SplashScreen &&
         this.SplashScreen.getSplashWindow() &&
@@ -109,9 +116,11 @@ class ElectronCapacitorApp {
       }
     });
 
+
+
     if (CapacitorFileConfig.trayIconAndMenuEnabled) {
       this.TrayIcon = new Tray(icon);
-      this.TrayIcon.on('double-click', () => {
+      this.TrayIcon.on("double-click", () => {
         if (this.MainWindow) {
           if (this.MainWindow.isVisible()) {
             this.MainWindow.hide();
@@ -121,7 +130,7 @@ class ElectronCapacitorApp {
           }
         }
       });
-      this.TrayIcon.on('click', () => {
+      this.TrayIcon.on("click", () => {
         if (this.MainWindow) {
           if (this.MainWindow.isVisible()) {
             this.MainWindow.hide();
@@ -145,8 +154,8 @@ class ElectronCapacitorApp {
       this.SplashScreen = new CapacitorSplashScreen({
         imageFilePath: join(
           app.getAppPath(),
-          'assets',
-          CapacitorFileConfig.splashScreenImageName ?? 'splash.png'
+          "assets",
+          CapacitorFileConfig.splashScreenImageName ?? "splash.png"
         ),
         windowWidth: 400,
         windowHeight: 400,
@@ -159,7 +168,7 @@ class ElectronCapacitorApp {
     // Link electron plugins in
     setupCapacitorElectronPlugins();
 
-    this.MainWindow.webContents.on('dom-ready', () => {
+    this.MainWindow.webContents.on("dom-ready", () => {
       if (CapacitorFileConfig.splashScreenEnabled) {
         this.SplashScreen.getSplashWindow().hide();
       }
@@ -171,17 +180,12 @@ class ElectronCapacitorApp {
           this.MainWindow.webContents.openDevTools();
         }
         CapElectronEventEmitter.emit(
-          'CAPELECTRON_DeeplinkListenerInitialized',
-          ''
+          "CAPELECTRON_DeeplinkListenerInitialized",
+          ""
         );
       }, 400);
     });
-    autoUpdater.on('update-available', () => {
-      this.MainWindow.webContents.send('update_available');
-    });
-    autoUpdater.on('update-downloaded', () => {
-      this.MainWindow.webContents.send('update_downloaded');
-    });
+
   }
 }
 const myCapacitorApp = new ElectronCapacitorApp();
@@ -196,15 +200,15 @@ if (CapacitorFileConfig.deepLinkingEnabled) {
   await myCapacitorApp.init();
 })();
 
-app.on('window-all-closed', function () {
+app.on("window-all-closed", function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on('activate', async function () {
+app.on("activate", async function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (myCapacitorApp.getMainWindow().isDestroyed()) {
@@ -216,6 +220,15 @@ app.on('activate', async function () {
 ipcMain.on('app_version', (event) => {
   event.sender.send('app_version', { version: app.getVersion() });
 });
+let MainWindow;
+autoUpdater.on('update-available', () => {
+
+  MainWindow.webContents.send('update_available');
+});
+autoUpdater.on('update-downloaded', () => {
+  MainWindow.webContents.send('update_downloaded');
+});
+
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });

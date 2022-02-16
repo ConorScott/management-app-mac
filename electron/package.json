@@ -1,12 +1,12 @@
 {
   "name": "mcgowans-management-app",
-  "version": "1.0.9",
-  "description": "",
+  "version": "1.0.37",
+  "description": "An Amazing Capacitor App",
+  "main": "./build/src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ConorScott/management-app.git"
   },
-  "main": "./build/src/index.js",
   "scripts": {
     "build": "tsc",
     "electron:start": "npm run build && electron ./",
@@ -14,8 +14,8 @@
     "electron:build-windows": "npm run build && electron-builder build --windows",
     "electron:build-mac": "npm run build && electron-builder build --mac",
     "rebuild-deps": "electron-rebuild",
-    "electron-new-build": "electron-builder build  --win --publish never",
-    "deploy": "electron-builder build  --win --publish always"
+    "new-electron-build": "electron-builder build--win --publish never",
+"deploy": "electron-builder build --win --publish always"
   },
   "dependencies": {
     "@capacitor-community/electron": "^3.0.0",

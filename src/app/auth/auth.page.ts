@@ -127,4 +127,6 @@ export class AuthPage implements OnInit {
       .then((alertEl) => alertEl.present());
   }
 
+
+
 }
