@@ -35,3 +35,9 @@ ion-icon:hover {
 :host{
   justify-content: center;
 }
+@media screen and (max-width: 767px) {
+  ion-card-header{
+    padding-inline: 0px;
+
+  }
+}

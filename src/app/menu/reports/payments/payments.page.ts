@@ -43,6 +43,8 @@ export class PaymentsPage implements OnInit, OnDestroy {
   chequeTotal: number;
   draftTotal: number;
   overallTotal: number;
+  mobile = false;
+  desktop = true;
 
   private paymentSub: Subscription;
   private cashTotalSub: Subscription;
@@ -61,6 +63,9 @@ export class PaymentsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.paymentSub = this.paymentService.payment.subscribe((payment) => {
       this.payments = payment;
       this.filteredPayments = this.payments;

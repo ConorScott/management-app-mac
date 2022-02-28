@@ -93,7 +93,7 @@ ion-toolbar {
   padding-right: 15px;
 }
 .viewport {
-  height: 380px;
+  height: 60vh;
   width: 100%;
 
   box-shadow: 1px 1px 1px grey;
@@ -134,9 +134,17 @@ ion-select::part(icon) {
     padding: 1rem 5.5rem 1rem 1rem;
   }
   .viewport {
-    height: 480px;
+    height: 75vh;
     width: 100%;
 
     box-shadow: 1px 1px 1px grey;
   }
+
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -60px;
+  }
 }
+

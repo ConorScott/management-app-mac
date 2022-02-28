@@ -54,9 +54,6 @@ ion-card {
 ion-list {
   padding-bottom: 0px;
 }
-ion-card-header {
-  padding: 0px;
-}
 ion-icon {
   font-size: 20px;
 }
@@ -86,15 +83,17 @@ ion-toolbar {
     font-weight: 400;
   }
 }
+ion-card-header{
+  padding-bottom:0px;
+}
 .virtualScroll {
   display: flex;
   align-self: center;
 }
 .viewport {
-  height: 400px;
+  height: 60vh;
   width: 100%;
 
-  box-shadow: 1px 1px 1px grey;
 }
 .header{
   background-color: #3880ff;
@@ -107,6 +106,12 @@ ion-toolbar {
     margin-left: auto;
     margin-right: auto;
     margin-top: -60px;
+  }
+  .viewport {
+    height: 65vh;
+    width: 100%;
+
+    box-shadow: 1px 1px 1px grey;
   }
   .desktopSearch{
     display: none;
@@ -159,5 +164,11 @@ ion-toolbar {
     padding-right: 20px;
     display: flex;
     justify-content: flex-end;
+  }
+}
+@media screen and (max-width: 767px) {
+  ion-card-header{
+    padding-inline: 0px;
+
   }
 }

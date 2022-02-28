@@ -25,6 +25,7 @@ export class CoffinSalesPage implements OnInit, OnDestroy {
   filteredCoffinSale: CoffinSale[];
   isLoading = false;
   invalidSelection = false;
+  mobile = false;
 
   private coffinSalesSub: Subscription;
 
@@ -36,6 +37,9 @@ export class CoffinSalesPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.coffinSalesSub = this.coffinSaleService.coffinSale.subscribe((coffinSale) => {
       this.coffinSale = coffinSale;
 

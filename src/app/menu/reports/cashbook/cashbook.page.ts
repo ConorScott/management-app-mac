@@ -27,6 +27,7 @@ export class CashbookPage implements OnInit, OnDestroy {
   filteredCashbook: CashBook[];
   isLoading = false;
   invalidSelection = false;
+  mobile = false;
 
   private cashbookSub: Subscription;
 
@@ -38,6 +39,9 @@ export class CashbookPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.cashbookSub = this.cashbookService.cashbook.subscribe((cashbook) => {
       this.cashbook = cashbook;
 

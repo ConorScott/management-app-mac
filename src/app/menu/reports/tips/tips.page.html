@@ -28,11 +28,11 @@
 
           </ion-col>
 
-          <ion-col class="desktopSearch" size="7" size-xs="3">
+          <ion-col class="desktopSearch" size="7" size-xs="3" size-lg="6">
             <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
 
           </ion-col>
-          <ion-col size="5" size-xs="12" class="ion-align-self-center" *ngIf="!searchbarOpened">
+          <ion-col size-lg="6" size="5" size-xs="12" class="ion-text-end" *ngIf="!searchbarOpened">
             <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
               <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
               Search
@@ -70,7 +70,7 @@
         <ion-row>
           <ion-col class="card-details" >
 
-            <ion-item class="list-item th" *ngIf="filtered.length <= 0">
+            <ion-item class="list-item th" *ngIf="!mobile">
               <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                 Name
               </ion-label>
@@ -94,7 +94,7 @@
             </div>
             <div class="virtualScroll">
               <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!tipPayment && !isLoading && filtered.length > 0">
-                <ion-item class="list-item th" *ngIf="filtered.length > 0">
+                <ion-item class="list-item th" *ngIf="filtered.length > 0 && mobile">
                   <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                     Name
                   </ion-label>

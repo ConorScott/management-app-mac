@@ -22,6 +22,9 @@ export class CoffinStockPage implements OnInit, OnDestroy {
   isVisible: boolean;
   coffin: Coffin[];
   isLoading = false;
+  modalHeader: any = {
+    header: 'Stock Location',
+  };
   private coffinSub: Subscription;
 
   constructor(

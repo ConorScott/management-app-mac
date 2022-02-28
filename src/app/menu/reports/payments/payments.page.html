@@ -44,7 +44,7 @@
         <ion-row>
           <ion-col class="card-details">
 
-            <ion-item class="list-item th" *ngIf="filtered.length <= 0">
+            <ion-item class="list-item th" *ngIf="!mobile">
               <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                 Name
               </ion-label>
@@ -67,8 +67,8 @@
               <p>No Payment Information Found!</p>
             </div>
             <div class="virtualScroll">
-              <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && payments.length > 0">
-                <ion-item class="list-item th" *ngIf="filtered.length > 0">
+              <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && payments.length > 0 ">
+                <ion-item class="list-item th mobile-header" *ngIf="filtered.length > 0 && mobile">
                   <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                     Name
                   </ion-label>

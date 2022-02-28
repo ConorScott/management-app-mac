@@ -11,6 +11,10 @@
   font-size: 14px;
   cursor: pointer;
 }
+ion-card-header{
+  padding-top:5px;
+  padding-bottom:0px;
+}
 
 ion-icon:hover:not(.menu-icon) {
   -ms-transform: scale(1.5); /* IE 9 */
@@ -56,6 +60,7 @@ ion-card {
   }
   ion-card-header{
     padding-inline: 0px;
+
   }
   .mobile{
     font-size: 12px;
@@ -85,6 +90,17 @@ ion-icon {
   ion-button .menu-icon {
     display: none;
   }
+  .new-filter-button{
+    text-transform: capitalize;
+    letter-spacing: 1px;
+  }
+  .new-entry-button{
+    text-transform: capitalize;
+    letter-spacing: 1px;
+  }
+  ion-button ion-icon{
+    font-size: 1rem;
+  }
 }
 @media only screen and (min-width: 768px) {
   ion-menu-button {
@@ -112,7 +128,7 @@ ion-toolbar {
   align-self: center;
 }
 .viewport {
-  height: 400px;
+  height: 52vh;
   width: 100%;
 
   box-shadow: 1px 1px 1px grey;

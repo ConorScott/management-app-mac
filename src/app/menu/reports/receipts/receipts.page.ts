@@ -25,6 +25,7 @@ export class ReceiptsPage implements OnInit {
   filteredReceipt: Receipt[];
   isLoading = false;
   invalidSelection = false;
+  mobile = false;
 
   private receiptSub: Subscription;
 
@@ -36,6 +37,9 @@ export class ReceiptsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.receiptSub = this.receiptService.receipt.subscribe((receipt) => {
       this.receipt = receipt;
 
@@ -44,6 +48,7 @@ export class ReceiptsPage implements OnInit {
       console.log(this.filtered);
       this.filterSelected = false;
     });
+    console.log("mobile" + this.mobile);
   }
 
   ionViewWillEnter() {

@@ -26,6 +26,7 @@ export class DonationsPage implements OnInit, OnDestroy {
   filteredDonation: Donation[];
   isLoading = false;
   invalidSelection = false;
+  mobile = false;
 
   private donationSub: Subscription;
 
@@ -37,6 +38,9 @@ export class DonationsPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.donationSub = this.donationService.donation.subscribe((donation) => {
       this.donation = donation;
 

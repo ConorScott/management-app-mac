@@ -50,7 +50,8 @@ class ElectronCapacitorApp {
       scheme: CapacitorFileConfig.customUrlScheme ?? "capacitor-electron",
     });
 
-    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdates();
+
   }
 
   private async loadMainWindow(thisRef: any) {
@@ -92,13 +93,24 @@ class ElectronCapacitorApp {
 
     });
 
-    this.MainWindow.once('ready-to-show', () => {
-      autoUpdater.checkForUpdatesAndNotify();
-    });
+
 
 
 
     this.MainWindow.maximize();
+
+    this.MainWindow.once('ready-to-show', () => {
+      console.log('working check');
+      autoUpdater.checkForUpdatesAndNotify();
+    });
+
+    autoUpdater.on('update-available', () => {
+
+      this.MainWindow.webContents.send('update_available');
+    });
+    autoUpdater.on('update-downloaded', () => {
+      this.MainWindow.webContents.send('update_downloaded');
+    });
 
 
 
@@ -186,7 +198,11 @@ class ElectronCapacitorApp {
       }, 400);
     });
 
+
+
   }
+
+
 }
 const myCapacitorApp = new ElectronCapacitorApp();
 if (CapacitorFileConfig.deepLinkingEnabled) {
@@ -218,17 +234,13 @@ app.on("activate", async function () {
 
 // Place all ipc or other electron api calls and custom functionality under this line
 ipcMain.on('app_version', (event) => {
+  console.log('working version');
   event.sender.send('app_version', { version: app.getVersion() });
 });
-let MainWindow;
-autoUpdater.on('update-available', () => {
 
-  MainWindow.webContents.send('update_available');
-});
-autoUpdater.on('update-downloaded', () => {
-  MainWindow.webContents.send('update_downloaded');
-});
+
 
 ipcMain.on('restart_app', () => {
+  console.log('working');
   autoUpdater.quitAndInstall();
 });

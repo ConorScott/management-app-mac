@@ -46,6 +46,7 @@ export class TipsPage implements OnInit, OnDestroy {
   paymentDate = false;
   tipPayment = false;
   searchbarOpened = false;
+  mobile = false;
 
   private tipsSub: Subscription;
   private tipPaymentSub: Subscription;
@@ -65,6 +66,9 @@ export class TipsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.tipsSub = this.tipService.tips.subscribe((tips) => {
       this.tips = tips;
 

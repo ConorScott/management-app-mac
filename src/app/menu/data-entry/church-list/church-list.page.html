@@ -35,7 +35,7 @@
                   </div>
                   <div class="virtualScroll">
                   <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && church.length > 0">
-                  <ion-item *ngFor="let church of filtered.reverse()" class="ion-item list-item">
+                  <ion-item *ngFor="let church of filtered" class="ion-item list-item">
                     <ion-label class="ion-label name">{{church.churchName}}</ion-label>
                     <ion-icon name="create" color="primary" (click)="onEdit(church.id)"></ion-icon>
                     <ion-icon name="trash" color="danger" (click)="onDeleteEntry(church.id)"></ion-icon>
