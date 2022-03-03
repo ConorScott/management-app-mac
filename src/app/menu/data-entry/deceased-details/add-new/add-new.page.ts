@@ -59,6 +59,9 @@ export class AddNewPage implements OnInit {
   noticeRemovalDate: string;
   noticeReposeStart: string;
   noticeReposeEnd: string;
+  modalHeader: any = {
+    header: 'Form Type',
+  };
   // eslint-disable-next-line max-len
   deathNotice = `Reposing at (Place) from (Repose Start Time) to (Repose End Time). Funeral will leave(Place) to arrive at (Church) for Requiem mass at (Mass Start Time). Funeral will proceed to (Cemetery). Due to current restrictions, (Person) funeral will be private to family, relatives and friends. House private please (optional) Family flowers only. Donations in lieu of flowers if desired to (Charity) care of McGowan's funeral home, Emmet St, Ballina, Co. Mayo (or Foley & McGowan's Funeral Home, Market Yard, Sligo)You are welcome to send a message of condolence to his/her family on the funeral home website.`;
   private churchSub: Subscription;

@@ -1,5 +1,6 @@
-
-<app-header [title]="title"></app-header>
+<ion-header class="ion-no-border">
+  <app-header [title]="title"></app-header>
+</ion-header>
 
 
 <ion-content>
@@ -29,7 +30,7 @@
           <ion-col size="8">
             <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
           </ion-col>
-          <ion-col size="4" class="ion-align-self-center">
+          <ion-col size="4" class="ion-align-self-center col-btn ion-text-end">
             <ion-button (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates
@@ -65,7 +66,7 @@
         <ion-row>
           <ion-col class="card-details">
 
-            <ion-item class="list-item th" *ngIf="filtered.length <= 0">
+            <ion-item class="list-item th" *ngIf="!mobile">
               <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                 Name
               </ion-label>
@@ -86,7 +87,7 @@
             </div>
             <div class="virtualScroll">
               <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && debtor.length > 0">
-                <ion-item class="list-item th" *ngIf="filtered.length > 0">
+                <ion-item class="list-item th" *ngIf="filtered.length > 0 && mobile">
                   <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                     Name
                   </ion-label>

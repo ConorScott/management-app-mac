@@ -7,7 +7,9 @@
   font-weight: 600;
   font-size: 0.875rem;
 }
-
+.col-buttons{
+  padding-right: 16px;
+}
 .ion-item {
   font-size: 14px;
   cursor: pointer;
@@ -85,9 +87,9 @@ ion-select::part(icon) {
   opacity: 1;
 }
 .viewport {
-  height: 52vh;
+  // height: 52vh;
+  height: calc(100vh - 383px);
   width: 100%;
-
   box-shadow: 1px 1px 1px grey;
 }
 .virtualScroll {
@@ -111,11 +113,32 @@ ion-searchbar .searchbar-input-container input::placeholder {
   border-radius: 0px 0px 20px 20px;
 }
 @media only screen and (max-width: 576px) {
+  ion-button{
+    font-size: 10.4px;
+    letter-spacing: 1px;
+  }
   ion-card {
-    width: 95%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom:0px;
   }
+  .mobile-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ion-label{
+    text-overflow: unset;
+    padding: 1rem 5.5rem 1rem 1rem;
+  }
+  .viewport {
+    // height: 52vh;
+    height: calc(100vh - 292px);
+    width: 100%;
+    box-shadow: 1px 1px 1px grey;
+  }
+
   .desktopSearch{
     display: none;
   }
@@ -125,7 +148,6 @@ ion-searchbar .searchbar-input-container input::placeholder {
     justify-content: flex-end;
   }
   .search-icon{
-    font-size: 0.75em;
     box-shadow: 0px 4px 6px rgba(50, 50, 93, 0.11), 0px 1px 3px rgba(0, 0, 0, 0.08);
     --border-radius: 0.25rem;
     font-weight: 600;
@@ -158,3 +180,4 @@ ion-searchbar .searchbar-input-container input::placeholder {
     justify-content: flex-end;
   }
 }
+

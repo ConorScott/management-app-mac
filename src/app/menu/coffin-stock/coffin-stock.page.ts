@@ -25,6 +25,8 @@ export class CoffinStockPage implements OnInit, OnDestroy {
   modalHeader: any = {
     header: 'Stock Location',
   };
+  mobile = false;
+  desktop = true;
   private coffinSub: Subscription;
 
   constructor(
@@ -38,6 +40,9 @@ export class CoffinStockPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.coffinSub = this.coffinService.coffin.subscribe((coffin) => {
       this.coffin = coffin;
       this.filtered = this.coffin;

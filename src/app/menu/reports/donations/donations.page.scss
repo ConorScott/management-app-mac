@@ -113,7 +113,7 @@ ion-segment{
   margin-bottom: 30px;
 }
 .viewport {
-  height: 380px;
+  height: calc(100vh - 390px);
   width: 100%;
 
   box-shadow: 1px 1px 1px grey;
@@ -138,16 +138,28 @@ ion-icon:hover {
   border-radius: 0px 0px 20px 20px;
 }
 @media only screen and (max-width: 576px) {
+  ion-button{
+    font-size: 10.4px;
+    letter-spacing: 1px;
+  }
   ion-card {
-    width: 95%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom:0px;
+  }
+  .viewport {
+    height: calc(100vh - 320px);
+    width: 100%;
+
+    box-shadow: 1px 1px 1px grey;
   }
   .ion-label{
     text-overflow: unset;
     padding: 1rem 2.5rem 1rem 1rem;
   }
   ion-card-header{
+    padding-top:5px;
     padding-inline: 0px;
   }
   .mobile{

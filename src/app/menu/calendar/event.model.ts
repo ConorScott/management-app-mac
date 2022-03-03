@@ -1,7 +1,7 @@
 export class Event {
   constructor(
     public id: string,
-    public uid: string,
+    public deceasedId: string,
     public title: string,
     public start: Date,
     public end: Date,

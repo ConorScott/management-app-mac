@@ -232,3 +232,12 @@ color:white;
 .alert-title{
   color: white !important;
 }
+mwl-calendar-month-cell{
+  min-height: 120px !important;
+}
+.alert-title.sc-ion-alert-ios{
+  margin-bottom:8px !important;
+}
+.alert-message.sc-ion-alert-ios:empty{
+  padding-bottom:0px;
+}

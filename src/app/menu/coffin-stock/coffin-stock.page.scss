@@ -2,6 +2,9 @@
   font-size: 0.875rem;
   padding: 12px 24px;
 }
+.card-title{
+  margin-left: .75rem;
+}
 .name {
   color: #525f7f;
   font-weight: 600;
@@ -93,7 +96,8 @@ ion-toolbar {
   padding-right: 15px;
 }
 .viewport {
-  height: 60vh;
+  // height: 60vh;
+  height: calc(100vh - 317px);
   width: 100%;
 
   box-shadow: 1px 1px 1px grey;
@@ -134,17 +138,23 @@ ion-select::part(icon) {
     padding: 1rem 5.5rem 1rem 1rem;
   }
   .viewport {
-    height: 75vh;
+    // height: 52vh;
+    height: calc(100vh - 185px);
     width: 100%;
-
     box-shadow: 1px 1px 1px grey;
   }
 
   ion-card {
-    width: 95%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom:0px;
     margin-top: -60px;
   }
+  ion-button{
+    font-size: 10.4px;
+    letter-spacing: 1px;
+  }
+
 }
 

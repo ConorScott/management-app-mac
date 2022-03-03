@@ -160,18 +160,19 @@ export class DeceasedService {
       take(1),
       tap((deceased) => {
         newDeceased.id = generateId;
+        console.log("Generated Id:" + generateId);
         if(reposeDate !== null){
-          this.calendarService.reposeDate( deceasedName, reposeDate, reposeTime, reposeEndTime);
+          this.calendarService.reposeDate( deceasedName, reposeDate, reposeTime, reposeEndTime, generateId);
         }
         if(removalDate !== null){
-          this.calendarService.removalTime( deceasedName, removalDate, removalTime);
+          this.calendarService.removalTime( deceasedName, removalDate, removalTime, generateId);
 
         }
         if(churchArrivalDate !== null){
-          this.calendarService.churchArrivalTime( deceasedName, churchArrivalDate, churchArrivalTime);
+          this.calendarService.churchArrivalTime( deceasedName, churchArrivalDate, churchArrivalTime, generateId);
         }
         if(massDate !== null){
-          this.calendarService.massTime( deceasedName, massDate, massTime);
+          this.calendarService.massTime( deceasedName, massDate, massTime, generateId);
         }
         // eslint-disable-next-line no-underscore-dangle
         this._deceased.next(deceased.concat(newDeceased));
@@ -687,6 +688,7 @@ export class DeceasedService {
   }
 
   cancelBooking(deceasedId: string) {
+    this.calendarService.fetchEventInfo(deceasedId).subscribe();
     return this.authService.token.pipe(
       take(1),
       // eslint-disable-next-line arrow-body-style

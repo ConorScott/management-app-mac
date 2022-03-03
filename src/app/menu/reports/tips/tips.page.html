@@ -4,14 +4,25 @@
   </div>
   <ion-card>
     <ion-card-header>
-      <ion-row>
-        <ion-col *ngIf="!tipPayment" size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
+      <ion-row class="header-row">
+        <ion-col *ngIf="!tipPayment" size-xs="4" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
           <ion-card-subtitle class="card-title">Tips</ion-card-subtitle>
         </ion-col>
-        <ion-col *ngIf="tipPayment" size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
+        <ion-col *ngIf="tipPayment" size-xs="4" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
           <ion-card-subtitle class="card-title">Tip Payments</ion-card-subtitle>
         </ion-col>
+        <ion-col size-xs="4" size-lg="2" size-md="3" class="ion-align-self-center new-entry">
+          <ion-button *ngIf="!tipPayment" class="new-entry-button" (click)="onAddNew()">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            New Entry
+          </ion-button>
+          <ion-button *ngIf="tipPayment" class="new-entry-button" (click)="onAddNew()">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            New Payment
+          </ion-button>
+        </ion-col>
         <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center">
+
           <ion-select (ionChange)="listTypeChange($event)" value="tips">
             <ion-select-option value="tips">Tips</ion-select-option>
             <ion-select-option value="tipPayments">Tip Payments</ion-select-option>
@@ -46,11 +57,11 @@
               Filter Dates
             </ion-button>
 
-            <ion-button *ngIf="!tipPayment" class="new-entry-button" (click)="onAddNew()">
+            <ion-button *ngIf="!tipPayment && !mobile" class="new-entry-button" (click)="onAddNew()">
               <ion-icon slot="start" name="add-outline"></ion-icon>
               New Entry
             </ion-button>
-            <ion-button *ngIf="tipPayment" class="new-entry-button" (click)="onAddNew()">
+            <ion-button *ngIf="tipPayment && !mobile" class="new-entry-button" (click)="onAddNew()">
               <ion-icon slot="start" name="add-outline"></ion-icon>
               New Payment
             </ion-button>
@@ -95,7 +106,7 @@
             <div class="virtualScroll">
               <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!tipPayment && !isLoading && filtered.length > 0">
                 <ion-item class="list-item th" *ngIf="filtered.length > 0 && mobile">
-                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                  <ion-label class="ion-label name" color="primary" style="font-weight: 300;">
                     Name
                   </ion-label>
                   <ion-label class="ion-label" color="primary" style="font-weight: 300;">

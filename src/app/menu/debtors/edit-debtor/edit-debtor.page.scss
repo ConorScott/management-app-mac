@@ -119,3 +119,14 @@ ion-title{
 ion-back-button{
   color:white;
 }
+@media only screen and (max-width: 576px){
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:0px;
+  }
+  .price-input{
+    padding: 0px 20px;
+  }
+}

@@ -26,6 +26,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import {  } from 'src/app/shared/shared.module';
 
 
 @NgModule({

@@ -24,6 +24,10 @@ export class DeceasedDetailsPage implements OnInit, OnDestroy {
   filterSelected = false;
   filteredDeceased: Deceased[];
   searchbarOpened = false;
+  mobile = false;
+  modalHeader: any = {
+    header: 'Form Type',
+  };
   private deceasedSub: Subscription;
 
   constructor(
@@ -37,6 +41,9 @@ export class DeceasedDetailsPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.deceasedSub = this.deceasedService.deceased.subscribe((deceased) => {
       this.deceased = deceased;
       this.filteredDeceased = this.deceased;

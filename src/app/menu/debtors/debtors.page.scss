@@ -11,6 +11,9 @@
   font-size: 14px;
   cursor: pointer;
 }
+.col-btn{
+padding-right: 16px;
+}
 
 ion-icon:hover:not(.menu-icon) {
   -ms-transform: scale(1.5); /* IE 9 */
@@ -43,13 +46,6 @@ ion-card {
   margin-top: -30px;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
   border-radius: 0.375rem;
-}
-@media only screen and (max-width: 416px) {
-  ion-card {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 ion-list {
   padding-bottom: 0px;
@@ -91,7 +87,8 @@ ion-card-header{
   align-self: center;
 }
 .viewport {
-  height: 60vh;
+  // height: 60vh;
+  height: calc(100vh - 390px);
   width: 100%;
 
 }
@@ -101,17 +98,25 @@ ion-card-header{
   border-radius: 0px 0px 20px 20px;
 }
 @media only screen and (max-width: 576px) {
+  .viewport {
+    // height: 52vh;
+    height: calc(100vh - 263px);
+    width: 100%;
+    box-shadow: 1px 1px 1px grey;
+  }
   ion-card {
-    width: 95%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom:0px;
     margin-top: -60px;
   }
-  .viewport {
-    height: 65vh;
-    width: 100%;
-
-    box-shadow: 1px 1px 1px grey;
+  ion-button{
+    font-size: 10.4px;
+    letter-spacing: 1px;
+  }
+  ion-card-header{
+    padding-top: 0px !important;
   }
   .desktopSearch{
     display: none;

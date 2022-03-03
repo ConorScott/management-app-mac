@@ -27,6 +27,8 @@ export class InvoicingPage implements OnInit, OnDestroy {
   isLoading = false;
   filterSelected = false;
   searchbarOpened = false;
+  mobile = false;
+
   private invoiceSub: Subscription;
 
   constructor(
@@ -38,6 +40,9 @@ export class InvoicingPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.invoiceSub = this.invoiceService.invoice.subscribe((invoice) => {
       this.invoice = invoice;
       this.filteredInvoice = this.invoice;

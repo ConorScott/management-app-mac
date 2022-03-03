@@ -36,6 +36,8 @@ export class DebtorsPage implements OnInit, OnDestroy {
   isLoading = false;
   invalidSelection = false;
   newTotal: number;
+  mobile = false;
+  desktop = true;
   private debtorSub: Subscription;
 
   constructor(
@@ -48,6 +50,9 @@ export class DebtorsPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.debtorSub = this.debtorService.debtor.subscribe((debtor) => {
       this.debtor = debtor;
       this.filtered = this.debtor;

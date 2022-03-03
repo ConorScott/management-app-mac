@@ -112,18 +112,14 @@ ion-item ion-textarea{
 
 @media only screen and (max-width: 576px) {
   ion-card {
-    width: 95%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom:0px;
   }
   .radio-notice{
     font-size: 0.55rem;
-  }
-  .notice-lg{
-    display:none;
-  }
-  .notice-mb{
-    padding-top: 10px;
+    border-radius: 3rem;
   }
   .new-entry-button{
     font-size: 0.75rem;
@@ -132,7 +128,16 @@ ion-item ion-textarea{
     opacity: 1 !important;
     font-size: .875rem !important;
   }
-
+  ion-col{
+    padding: 0 5px;
+  }
+  .card-title{
+    padding-left:0px;
+    margin-bottom:10px;
+  }
+  .sub{
+    margin-bottom:0px;
+  }
 }
 @media only screen and (min-width: 768px) and (max-width:991px)
 {
@@ -152,9 +157,6 @@ ion-item ion-textarea{
   }
 }
 @media only screen and (min-width: 992px) {
-  .notice-mb{
-    display:none;
-  }
   .notice-label{
     opacity: 1 !important;
   }

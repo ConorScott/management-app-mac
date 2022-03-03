@@ -140,10 +140,21 @@ ion-back-button{
   align-self: center;
 }
 @media only screen and (max-width: 576px) {
+  .viewport {
+    // height: 52vh;
+    height: calc(100vh - 286px);
+    width: 100%;
+    box-shadow: 1px 1px 1px grey;
+  }
   ion-card {
-    width: 95%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom:0px;
+  }
+  ion-button:not(.submit-button){
+    font-size: 10.4px;
+    letter-spacing: 1px;
   }
   ion-segment{
     width:100%;

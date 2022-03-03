@@ -55,7 +55,7 @@
                 <p class="entry-textarea">{{invoice.services}}</p>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-xs="8" size-md="4" size-lg="4">
+            <ion-col size="12" size-xs="8.5" size-md="4" size-lg="4">
               <ion-item lines="none">
                 <ion-label class="form-label">Services Price:</ion-label>
                 <p >€{{invoice.servicesPrice | number : '1.2-2'}}</p>
@@ -176,11 +176,11 @@
             <ion-col size-xs="12" size="12" size-md="6" size-lg="8" *ngIf="invoice.otherDetailsPrice">
               <ion-item lines="none">
                 <ion-label position="floating" class="entry-label">Other Details</ion-label>
-                <p class="entry-textarea">{{invoice.otherDetails}}</p>
+                <p class="entry-textarea other-details">{{invoice.otherDetails}}</p>
               </ion-item>
             </ion-col>
-            <ion-col size-xs="12" size="12" size-md="6" size-lg="4">
-              <ion-item lines="none">
+            <ion-col size-xs="8" size="12" size-md="6" size-lg="4">
+              <ion-item lines="none" class="ion-text-start">
                 <ion-label class="form-label">Other Details Price:</ion-label>
                 <p >€{{invoice.otherDetailsPrice | number : '1.2-2'}}</p>
               </ion-item>

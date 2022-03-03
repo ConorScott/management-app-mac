@@ -29,7 +29,7 @@
             </ion-card-subtitle>
           </ion-col>
           <ion-col size="1.5" size-lg="2" size-md="3" size-xs="4" class="ion-text-center">
-            <ion-select class="selectForm" formControlName="formType" (ionChange)="listTypeChange($event)" value="standard">
+            <ion-select [interfaceOptions]="modalHeader" class="selectForm" formControlName="formType" (ionChange)="listTypeChange($event)" value="standard">
               <ion-select-option value="standard">Standard</ion-select-option>
               <ion-select-option value="preNeed">Pre Need</ion-select-option>
               <ion-select-option value="horizon">Horizon</ion-select-option>
@@ -392,7 +392,7 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="12">
+            <ion-col size="12" size-md="12" size-lg="12">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Paragraph 1</ion-label>
                 <ion-textarea  class="form-input" placeholder="Paragraph 1" type="text" rows="5" formControlName="noticePar1"></ion-textarea>
@@ -400,7 +400,7 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="12">
+            <ion-col size="12" size-md="12" size-lg="12">
               <ion-item lines="none">
                 <ion-label position="stacked" class="form-label">Paragraph 2</ion-label>
                 <ion-textarea  class="form-input" placeholder="Paragraph 2" type="text" rows="5" formControlName="noticePar2"></ion-textarea>
@@ -408,8 +408,8 @@
             </ion-col>
 
           </ion-row>
-          <ion-row>
-            <ion-col size="12" size-md="6" size-lg="3">
+          <ion-row class="submit-btn">
+            <ion-col size="10" size-sm="10" size-md="6" size-lg="3">
               <ion-button *ngIf="listType === 'standard'" [disabled]="form.invalid" color="success" type="submit" expand="block" (click)="onCreateEntry()" class="new-entry-button">
                 Submit
               </ion-button>
@@ -421,15 +421,7 @@
 
     <ion-card *ngIf="listType === 'horizon' || listType === 'preNeed'">
 
-      <ion-card-header>
-        <ion-row>
-          <ion-col class="subtitle">
-            <ion-card-subtitle class="card-title">
-              Special Requests
-            </ion-card-subtitle>
-          </ion-col>
-        </ion-row>
-      </ion-card-header>
+
       <ion-card-content>
         <ion-grid>
           <ion-row>
@@ -440,8 +432,8 @@
               </ion-item>
             </ion-col>
           </ion-row>
-          <ion-row>
-            <ion-col size="12" size-md="6" size-lg="3">
+          <ion-row class="submit-btn">
+            <ion-col size="10" size-sm="10" size-md="6" size-lg="3">
               <ion-button  [disabled]="form.invalid" color="success" type="submit" expand="block" (click)="onCreateEntry()" class="new-entry-button">
                 Submit
               </ion-button>

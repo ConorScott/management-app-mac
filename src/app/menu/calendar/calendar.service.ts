@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable arrow-body-style */
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Calendar } from '@fullcalendar/angular';
 import { id } from 'date-fns/locale';
@@ -34,7 +34,7 @@ const colors: any = {
 
 interface EventData {
   id: string;
-  uid: string;
+  deceasedId: string;
   title: string;
   start: Date;
   end: Date;
@@ -128,13 +128,12 @@ export class CalendarService {
       take(1),
       tap((calendar) => {
         newCalendar.id = generateId;
-        newCalendar.uid = generateId;
         this._calendar.next(calendar.concat(newCalendar));
       })
     );
   }
 
-  addReposeEvent(title: string, start: Date, end: Date, color) {
+  addReposeEvent(title: string, start: Date, end: Date, color, deceasedId) {
     let generateId: string;
     let newCalendar: Event;
     let fetchedUserId: string;
@@ -153,7 +152,7 @@ export class CalendarService {
       take(1),
       switchMap((token) => {
         // newCalendar = events;
-        newCalendar = new Event(Math.random().toString(), uid, title, start, end, color, allDay);
+        newCalendar = new Event(Math.random().toString(), deceasedId, title, start, end, color, allDay);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
           { ...newCalendar }
@@ -165,7 +164,7 @@ export class CalendarService {
       }),
       take(1),
       tap((calendar) => {
-        newCalendar.uid = generateId;
+        newCalendar.id = generateId;
         this._calendar.next(calendar.concat(newCalendar));
       })
     );
@@ -204,7 +203,6 @@ export class CalendarService {
       take(1),
       tap((calendar) => {
         newCalendar.id = generateId;
-        newCalendar.uid = generateId;
         this._calendar.next(calendar.concat(newCalendar));
       })
     );
@@ -242,7 +240,7 @@ export class CalendarService {
 
         updateCalendar[updateCalendarIndex] = new Event(
           oldCalendar.id,
-          oldCalendar.uid,
+          oldCalendar.deceasedId,
           title,
           start,
           end,
@@ -275,7 +273,7 @@ export class CalendarService {
             calendar.push(
               new Event(
                 key,
-                resData[key].uid,
+                resData[key].deceasedId,
                 resData[key].title,
                 new Date(resData[key].start),
                 new Date(resData[key].end),
@@ -294,7 +292,7 @@ export class CalendarService {
     );
   }
 
-  reposeDate(deceasedName, reposeDate, reposeTime, reposeEndTime) {
+  reposeDate(deceasedName, reposeDate, reposeTime, reposeEndTime, deceasedId) {
     const date = reposeDate.split('T')[0];
     const time = reposeTime.split('T')[1];
     const end = reposeEndTime.split('T')[1];
@@ -305,11 +303,12 @@ export class CalendarService {
       deceasedName + ' Repose Date',
       new Date(reposeDateTime),
       new Date(endTime),
-      colors.blue
+      colors.blue,
+      deceasedId
     ).subscribe();
   }
 
-  removalTime(deceasedName, removalDate, removalTime) {
+  removalTime(deceasedName, removalDate, removalTime, deceasedId) {
     const date = removalDate.split('T')[0];
     const time = removalTime.split('T')[1];
     const removalDateTime = date + 'T' + time;
@@ -319,10 +318,11 @@ export class CalendarService {
       deceasedName + ' Removal Date',
       new Date(removalDateTime),
       endTime,
-      colors.yellow
+      colors.yellow,
+      deceasedId
     ).subscribe();
   }
-  churchArrivalTime(deceasedName, churchArrivalDate, churchArrivalTime) {
+  churchArrivalTime(deceasedName, churchArrivalDate, churchArrivalTime, deceasedId) {
     const date = churchArrivalDate.split('T')[0];
     const time = churchArrivalTime.split('T')[1];
     const churchArrivalDateTime = date + 'T' + time;
@@ -332,10 +332,11 @@ export class CalendarService {
       deceasedName + ' church Arrival Date',
       new Date(churchArrivalDateTime),
       endTime,
-      colors.green
+      colors.green,
+      deceasedId
     ).subscribe();
   }
-  massTime(deceasedName, massDate, massTime) {
+  massTime(deceasedName, massDate, massTime, deceasedId) {
     const date = massDate.split('T')[0];
     const time = massTime.split('T')[1];
     const massDateTime = date + 'T' + time;
@@ -345,7 +346,8 @@ export class CalendarService {
       deceasedName + ' Mass Date',
       new Date(massDateTime),
       endTime,
-      colors.lightRed
+      colors.lightRed,
+      deceasedId
     ).subscribe();
   }
 
@@ -423,7 +425,7 @@ export class CalendarService {
           if (resData.hasOwnProperty(key) && resData[key].title === title) {
             return new Event(
               key,
-              resData[key].uid,
+              resData[key].deceasedId,
               resData[key].title,
               resData[key].start,
               resData[key].end,
@@ -447,7 +449,7 @@ export class CalendarService {
       map(eventData => {
         return new Event(
           id,
-          eventData.uid,
+          eventData.deceasedId,
           eventData.title,
           eventData.start,
           eventData.end,
@@ -469,6 +471,43 @@ export class CalendarService {
       take(1),
       tap((event) => {
         this._calendar.next(event.filter((b) => b.id !== eventId));
+      })
+    );
+  }
+
+  deleteEventDetails(deceasedId?: string) {
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => this.http.delete(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?orderBy="deceasedId"&equalTo="-MxA-z9kspZ9BHt7HMB0"&auth=${token}`
+        )),
+      switchMap(() => this.calendar),
+      take(1),
+      tap((event) => {
+        this._calendar.next(event.filter((b) => b.deceasedId !== deceasedId));
+      })
+    );
+  }
+
+  fetchEventInfo(deceasedId?: string){
+    return this.authService.token.pipe(
+      take(1),
+      // eslint-disable-next-line arrow-body-style
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: EventData}>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?orderBy="deceasedId"&equalTo="${deceasedId}"&auth=${token}`
+        );
+      }),
+      map((resData) => {
+        // console.log(resData.id);
+        const events = [];
+        for (const key in resData) {
+          console.log(key);
+          console.log("2");
+          this.deleteEvent(key).subscribe();
+        }
+        // console.log(events);
+        // return events;
       })
     );
   }

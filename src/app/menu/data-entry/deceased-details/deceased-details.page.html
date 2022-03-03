@@ -11,7 +11,7 @@
         </ion-col>
         <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center">
 
-            <ion-select (ionChange)="listTypeChange($event)" value="standard">
+            <ion-select [interfaceOptions]="modalHeader" (ionChange)="listTypeChange($event)" value="standard">
               <ion-select-option value="standard">Standard</ion-select-option>
               <ion-select-option value="preNeed">Pre Need</ion-select-option>
               <ion-select-option value="horizon">Horizon</ion-select-option>
@@ -31,12 +31,13 @@
           </ion-col>
           <ion-col size-lg="8" size-md="7" size-xs="4" class="ion-align-self-center">
             <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
-            <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
-              <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
-              Search
-            </ion-button>
+
+              <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
+                <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
+                Search
+              </ion-button>
           </ion-col>
-          <ion-col size-lg="4" size-md="5" size-xs="8" class="col-buttons ion-align-self-center" *ngIf="!searchbarOpened">
+          <ion-col size-lg="4" size-md="5" size-xs="8" class="col-buttons ion-align-self-center ion-text-end" *ngIf="!searchbarOpened">
 
 
 
@@ -64,7 +65,7 @@
         </ion-row>
         <ion-row>
           <ion-col class="card-details">
-              <ion-item class="list-item th">
+              <ion-item class="list-item th" *ngIf="!mobile">
                 <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                   Name
                 </ion-label>
@@ -82,7 +83,17 @@
               </div>
               <div class="virtualScroll">
               <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && deceased.length > 0">
-                <ion-item *ngFor="let deceased of filtered" class="ion-item list-item" (click)="onView(deceased.id)">
+                <ion-item class="list-item th" *ngIf="filtered.length > 0 && mobile">
+                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    Name
+                  </ion-label>
+                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    Entry Date
+                  </ion-label>
+                  <ion-icon></ion-icon>
+                  <ion-icon></ion-icon>
+                </ion-item>
+                <ion-item *cdkVirtualFor="let deceased of filtered" class="ion-item list-item" (click)="onView(deceased.id)">
                   <ion-label class="ion-label name">{{deceased.deceasedName}}</ion-label>
                   <ion-label class="ion-label">{{deceased.entryDate | date:'dd/MM/yyyy'}}</ion-label>
                   <ion-icon name="create" color="primary" (click)="onEdit( deceased.id, $event)"></ion-icon>

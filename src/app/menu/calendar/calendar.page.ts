@@ -110,6 +110,7 @@ events: Event;
   ) {}
 
   ngOnInit() {
+    // this.calendarService.deleteEventDetails().subscribe();
     this.eventSub = this.calendarService.calendar.subscribe((calendar) => {
       this.calendar = calendar;
 

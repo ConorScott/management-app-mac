@@ -32,3 +32,19 @@ ion-icon:hover {
   -webkit-transition: all 300ms ease;
   cursor: pointer;
 }
+@media only screen and (max-width: 576px){
+  ion-button{
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  ion-card-header{
+    padding-left: 0px;
+  }
+  ion-card-content{
+    padding-left:0px;
+    padding-right:0px;
+  }
+  .label{
+    min-width: 40%;
+  }
+}
