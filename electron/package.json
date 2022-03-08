@@ -1,7 +1,7 @@
 {
   "name": "mcgowans-management-app",
-  "version": "1.0.57",
-  "description": "An Amazing Capacitor App",
+  "version": "1.0.58",
+  "description": "McGowans App",
   "main": "./build/src/index.js",
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
   "license": "MIT",
   "build": {
     "appId": "com.example.capacitor-app",
-    "productName": "Capacitor App",
+    "productName": "McGowans Management App",
     "files": [
       "assets/**",
       "build/**",
