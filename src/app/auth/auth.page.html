@@ -1,25 +1,19 @@
-<div class="header">
-  <div class="seperator">
-    <svg viewBox="0 0 2560 100" width="100%">
-      <polygon class="fill-default" points="2560 0 2560 100 0 100"  />
-      Sorry, your browser does not support inline SVG.
-    </svg>
-  </div>
-</div>
+
 
 
 <ion-content padding>
+  <div class="header">
+    <div class="seperator">
+      <svg viewBox="0 0 2560 100" width="100%">
+        <polygon class="fill-default" points="2560 0 2560 100 0 100"  />
+        Sorry, your browser does not support inline SVG.
+      </svg>
+    </div>
+  </div>
+   
+      <div class="card-container">
 
-    <div class="card-container">
-      <ion-button
-          class="submit-button"
-            type="submit"
-            color="primary"
-            expand="block"
-            click="restartApp()"
-          >
-            restart
-          </ion-button>
+      
     <ion-card>
       <form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <ion-grid>
@@ -88,5 +82,4 @@
   </form>
   </ion-card>
 </div>
-
 </ion-content>

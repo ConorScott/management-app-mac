@@ -1,6 +1,6 @@
 {
   "name": "mcgowans-management-app",
-  "version": "1.0.58",
+  "version": "1.0.62",
   "description": "McGowans App",
   "main": "./build/src/index.js",
   "repository": {
@@ -15,7 +15,7 @@
     "electron:build-mac": "npm run build && electron-builder build --mac",
     "rebuild-deps": "electron-rebuild",
     "new-electron-build": "electron-builder build--win --publish never",
-    "deploy": "electron-builder build --win --publish always"
+    "deploy": "electron-builder build --mac --publish always"
   },
   "dependencies": {
     "@capacitor-community/electron": "^3.0.0",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "electron": "~13.1.3",
-    "electron-builder": "~22.11.7",
+    "electron-builder": "^22.11.11",
     "electron-rebuild": "~2.3.5",
     "typescript": "~4.3.4"
   },

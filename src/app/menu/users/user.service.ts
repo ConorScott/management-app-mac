@@ -9,7 +9,7 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/auth/user.model';
 import { StoreUser } from './storeUser.model';
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
 import { environment } from 'src/environments/environment';
 
 interface UserData {

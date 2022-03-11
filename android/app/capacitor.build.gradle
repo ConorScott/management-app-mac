@@ -10,6 +10,7 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-community-native-market')
+    implementation project(':capacitor-storage')
     implementation "com.android.support:support-v4:28.+"
     implementation "com.android.support:support-v4:28.+"
 }
