@@ -3,8 +3,11 @@
     <ion-card>
       <ion-card-header>
         <ion-item lines="none">
-          <ion-label class="card-title" >
-            Tip Payment Stats
+          <ion-label class="card-title" *ngIf="!tipPayment">
+            Tip Stats
+          </ion-label>
+          <ion-label class="card-title" *ngIf="tipPayment">
+            Tip Balances
           </ion-label>
           <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
         </ion-item>
@@ -14,7 +17,7 @@
         <ion-grid>
           <div class="virtualScroll">
             <cdk-virtual-scroll-viewport itemSize="20" class="viewport" *ngIf="!tipPayment && !isLoading && filteredTips.length > 0">
-              <ion-item *cdkVirtualFor="let stats of filteredTips">
+              <ion-item *ngFor="let stats of filteredTips">
                 <ion-label class="form-label">{{stats.payeeName}}</ion-label>
                 <ion-label class="label"> €{{stats.entryAmount}}</ion-label>
               </ion-item>

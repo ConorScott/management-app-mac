@@ -58,7 +58,6 @@
     "@types/jspdf": "^2.0.0",
     "angular-calendar": "^0.28.26",
     "angularx-flatpickr": "^6.6.0",
-    "bootstrap": "^4.5.0",
     "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-inappbrowser": "^5.0.0",
     "cordova-plugin-printer": "^0.8.0",

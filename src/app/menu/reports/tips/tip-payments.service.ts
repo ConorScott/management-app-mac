@@ -352,6 +352,49 @@ export class TipPaymentsService {
       })
     );
   }
+  updateTipPayeeBalance(tipId: string, name: string, amount: number) {
+    let updateTips: TipPayee[];
+    let fetchedToken: string;
+    let balance: number;
+    // eslint-disable-next-line prefer-const
+
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        fetchedToken = token;
+        return this.tipPayee;
+      }),
+      take(1),
+      switchMap((tips) => {
+        if (!tips || tips.length <= 0) {
+          return this.fetchTipPayee();
+        } else {
+          return of(tips);
+        }
+      }),
+      switchMap((donation) => {
+        const updateTipsIndex = donation.findIndex(
+          (pl) => pl.id === tipId
+        );
+        updateTips = [...donation];
+        const oldDonation = updateTips[updateTipsIndex];
+        balance = oldDonation.balance - amount;
+
+        updateTips[updateTipsIndex] = new TipPayee(
+          oldDonation.id,
+          name,
+          balance,
+        );
+        return this.http.put<TipPayee>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayee/${tipId}.json?auth=${fetchedToken}`,
+          { ...updateTips[updateTipsIndex], id: null }
+        );
+      }),
+      tap(() => {
+        this._tipPayee.next(updateTips);
+      })
+    );
+  }
 
   updateTipPaymentInfo(tipId: string, name: string, amount: number) {
     let updateTips: TipPayee[];

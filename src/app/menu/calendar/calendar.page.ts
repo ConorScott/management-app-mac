@@ -21,6 +21,8 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  CalendarDateFormatter,
+  DateFormatterParams
 } from 'angular-calendar';
 import { CalendarService } from './calendar.service';
 import { Event } from './event.model';
@@ -32,9 +34,10 @@ import { stringify } from '@angular/compiler/src/util';
 import { id } from 'date-fns/locale';
 import { Deceased } from '../data-entry/deceased-details/deceased.model';
 import { DeceasedService } from '../data-entry/deceased-details/deceased.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { ViewEventPage } from './view-event/view-event.page';
 import { EditEventPage } from './edit-event/edit-event.page';
+import { CustomDateFormatter } from './custom-date-formatter.provider';
 
 const colors: any = {
   red: {
@@ -55,8 +58,18 @@ const colors: any = {
   selector: 'app-calendar',
   templateUrl: './calendar.page.html',
   styleUrls: ['./calendar.page.scss'],
+  providers: [
+    {
+      provide: CalendarDateFormatter,
+      useClass: CustomDateFormatter,
+    },
+  ],
 })
 export class CalendarPage implements OnInit {
+
+  public weekViewColumnHeader({ date, locale }: DateFormatterParams): string {
+    return formatDate(date, 'EEE', locale);
+  }
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   calendar: Event[];
   funeralTimes: Deceased[];

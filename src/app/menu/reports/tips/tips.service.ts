@@ -334,6 +334,15 @@ export class TipsService {
   }
 
   deleteTip(tipId: string) {
+    this.getTips(tipId).subscribe((tip) => {
+      this.tipPaymentService.checkTipPayees(tip.payeeName).subscribe(payee => {
+        payee.map(tipPayeeInfo => {
+          this.tipPaymentService.updateTipPayeeBalance(tipPayeeInfo.id, tipPayeeInfo.name, tip.entryAmount).subscribe();
+        });
+
+      });
+
+    });
     return this.authService.token.pipe(
       take(1),
       switchMap((token) => this.http.delete(
@@ -346,4 +355,6 @@ export class TipsService {
       })
     );
   }
+
+
 }

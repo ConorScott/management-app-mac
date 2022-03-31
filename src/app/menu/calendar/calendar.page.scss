@@ -76,7 +76,20 @@ h3{
       padding-right: 0px;
   }
   .view-date{
-    font-size: 1rem;
+    font-size: 1.25rem;
+  }
+  ion-card{
+    margin: 0px 5px;
+  }
+  ion-button{
+    --padding-start:0px;
+    --padding-end:0px;
+    font-size:10.4px;
+  }
+  .ion-buttons{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
 @media only screen and (min-width: 577px)

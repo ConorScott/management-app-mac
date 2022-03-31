@@ -47,6 +47,11 @@ export class TipsPage implements OnInit, OnDestroy {
   tipPayment = false;
   searchbarOpened = false;
   mobile = false;
+  tipsAlert: any = {
+    header: 'Form Type',
+    class: 'tips'
+
+  };
 
   private tipsSub: Subscription;
   private tipPaymentSub: Subscription;
@@ -88,6 +93,9 @@ export class TipsPage implements OnInit, OnDestroy {
       this.tipPayments = tipPayment;
       this.filteredTipsPayments = this.tipPayments;
       this.filteredTP = [...this.tipPayments];
+      console.log(this.tipPayments);
+      console.log(this.filteredTP);
+
     });
 
     // this.getRayTotal();
@@ -170,6 +178,7 @@ export class TipsPage implements OnInit, OnDestroy {
   // }
 
   onEdit(tipId: string, type?: string, event?: any) {
+    console.log(event);
     if (event) {
       event.stopPropagation();
     }
@@ -381,6 +390,7 @@ export class TipsPage implements OnInit, OnDestroy {
       // });
     } else if(event.target.value === 'tipPayments') {
       this.tipPayment = true;
+      console.log(this.tipPayment);
     }
   }
 

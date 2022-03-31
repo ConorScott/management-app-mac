@@ -3,6 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import {Plugins} from '@capacitor/core';
 import { Storage } from '@capacitor/Storage';
 import { BehaviorSubject, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

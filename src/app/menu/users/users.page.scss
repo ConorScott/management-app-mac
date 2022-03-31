@@ -103,9 +103,10 @@ ion-toolbar {
 }
 @media only screen and (max-width: 576px){
   ion-card {
-    width: 95%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-top:-60px;
   }
 
   .ion-label{
