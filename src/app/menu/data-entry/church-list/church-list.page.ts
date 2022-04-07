@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController, LoadingController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { Church } from './church.model';
 import { ChurchService } from './church.service';
 import { EditChurchPage } from './edit-church/edit-church.page';
@@ -25,7 +28,10 @@ export class ChurchListPage implements OnInit, OnDestroy {
     private router: Router,
     private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {

@@ -5,6 +5,9 @@ import { MenuController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { UserService } from './menu/users/user.service';
+import { ConnectionStatus, NetworkService} from'./services/network.service';
+import { OfflineManagerService } from './services/offline-manager.service';
+import { StorageService } from './services/storage-service.service';
 import { SharedService } from './shared/shared.service';
 
 @Component({
@@ -28,7 +31,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private userService: UserService,
     public sharedService: SharedService,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private offlineManager: OfflineManagerService,
+    private networkService: NetworkService,
+    private storageService: StorageService
   ) {
     this.initializeApp();
 
@@ -39,8 +45,14 @@ export class AppComponent implements OnInit, OnDestroy {
       if (Capacitor.isPluginAvailable('SplashScreen')) {
         Plugins.SplashScreen.hide();
       }
+        this.networkService.onNetworkChange().subscribe((status: ConnectionStatus) => {
+          if (status == ConnectionStatus.Online) {
+            this.offlineManager.checkForEvents().subscribe();
+          }
+        });
     });
   }
+
 
   ngOnInit() {
     this.authSub = this.authService.userIsAuthenticated.subscribe((isAuth) => {

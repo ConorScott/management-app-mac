@@ -6,10 +6,13 @@ import { Deceased } from '../deceased-details/deceased.model';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Contact } from '../../../shared/contact';
-import { BehaviorSubject, of, pipe } from 'rxjs';
+import { BehaviorSubject, from, of, pipe } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CalendarService } from '../../calendar/calendar.service';
 import { ReportsPageRoutingModule } from '../../reports/reports-routing.module';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 
 interface DeceasedData {
   deceasedName: string;
@@ -62,7 +65,7 @@ export class DeceasedService {
     return this._contact.asObservable();
   }
 
-  constructor(private authService: AuthService, private http: HttpClient, private calendarService: CalendarService) {}
+  constructor(private authService: AuthService, private http: HttpClient, private calendarService: CalendarService, private apiService: ApiService, private networkService: NetworkService, private storageService: StorageService) {}
 
   addDeceased(
     deceasedName: string,
@@ -101,6 +104,8 @@ export class DeceasedService {
     let generateId: string;
     let newDeceased: Deceased;
     let fetchedUserId: string;
+
+
     return this.authService.userId.pipe(
       take(1),
       switchMap((userId) => {
@@ -221,65 +226,72 @@ export class DeceasedService {
   }
 
   fetchDeceased(formType) {
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) => {
-        return this.http.get<{ [key: string]: DeceasedData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/deceased-details.json?auth=${token}`
-        );
-      }),
-      map((resData) => {
-        const deceased = [];
-        for (const key in resData) {
-          if (
-            resData.hasOwnProperty(key) &&
-            resData[key].formType === formType
-          ) {
-            deceased.push(
-              new Deceased(
-                key,
-                resData[key].deceasedName,
-                resData[key].deathDate,
-                resData[key].age,
-                resData[key].dob,
-                resData[key].deathPlace,
-                resData[key].address1,
-                resData[key].address2,
-                resData[key].address3,
-                resData[key].county,
-                resData[key].contact,
-                resData[key].doctor,
-                resData[key].doctorNo,
-                resData[key].church,
-                resData[key].cemetry,
-                resData[key].grave,
-                resData[key].clergy,
-                resData[key].reposingAt,
-                resData[key].reposeDate,
-                resData[key].reposeTime,
-                resData[key].reposeEndTime,
-                resData[key].removalDate,
-                resData[key].removalTime,
-                resData[key].churchArrivalDate,
-                resData[key].churchArrivalTime,
-                resData[key].massDate,
-                resData[key].massTime,
-                resData[key].entryDate,
-                resData[key].formType,
-                resData[key].createdBy,
-                resData[key].noticePar1,
-                resData[key].noticePar2,
-                resData[key].specialRequests
-              )
-            );
+
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('deceased'))
+    } else {
+      return this.authService.token.pipe(
+        take(1),
+        switchMap((token) => {
+          return this.http.get<{ [key: string]: DeceasedData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/deceased-details.json?auth=${token}`
+          );
+        }),
+        map((resData) => {
+          const deceased = [];
+          for (const key in resData) {
+            if (
+              resData.hasOwnProperty(key) &&
+              resData[key].formType === formType
+            ) {
+              deceased.push(
+                new Deceased(
+                  key,
+                  resData[key].deceasedName,
+                  resData[key].deathDate,
+                  resData[key].age,
+                  resData[key].dob,
+                  resData[key].deathPlace,
+                  resData[key].address1,
+                  resData[key].address2,
+                  resData[key].address3,
+                  resData[key].county,
+                  resData[key].contact,
+                  resData[key].doctor,
+                  resData[key].doctorNo,
+                  resData[key].church,
+                  resData[key].cemetry,
+                  resData[key].grave,
+                  resData[key].clergy,
+                  resData[key].reposingAt,
+                  resData[key].reposeDate,
+                  resData[key].reposeTime,
+                  resData[key].reposeEndTime,
+                  resData[key].removalDate,
+                  resData[key].removalTime,
+                  resData[key].churchArrivalDate,
+                  resData[key].churchArrivalTime,
+                  resData[key].massDate,
+                  resData[key].massTime,
+                  resData[key].entryDate,
+                  resData[key].formType,
+                  resData[key].createdBy,
+                  resData[key].noticePar1,
+                  resData[key].noticePar2,
+                  resData[key].specialRequests
+                )
+              );
+            }
           }
-        }
-        return deceased.reverse();
-      }),
-      tap((deceased) => {
-        this._deceased.next(deceased);
-      })
-    );
+          return deceased.reverse();
+        }),
+        tap((deceased) => {
+          this.apiService.setLocalData('deceased', deceased);
+          this._deceased.next(deceased);
+        })
+      );
+    }
+
   }
 
   fetchDeceasedAddress(name, responsible) {

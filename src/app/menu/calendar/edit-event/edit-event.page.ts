@@ -81,7 +81,7 @@ export class EditEventPage implements OnInit {
   onUpdateEvent() {
     this.loadingCtrl
       .create({
-        message: 'Updating Donation',
+        message: 'Updating Event',
       })
       .then((loadingEl) => {
         loadingEl.present();

@@ -3,9 +3,13 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { Church } from './church.model';
 
 interface ChurchData {
@@ -22,9 +26,12 @@ export class ChurchService {
     return this._church.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) { }
 
   addChurch(churchName: string) {
+
     let generateId: string;
     let newChurch: Church;
     let fetchedUserId: string;
@@ -43,11 +50,17 @@ export class ChurchService {
           Math.random().toString(),
           churchName
         );
-        return this.http
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/churches.json?auth=${token}`;
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST'));
+        } else {
+          return this.http
         .post<{name: string}>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/churches.json?auth=${token}`,
           { ...newChurch, id: null }
         );
+        }
+
       }),switchMap((resData) => {
         generateId = resData.name;
         return this.church;
@@ -61,30 +74,36 @@ export class ChurchService {
   }
 
   fetchChurches() {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: ChurchData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/churches.json?auth=${token}`
-      );
-    }),
-        map((resData) => {
-          const church = [];
-          for (const key in resData) {
-            if (resData.hasOwnProperty(key)) {
-              church.push(
-                new Church(
-                  key,
-                  resData[key].churchName,
-                )
-              );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('church'))
+    } else {
+      return this.authService.token.pipe(take(1), switchMap(token => {
+        return this.http
+        .get<{ [key: string]: ChurchData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/churches.json?auth=${token}`
+        );
+      }),
+          map((resData) => {
+            const church = [];
+            for (const key in resData) {
+              if (resData.hasOwnProperty(key)) {
+                church.push(
+                  new Church(
+                    key,
+                    resData[key].churchName,
+                  )
+                );
+              }
             }
-          }
-          return church;
-        }),
-        tap((church) => {
-          this._church.next(church);
-        })
-      );
+            return church;
+          }),
+          tap((church) => {
+            this.apiService.setLocalData('church ', church);
+            this._church.next(church);
+          })
+        );
+    }
+
   }
 
   getChurch(id: string) {
