@@ -4,6 +4,7 @@ export class Donation {
     public donationDate: Date,
     public donationType: string,
     public donationDesc: string,
-    public payeeName: string
+    public payeeName: string,
+    public amount?: number
   ) {}
 }

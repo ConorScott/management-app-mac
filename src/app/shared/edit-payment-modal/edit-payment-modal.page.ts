@@ -14,6 +14,7 @@ import { Payment } from '../payment.model';
 })
 export class EditPaymentModalPage implements OnInit {
   @Input() paymentId: string;
+  @Input() debtorPage: boolean;
   payment: Payment;
   isLoading = false;
   form: FormGroup;
@@ -76,14 +77,14 @@ export class EditPaymentModalPage implements OnInit {
     // );
     this.loadingCtrl
     .create({
-      message: 'Updating Receipt',
+      message: 'Updating Payment',
     })
     .then((loadingEl) => {
       loadingEl.present();
-      this.debtorService.updateDebtors(this.payment.paymentId, this.payment.amount)
-      .subscribe();
+      // this.debtorService.updateDebtors(this.payment.paymentId, this.payment.amount)
+      // .subscribe();
       this.paymentService
-        .updatePayments(
+        .updatePayment(
           this.paymentId,
           this.form.value.paymentDate,
           this.form.value.amount,
@@ -97,6 +98,42 @@ export class EditPaymentModalPage implements OnInit {
           this.modal.dismiss();
         });
     });
+}
+
+onEditPayments(){
+  console.log(this.form.value.amount);
+  // this.modal.dismiss(
+  //   {
+  //     editPayment: {
+  //       paymentId: this.paymentId,
+  //       action: 'edit'
+  //     }
+  //   },
+  //   'confirm'
+  // );
+  this.loadingCtrl
+  .create({
+    message: 'Updating Payment',
+  })
+  .then((loadingEl) => {
+    loadingEl.present();
+    // this.debtorService.updateDebtors(this.payment.paymentId, this.payment.amount)
+    // .subscribe();
+    this.paymentService
+      .updatePayments(
+        this.paymentId,
+        this.form.value.paymentDate,
+        this.form.value.amount,
+        this.form.value.paymentMethod,
+        this.form.value.payeeName,
+      )
+      .subscribe(() => {
+        loadingEl.dismiss();
+        this.form.reset();
+        this.paymentSub.unsubscribe();
+        this.modal.dismiss();
+      });
+  });
 }
 
 onCancel() {

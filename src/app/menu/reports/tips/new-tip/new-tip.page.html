@@ -37,7 +37,7 @@
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Payee</ion-label>
               <ion-select class="form-input-select" [value]="currentPayee" placeholder="Payee"  formControlName="payeeName" #mySelect [selectedText]="currentPayee"  (ionChange)="customSelect(mySelect.value)">
-                <ion-select-option *ngFor="let payee of payees">{{payee}}</ion-select-option>
+                <ion-select-option *ngFor="let payee of names">{{payee.payeeName}}</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>

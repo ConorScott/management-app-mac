@@ -82,7 +82,7 @@
                     Method
                   </ion-label>
                   <ion-icon></ion-icon>
-
+                  <ion-icon></ion-icon>
                 </ion-item>
                 <ion-item *cdkVirtualFor="let payments of filtered" class="ion-item list-item"
                   (click)="onView(payments.id, payments.paymentId)">
@@ -90,6 +90,7 @@
                   <ion-label class="ion-label">{{payments.paymentDate | date: 'dd/MM/yyyy'}}</ion-label>
                   <ion-label class="ion-label">€{{payments.amount}}</ion-label>
                   <ion-label class="ion-label">{{payments.paymentMethod}}</ion-label>
+                  <ion-icon name="create" color="primary" (click)="onEdit(payments.id, $event)" ></ion-icon>
                   <ion-icon name="trash" color="danger"
                     (click)="onDeleteEntry(payments.id, payments.paymentId, payments.amount, $event)"></ion-icon>
                 </ion-item>

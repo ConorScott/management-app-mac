@@ -12,6 +12,7 @@ interface DonationData {
   donationType: string;
   donationDesc: string;
   payeeName: string;
+  amount?: number
  }
 
 @Injectable({
@@ -26,7 +27,7 @@ export class DonationService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  addDonation(donationDate: Date, donationType: string, donationDesc: string, payeeName: string) {
+  addDonation(donationDate: Date, donationType: string, donationDesc: string, payeeName: string, amount?: number) {
     let generateId: string;
     let newDonation: Donation;
     let fetchedUserId: string;
@@ -41,7 +42,7 @@ export class DonationService {
       }),
       take(1),
       switchMap((token) => {
-        newDonation = new Donation(Math.random().toString(), donationDate, donationType, donationDesc, payeeName);
+        newDonation = new Donation(Math.random().toString(), donationDate, donationType, donationDesc, payeeName, amount);
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/donations.json?auth=${token}`,
           { ...newDonation, id: null }
@@ -75,7 +76,8 @@ export class DonationService {
               resData[key].donationDate,
               resData[key].donationType,
               resData[key].donationDesc,
-              resData[key].payeeName
+              resData[key].payeeName,
+              resData[key].amount,
               ));
           }
         }
@@ -98,12 +100,13 @@ export class DonationService {
          resData.donationDate,
          resData.donationType,
          resData.donationDesc,
-         resData.payeeName
+         resData.payeeName,
+         resData.amount
          ))
     );
   }
 
-  updateDonation(donationId: string, donationDate: Date, donationType: string, donationDesc: string, payeeName: string) {
+  updateDonation(donationId: string, donationDate: Date, donationType: string, donationDesc: string, payeeName: string, amount?: number) {
     let updateDonation: Donation[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -132,7 +135,8 @@ export class DonationService {
           donationDate,
           donationType,
           donationDesc,
-          payeeName
+          payeeName,
+          amount
         );
         return this.http.put<Donation>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/donations/${donationId}.json?auth=${fetchedToken}`,

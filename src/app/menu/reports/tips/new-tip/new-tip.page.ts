@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { TipPaymentsService } from '../tip-payments.service';
+import { Tips } from '../tips.model';
 import { TipsService } from '../tips.service';
 
 @Component({
@@ -11,6 +12,9 @@ import { TipsService } from '../tips.service';
 })
 export class NewTipPage implements OnInit {
   @Input() tipPayment: boolean;
+  @Input() filtered: Tips[];
+  names: Tips[];
+
 
   form: FormGroup;
   modal: HTMLIonModalElement;
@@ -27,7 +31,12 @@ export class NewTipPage implements OnInit {
   ) { }
 
   ngOnInit() {
+
     console.log(this.tipPayment);
+    this.filtered.map((res) => {
+      this.names = [res];
+    })
+    console.log(this.names);
     this.payees = ['Ray Murtagh', 'Kieran Maughan', 'Terry Butler', 'Brian Scanlon', 'St. Anne’s Church Sligo', 'Other'];
     this.form = new FormGroup({
       entryDate: new FormControl(null, {

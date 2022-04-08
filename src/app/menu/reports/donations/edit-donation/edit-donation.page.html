@@ -25,10 +25,21 @@
           <ion-col size="10">
             <ion-item lines="none">
               <ion-label class="form-label" position="stacked">Donation Type</ion-label>
-              <ion-select class="form-input-date"  formControlName="donationType">
+              <ion-select class="form-input-date"  formControlName="donationType" #type>
                 <ion-select-option  class="select" value="flowers">Flowers</ion-select-option>
                 <ion-select-option class="select" value="cash">Cash</ion-select-option>
               </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10" *ngIf="type.value === 'cash'">
+            <ion-item lines="none">
+              <ion-label class="form-label" position="stacked">Amount</ion-label>
+              <ion-input class="form-input"
+                type="number"
+
+                autocorrect
+                formControlName="amount"
+              ></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="10">

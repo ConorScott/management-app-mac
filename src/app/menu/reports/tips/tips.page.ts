@@ -278,7 +278,8 @@ export class TipsPage implements OnInit, OnDestroy {
         component: NewTipPage,
         cssClass: 'new-tip',
         componentProps: {
-          tipPayment: this.tipPayment
+          tipPayment: this.tipPayment,
+          filtered: this.filtered
         }
       })
       .then((modalEl) => {

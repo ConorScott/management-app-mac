@@ -167,6 +167,9 @@ ion-select:hover{
     transform: translateY(-1px);
 
 }
+.alert-head.sc-ion-alert-md{
+  display:none;
+}
 ion-select::part(icon) {
   color: #32325d;
   opacity: 1;

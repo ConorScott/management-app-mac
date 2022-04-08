@@ -159,7 +159,7 @@ export class EditTipPage implements OnInit {
   onUpdateTip() {
     this.loadingCtrl
       .create({
-        message: 'Updating Tip',
+        message: 'Updating Tip Payment',
       })
       .then((loadingEl) => {
         loadingEl.present();

@@ -26,7 +26,7 @@
             </div>
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Payment Amount</ion-label>
-              <ion-input class="form-input" type="text" placeholder="Payment Amount" formControlName="amount"></ion-input>
+              <ion-input class="form-input" type="number" placeholder="Payment Amount" formControlName="amount"></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="10">
@@ -49,8 +49,13 @@
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-      <ion-col size="8">
+      <ion-col size="8" *ngIf="debtorPage">
         <ion-button class="submit-button" type="submit" expand="block" (click)="onEditPayment()">
+          Submit
+        </ion-button>
+      </ion-col>
+      <ion-col size="8" *ngIf="!debtorPage">
+        <ion-button class="submit-button" type="submit" expand="block" (click)="onEditPayments()">
           Submit
         </ion-button>
       </ion-col>

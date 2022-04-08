@@ -23,8 +23,12 @@
           <ion-label class="form-label">Donation Type: </ion-label>
           <ion-label class="label">{{donation.donationType}}</ion-label>
         </ion-item>
+        <ion-item *ngIf="donation.donationType === 'cash'">
+          <ion-label class="form-label">Donation Amount: </ion-label>
+          <ion-label class="label">€{{donation.amount}}</ion-label>
+        </ion-item>
         <ion-item>
-          <ion-label position="stacked" class="form-label">Donation Description: </ion-label>
+          <ion-label position="stacked" class="desc-label">Donation Description: </ion-label>
           <ion-textarea class="desc">{{donation.donationDesc}}</ion-textarea>
         </ion-item>
         <ion-item lines="none">

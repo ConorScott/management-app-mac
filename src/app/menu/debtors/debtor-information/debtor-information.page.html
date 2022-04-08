@@ -26,6 +26,7 @@
       </ion-segment>
       <ion-card-content>
         <ion-grid *ngIf="segment === 'information'">
+
           <ion-row>
             <ion-col size="12" size-md="6" size-lg="4">
               <ion-item lines="none" class="ion-text-start">
@@ -185,17 +186,12 @@
           <ion-col size="12" size-md="6" size-lg="4">
             <ion-item lines="none">
               <ion-label class="form-label">Total Balance:</ion-label>
-              <ion-label >€{{debtor.totalBalance | number : '1.2-2'}}</ion-label>
+              <ion-label >€{{total | number : '1.2-2'}}</ion-label>
             </ion-item>
           </ion-col>
         </ion-row>
-          <ion-row>
-            <ion-col size="12" size-md="6" size-lg="3">
-              <ion-button class="submit-button" color="success" type="submit" expand="block" (click)="presentModal()">
-                Make Payment
-              </ion-button>
-            </ion-col>
-          </ion-row>
+
+          <!-- <app-information-child  [debtorInfo]="debtor"></app-information-child> -->
         </ion-grid>
         <ion-grid *ngIf="segment === 'payments'" class="payment-grid">
           <ion-row>
@@ -213,7 +209,7 @@
             <ion-col class="card-details">
 
               <ion-list>
-                <ion-item class="list-item th" *ngIf="filtered.length <= 0">
+                <ion-item class="list-item th" *ngIf="!isLoading && payments.length > 0 && !isMobile">
                   <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                     Name
                   </ion-label>
@@ -234,30 +230,35 @@
                 <div class="ion-text-center no-info" *ngIf="!isLoading && filtered.length <= 0">
                   <p>No Payment Information Found!</p>
                 </div>
-                <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && payments.length > 0">
-                  <ion-item class="list-item th" *ngIf="filtered.length > 0">
-                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                      Name
-                    </ion-label>
-                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                      Date
-                    </ion-label>
-                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                      Amount
-                    </ion-label>
-                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                      Method
-                    </ion-label>
-                    <ion-icon></ion-icon>
-                  </ion-item>
-                  <ion-item *cdkVirtualFor="let payment of filtered" class="ion-item list-item" (click)="onViewPayment(payment.id, payment.paymentId)">
-                    <ion-label class="ion-label name">{{payment.payeeName}}</ion-label>
-                    <ion-label class="ion-label">{{payment.paymentDate | date: 'dd/MM/yyyy'}}</ion-label>
-                    <ion-label class="ion-label">€{{payment.amount}}</ion-label>
-                    <ion-label class="ion-label">{{payment.paymentMethod}}</ion-label>
-                  <ion-icon name="trash" color="danger" (click)="deletePayment(payment.id, payment.paymentId,  payment.amount, $event)"></ion-icon>
-                  </ion-item>
-                </cdk-virtual-scroll-viewport>
+                <div class="virtualScroll">
+                  <cdk-virtual-scroll-viewport minBufferPx="200" maxBufferPx="400" itemSize="65.8" class="viewport" *ngIf="!isLoading && payments.length > 0">
+                    <ion-item class="list-item th" *ngIf="filtered.length > 0 && isMobile">
+                      <ion-label class="ion-label name " color="primary" style="font-weight: 300;">
+                        Name
+                      </ion-label>
+                      <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                        Date
+                      </ion-label>
+                      <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                        Amount
+                      </ion-label>
+                      <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                        Method
+                      </ion-label>
+                      <ion-icon></ion-icon>
+                      <ion-icon></ion-icon>
+                    </ion-item>
+                    <ion-item *cdkVirtualFor="let payment of filtered" class="ion-item list-item" (click)="onViewPayment(payment.id, payment.paymentId)">
+                      <ion-label class="ion-label name">{{payment.payeeName}}</ion-label>
+                      <ion-label class="ion-label">{{payment.paymentDate | date: 'dd/MM/yyyy'}}</ion-label>
+                      <ion-label class="ion-label">€{{payment.amount}}</ion-label>
+                      <ion-label class="ion-label">{{payment.paymentMethod}}</ion-label>
+                      <ion-icon name="create" color="primary" (click)="onEditPayment(payment.id, $event)" ></ion-icon>
+                    <ion-icon name="trash" color="danger" (click)="deletePayment(payment.id, payment.paymentId,  payment.amount, $event)"></ion-icon>
+                    </ion-item>
+                  </cdk-virtual-scroll-viewport>
+                </div>
+
 
               </ion-list>
             </ion-col>

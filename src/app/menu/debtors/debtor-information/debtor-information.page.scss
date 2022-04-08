@@ -129,15 +129,15 @@ ion-title{
 ion-back-button{
   color:white;
 }
-.viewport {
-  height: 320px;
-  width: 100%;
-
-  box-shadow: 1px 1px 1px grey;
-}
 .virtualScroll {
   display: flex;
   align-self: center;
+}
+.viewport {
+  // height: 60vh;
+  height: calc(100vh - 390px);
+  width: 100%;
+
 }
 @media only screen and (max-width: 576px) {
   .viewport {
@@ -169,6 +169,10 @@ ion-back-button{
   }
   .ion-label{
     text-overflow: unset;
-    padding: 1rem 2.5rem 1rem 1rem;
+    padding: 1rem .5rem 1rem 1rem;
+  }
+  .name{
+    text-overflow: unset;
+    padding: 1rem 4.5rem 1rem 1rem;
   }
 }

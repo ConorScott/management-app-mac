@@ -51,6 +51,9 @@ export class EditDonationPage implements OnInit {
         payeeName: new FormControl(this.donation.payeeName, {
           validators: [Validators.required]
         }),
+        amount: new FormControl(this.donation.amount, {
+          validators: [Validators.required]
+        })
       });
       this.isLoading = false;
     },
@@ -90,6 +93,7 @@ export class EditDonationPage implements OnInit {
             this.form.value.donationType,
             this.form.value.donationDesc,
             this.form.value.payeeName,
+            this.form.value.amount
           )
           .subscribe(() => {
             loadingEl.dismiss();

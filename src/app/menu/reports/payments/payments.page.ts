@@ -45,6 +45,7 @@ export class PaymentsPage implements OnInit, OnDestroy {
   overallTotal: number;
   mobile = false;
   desktop = true;
+  debtorPage = false;
 
   private paymentSub: Subscription;
   private cashTotalSub: Subscription;
@@ -66,10 +67,12 @@ export class PaymentsPage implements OnInit, OnDestroy {
     if (window.screen.width <= 768) { // 768px portrait
       this.mobile = true;
     }
-    this.paymentSub = this.paymentService.payment.subscribe((payment) => {
+    this.paymentSub = this.paymentService.payments.subscribe((payment) => {
       this.payments = payment;
       this.filteredPayments = this.payments;
       this.filtered = [...this.payments];
+      console.log(this.filtered);
+      console.log(this.filtered);
       this.payments.reduce(
         (acc, val) => (this.overallTotal = acc += val.amount),
         0
@@ -144,7 +147,6 @@ export class PaymentsPage implements OnInit, OnDestroy {
   }
 
   onChange(event) {
-    console.log(event.target.value);
     this.searchTerm = event.target.value;
     const filteration = event.target.value;
     this.filtered = this.filterSearch(filteration);
@@ -161,7 +163,6 @@ export class PaymentsPage implements OnInit, OnDestroy {
   }
 
   loadResults(start, end) {
-    console.log(start);
     if (!start || !end) {
       return;
     }
@@ -189,7 +190,6 @@ export class PaymentsPage implements OnInit, OnDestroy {
           if (!modalData.data) {
             return;
           }
-          console.log(modalData.data);
           this.loadResults(
             modalData.data.dates.start,
             modalData.data.dates.end
@@ -235,15 +235,18 @@ export class PaymentsPage implements OnInit, OnDestroy {
 
   onEdit(paymentId: string, event?: any) {
     if (event != null) {
+
       event.stopPropagation();
     }
     this.modalCtrl
       .create({
         component: EditPaymentModalPage,
+        cssClass: 'new-donation',
         componentProps: {
           // eslint-disable-next-line quote-props
           // eslint-disable-next-line object-shorthand
           paymentId: paymentId,
+          debtorPage: this.debtorPage
         },
       })
       .then((modalEl) => {
@@ -251,24 +254,12 @@ export class PaymentsPage implements OnInit, OnDestroy {
           if (!modalData.data) {
             return;
           }
-          this.paymentService
-            .updatePayment(
-              paymentId,
-              modalData.data.editPayment.paymentDate,
-              modalData.data.editPayment.amount,
-              modalData.data.editPayment.paymentMethod,
-              modalData.data.editPayment.payeeName
-            )
-            .subscribe((payment) => {
-              this.payments = [payment];
-            });
         });
         modalEl.present();
       });
   }
 
   onView(paymentId: string, debtorId: string) {
-    console.log(paymentId);
     this.modalCtrl
       .create({
         component: ViewPaymentPage,
@@ -355,13 +346,13 @@ export class PaymentsPage implements OnInit, OnDestroy {
                 .then((loadingEl) => {
                   loadingEl.present();
                   this.paymentService
-                    .deletePayment(paymentId)
+                    .deletePayments(paymentId)
                     .subscribe(() => {});
-                  this.debtorService
-                    .updateDeletedPayment(debtorId, amount)
-                    .subscribe(() => {
-                      loadingEl.dismiss();
-                    });
+                  // this.debtorService
+                  //   .updateDeletedPayment(debtorId, amount)
+                  //   .subscribe(() => {
+                  //     loadingEl.dismiss();
+                  //   });
                 });
             },
           },

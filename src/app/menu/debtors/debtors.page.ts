@@ -9,6 +9,9 @@ import { Debtor } from './debtor.model';
 import { DebtorService } from './debtor.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BalanceRangePage } from 'src/app/shared/balance-range/balance-range.page';
+import { PaymentService } from '../reports/payments/payment.service';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Payment } from 'src/app/shared/payment.model';
 
 
 @Component({
@@ -21,7 +24,8 @@ export class DebtorsPage implements OnInit, OnDestroy {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   @ViewChild(CdkVirtualScrollViewport)
   viewport: CdkVirtualScrollViewport;
-  filtered = [];
+  filtered: Debtor[];
+  payment: Payment;
   searchTerm: string;
   isVisible: boolean;
   totalBalance: number;
@@ -39,6 +43,7 @@ export class DebtorsPage implements OnInit, OnDestroy {
   mobile = false;
   desktop = true;
   private debtorSub: Subscription;
+  private paymentSub: Subscription;
 
   constructor(
     private debtorService: DebtorService,
@@ -47,6 +52,7 @@ export class DebtorsPage implements OnInit, OnDestroy {
     private loadingCtrl: LoadingController,
     private modalCtrl: ModalController,
     private sharedService: SharedService,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit() {
@@ -58,6 +64,16 @@ export class DebtorsPage implements OnInit, OnDestroy {
       this.filtered = this.debtor;
       this.filteredDebtor = this.debtor;
       this.filtered = [...this.debtor];
+      this.filtered.map(res => {
+        // res.totalBalance += 1;
+       this.paymentService.fetchDebtorPayments(res.id).subscribe(payment => {
+         console.log('payment');
+         console.log(payment);
+         payment.map(resData => {
+           res.totalBalance -= resData.amount;
+         })
+        });
+      })
       this.filterSelected = false;
       console.log(this.filtered);
       // debtor.map(total => {
@@ -69,8 +85,14 @@ export class DebtorsPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.isLoading = true;
     this.debtorService.fetchDebtors().subscribe((total) => {
+      // console.log('total');
+      // console.log(total);
+      // this.isLoading = false;
+      // total.map(res => {
+      //   console.log('rest');
+      //   console.log(res);
+      // })
       this.isLoading = false;
-
     });
   }
 

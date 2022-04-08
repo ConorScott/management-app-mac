@@ -32,6 +32,9 @@ export class NewDonationPage implements OnInit {
       payeeName: new FormControl(null, {
         validators: [Validators.required]
       }),
+      amount: new FormControl(null, {
+        validators: [Validators.required]
+      }),
     });
   }
 

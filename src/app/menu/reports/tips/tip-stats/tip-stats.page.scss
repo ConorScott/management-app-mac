@@ -1,6 +1,9 @@
 ion-content::part(background){
   --background: none;
 }
+ion-content::part(scroll){
+  overflow-y: hidden;
+}
 ion-card{
   top: 50%;
     transform: translateY(-50%);

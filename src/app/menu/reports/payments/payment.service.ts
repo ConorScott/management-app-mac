@@ -23,6 +23,7 @@ interface PaymentData {
 export class PaymentService {
   private _payment = new BehaviorSubject<Payment[]>([]);
   private _payments = new BehaviorSubject<Payment[]>([]);
+  // private _payments = new BehaviorSubject<Payment[]>([]);
 
   get payment() {
     return this._payment.asObservable();
@@ -105,12 +106,12 @@ export class PaymentService {
       );
       }),switchMap((resData) => {
         generatedId = resData.name;
-        return this.payments;
+        return this.payment;
       }),
       take(1),
       tap((payments) => {
         newPayment.id = generatedId;
-        this._payments.next(payments.concat(newPayment));
+        this._payment.next(payments.concat(newPayment));
       })
     );
   }
@@ -122,7 +123,9 @@ export class PaymentService {
     paymentMethod: string,
     name: string,
   ) {
+
     let updatePayment: Payment[];
+
     let fetchedToken: string;
     return this.authService.token.pipe(
       take(1),
@@ -139,9 +142,11 @@ export class PaymentService {
         }
       }),
       switchMap((user) => {
+
         const updatePaymentIndex = user.findIndex((pl) => pl.id === debtorId);
         updatePayment = [...user];
         const oldUser = updatePayment[updatePaymentIndex];
+
 
         updatePayment[updatePaymentIndex] = new Payment(
           oldUser.id,
@@ -154,7 +159,7 @@ export class PaymentService {
         );
         return this.http.put<Payment>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${debtorId}.json?auth=${fetchedToken}`,
-          { ...updatePayment[updatePaymentIndex]}
+          { ...updatePayment[updatePaymentIndex], id: null}
         );
       }),
       tap(() => {
@@ -170,6 +175,7 @@ export class PaymentService {
     paymentMethod: string,
     name: string
   ) {
+    console.log(debtorId);
     let updatePayment: Payment[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -181,15 +187,17 @@ export class PaymentService {
       take(1),
       switchMap((user) => {
         if (!user || user.length <= 0) {
-          return this.fetchPayments(debtorId);
+          return this.fetchAllPayments();
         } else {
           return of(user);
         }
       }),
       switchMap((user) => {
+        console.log([...user]);
         const updatePaymentIndex = user.findIndex((pl) => pl.id === debtorId);
         updatePayment = [...user];
         const oldUser = updatePayment[updatePaymentIndex];
+        console.log('console log' + oldUser);
 
         updatePayment[updatePaymentIndex] = new Payment(
           oldUser.id,
@@ -202,7 +210,7 @@ export class PaymentService {
         );
         return this.http.put<Payment>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments/${debtorId}.json?auth=${fetchedToken}`,
-          { ...updatePayment[updatePaymentIndex]}
+          { ...updatePayment[updatePaymentIndex], id: null}
         );
       }),
       tap(() => {
@@ -238,8 +246,40 @@ export class PaymentService {
       return payments.reverse();
     }),
     tap((payment) => {
-      this._payments.next(payment);
+      this._payment.next(payment);
     })
+    );
+  }
+
+  fetchDebtorPayments(id: string) {
+    return this.authService.token.pipe(take(1), switchMap(token => {
+      return this.http
+      .get<{ [key: string]: PaymentData }>(
+        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/payments.json?auth=${token}`
+      );
+    }), map((resData) => {
+      const payments = [];
+      for (const key in resData) {
+        if (resData.hasOwnProperty(key) &&
+        resData[key].paymentId === id) {
+          payments.push(
+            new Payment(
+              key,
+              resData[key].paymentId,
+              resData[key].paymentDate,
+              resData[key].amount,
+              resData[key].paymentMethod,
+              resData[key].payeeName,
+              resData[key].deceasedName
+            )
+          );
+        }
+      }
+      return payments.reverse();
+    }),
+    // tap((payment) => {
+    //   this._payment.next(payment);
+    // })
     );
   }
 
@@ -269,7 +309,7 @@ export class PaymentService {
       return payments.reverse();
     }),
     tap((payment) => {
-      this._payment.next(payment);
+      this._payments.next(payment);
     })
     );
   }
