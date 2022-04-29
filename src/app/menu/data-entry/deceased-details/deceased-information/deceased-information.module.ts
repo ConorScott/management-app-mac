@@ -10,18 +10,23 @@ import { DeceasedInformationPage } from './deceased-information.page';
 
 import { File } from '@ionic-native/file/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Printer, PrintOptions } from '@ionic-native/printer/ngx';
+import { NoticeLayoutPage } from '../notice-layout/notice-layout.page';
+import { RadioNoticeLayoutComponent } from '../radio-notice-layout/radio-notice-layout.component';
+
 
 @NgModule({
-  providers: [
-    File,
-    FileOpener,
-  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     DeceasedInformationPageRoutingModule
   ],
-  declarations: [DeceasedInformationPage]
+  declarations: [DeceasedInformationPage, NoticeLayoutPage, RadioNoticeLayoutComponent],
+  providers: [
+    File,
+    FileOpener,
+    Printer
+  ],
 })
 export class DeceasedInformationPageModule {}

@@ -412,7 +412,6 @@ export class DebtorService {
         const updateDebtorIndex = debtors.findIndex((pl) => pl.id === debtorId);
         updateDebtor = [...debtors];
         const oldDebtor = updateDebtor[updateDebtorIndex];
-        console.log(oldDebtor);
 
         newTotalBalance = (oldDebtor.totalBalance + amount);
 

@@ -13,6 +13,7 @@ export class ViewEventPage implements OnInit {
   @Input() start: string;
   @Input() end: string;
   @Input() allDay: boolean;
+  @Input() date: Date;
   desc: string;
   returnDate: Date;
   eventDesc: string;
@@ -32,7 +33,7 @@ export class ViewEventPage implements OnInit {
 
       if(this.allDay === true){
         this.returnDate = new Date(event.end);
-      this.returnDate.setHours(this.returnDate.getHours() + 1);
+      this.returnDate.setHours(this.returnDate.getHours() + 24);
       console.log(this.returnDate);
       }
     });
@@ -51,7 +52,8 @@ export class ViewEventPage implements OnInit {
       {
         editEvent: {
           eventId: this.eventId,
-          action: 'edit'
+          allDay: this.allDay,
+          action: 'edit',
         }
       },
       'confirm'

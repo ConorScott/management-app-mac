@@ -213,10 +213,11 @@ export class CalendarService {
     title: string,
     start: Date,
     end: Date,
+    allDay: boolean
   ) {
     let updateCalendar: Event[];
     let fetchedToken: string;
-    const allDay = false;
+    // const allDay = false;
     return this.authService.token.pipe(
       take(1),
       switchMap((token) => {
@@ -357,12 +358,14 @@ export class CalendarService {
     const end = reposeEndTime.split('T')[1];
     const reposeDateTime = date + 'T' + time;
     const endTime = date + 'T' + end;
+    const allDay = false;
 
     this.updateEventTimes(
       id,
       deceasedName + ' Repose Date',
       new Date(reposeDateTime),
       new Date(endTime),
+      allDay
     ).subscribe();
   }
 
@@ -371,12 +374,15 @@ export class CalendarService {
     const time = removalTime.split('T')[1];
     const removalDateTime = date + 'T' + time;
     const endTime = new Date(removalDateTime);
+    const allDay = false;
+
     endTime.setHours(endTime.getHours() + 1);
     this.updateEventTimes(
       id,
       deceasedName + ' Removal Date',
       new Date(removalDateTime),
       endTime,
+      allDay
     ).subscribe();
   }
 
@@ -386,12 +392,14 @@ export class CalendarService {
     const churchArrivalDateTime = date + 'T' + time;
     const endTime = new Date(churchArrivalDateTime);
     endTime.setHours(endTime.getHours() + 1);
+    const allDay = false;
     this.getEvent(deceasedName + ' church Arrival Date').subscribe(event => {
       this.updateEventTimes(
       id,
       deceasedName + ' church Arrival Date',
       new Date(churchArrivalDateTime),
       endTime,
+      allDay
     ).subscribe();
     });
   }
@@ -402,11 +410,13 @@ export class CalendarService {
     const massDateTime = date + 'T' + time;
     const endTime = new Date(massDateTime);
     endTime.setHours(endTime.getHours() + 1);
+    const allDay = false;
     this.updateEventTimes(
       id,
       deceasedName + ' Mass Date',
       new Date(massDateTime),
       endTime,
+      allDay
     ).subscribe();
   }
 

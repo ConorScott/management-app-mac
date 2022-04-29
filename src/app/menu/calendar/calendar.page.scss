@@ -54,6 +54,9 @@ h3{
 }
 .btn-group {
   align-items: center;
+  position: relative;
+display: inline-flex;
+vertical-align: middle;
 }
 .view-month{
   text-align: start;
@@ -81,16 +84,22 @@ h3{
   ion-card{
     margin: 0px 5px;
   }
-  ion-button{
-    --padding-start:0px;
-    --padding-end:0px;
-    font-size:10.4px;
-  }
-  .ion-buttons{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-  }
+  // ion-button{
+  //   --padding-start:0px;
+  //   --padding-end:0px;
+  //   font-size:10.4px;
+  // }
+  // .ion-buttons{
+  //   display:flex;
+  //   flex-direction: row;
+  //   align-items: center;
+  // }
+  // .btn-group {
+  //   align-items: center;
+  //   position: relative;
+  // display: inline-flex;
+  // vertical-align: middle;
+  // }
 }
 @media only screen and (min-width: 577px)
 {
@@ -106,4 +115,16 @@ mwl-calendar-month-cell{
 }
 .cal-month-view .cal-day-cell {
   min-height: 120px !important;
+}
+@media only screen and (min-width: 768px) and (max-width:991px){
+  ion-grid{
+    padding-left:0px;
+    padding-right:0px;
+  }
+  .view-month-blank{
+    display:none;
+  }
+  .tablet-col{
+    display:none;
+  }
 }

@@ -103,6 +103,7 @@ export class CalModalPage implements OnInit {
     const endTime = endDate + myEndTime;
     const finalEndtime = new Date(endTime);
     finalEndtime.setHours(finalEndtime.getHours() - 1);
+    // new Date (finalEndtime).toISOString();
     console.log(finalEndtime);
     // const reposeDateTime = date + 'T' + time;
     // const endTime = new Date(reposeDateTime);

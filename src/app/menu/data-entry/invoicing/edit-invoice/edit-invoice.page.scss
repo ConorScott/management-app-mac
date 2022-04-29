@@ -131,10 +131,15 @@ ion-col{
     font-size: .875rem;
   }
   .price-input ion-item::part(native){
-    --padding-start: 20px !important;
+    --padding-start: 12px !important;
   }
   .col-border{
     border-right: none;
+  }
+  .price-input ion-item{
+      --inner-padding-end: 0px;
+      --padding-start:0px
+
   }
 
 }

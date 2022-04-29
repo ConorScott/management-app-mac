@@ -50,7 +50,8 @@ export class Invoice {
     public address2: string,
     public address3: string,
     public county: string,
-    public createdBy: string
+    public createdBy: string,
+    public deathDate: string
   ){
     // if(this.servicesPrice == null){
     //   this.servicesPrice = 0;

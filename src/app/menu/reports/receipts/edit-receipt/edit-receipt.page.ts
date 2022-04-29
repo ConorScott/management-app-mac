@@ -43,6 +43,9 @@ export class EditReceiptPage implements OnInit {
         paymentDate: new FormControl(this.receipt.paymentDate, {
           validators: [Validators.required]
         }),
+        receiptDate: new FormControl(this.receipt.receiptDate, {
+          validators: [Validators.required]
+        }),
         amount: new FormControl(this.receipt.amount, {
           validators: [Validators.required]
         }),
@@ -91,6 +94,7 @@ export class EditReceiptPage implements OnInit {
             this.form.value.amount,
             this.form.value.paymentMethod,
             this.form.value.payeeName,
+            this.form.value.receiptDate
           )
           .subscribe(() => {
             loadingEl.dismiss();

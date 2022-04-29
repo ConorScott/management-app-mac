@@ -4,7 +4,7 @@
   </div>
   <ion-card>
     <ion-card-header>
-      <ion-item lines="none">
+      <ion-item class="item-title" lines="none">
         <ion-card-subtitle class="card-title">Cash Book</ion-card-subtitle>
         <ion-button slot="end" class="new-entry-button mobile" (click)="onAddNew()">
           <ion-icon slot="start" name="add-outline"></ion-icon>
@@ -15,10 +15,10 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col size="8">
+          <ion-col size="8" size-md="7">
             <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
           </ion-col>
-          <ion-col size="4" class="ion-align-self-center">
+          <ion-col size="4" size-md="5" class="ion-align-self-center ion-text-end">
             <ion-button (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates
@@ -43,18 +43,18 @@
         <ion-row>
           <ion-col class="card-details">
 
-            <ion-item class="list-item th" *ngIf="!mobile">
-              <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+            <ion-item class="list-item th">
+              <ion-label class="ion-label nh" color="primary" style="font-weight: 300;">
                 Name
               </ion-label>
-              <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+              <ion-label class="ion-label dh" color="primary" style="font-weight: 300;">
                 Entry Date
               </ion-label>
-              <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+              <ion-label class="ion-label ah" color="primary" style="font-weight: 300;">
                 Amount
               </ion-label>
-              <ion-icon></ion-icon>
-              <ion-icon></ion-icon>
+              <ion-icon *ngIf="!mobile"></ion-icon>
+              <ion-icon *ngIf="!mobile"></ion-icon>
             </ion-item>
             <div *ngIf="isLoading" class="ion-text-center">
               <ion-spinner color="primary"></ion-spinner>
@@ -64,26 +64,13 @@
             </div>
             <div class="virtualScroll">
               <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && filtered.length > 0">
-                <ion-item class="list-item th" *ngIf="filtered.length > 0 && mobile">
-                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                    Name
-                  </ion-label>
-                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                    Entry Date
-                  </ion-label>
-                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                    Amount
-                  </ion-label>
-                  <ion-icon></ion-icon>
-                  <ion-icon></ion-icon>
-                </ion-item>
                 <ion-item *cdkVirtualFor="let cashbook of filtered" class="ion-item list-item"
                   (click)="onView(cashbook.id)">
-                  <ion-label class="ion-label name">{{cashbook.payeeName}}</ion-label>
-                  <ion-label class="ion-label">{{cashbook.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
-                  <ion-label class="ion-label">€{{cashbook.entryAmount}}</ion-label>
-                  <ion-icon name="create" color="primary" (click)="onEdit(cashbook.id, $event)"></ion-icon>
-                  <ion-icon name="trash" color="danger" (click)="onDeleteEntry(cashbook.id, $event)"></ion-icon>
+                  <ion-label class="ion-label name ion-text-wrap nh">{{cashbook.payeeName}}</ion-label>
+                  <ion-label class="ion-label dh">{{cashbook.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
+                  <ion-label class="ion-label ah">€{{cashbook.entryAmount}}</ion-label>
+                  <ion-icon *ngIf="!mobile" name="create" color="primary" (click)="onEdit(cashbook.id, $event)"></ion-icon>
+                  <ion-icon *ngIf="!mobile" name="trash" color="danger" (click)="onDeleteEntry(cashbook.id, $event)"></ion-icon>
                 </ion-item>
               </cdk-virtual-scroll-viewport>
             </div>

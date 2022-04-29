@@ -56,21 +56,13 @@ export class ViewPaymentPage implements OnInit {
     // });
   }
 
-  onGenerateReceipt(div){
-    console.log(this.payment);
-    this.receiptService.addReceipt(this.payment, this.debtorId).subscribe();
+  onGenerateReceipt(){
+    this.receiptService.addDebtorReceipt(this.payment, this.debtorId).subscribe();
 
-    this.modal.dismiss(
-      {
-        receiptData: {
+    this.receiptService.onGenerateReceipt(this.payment);
 
-          paymentInfo: this.payment,
-          action: 'add'
-        }
-      },
-      'confirm'
-    );
-    this.child.printDiv1(div);
+    this.modal.dismiss(null, 'confirm');
+    // this.child.printDiv1(div);
 
   }
 

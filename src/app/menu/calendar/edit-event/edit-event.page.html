@@ -19,7 +19,7 @@
             </div>
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Title</ion-label>
-              <ion-input class="form-input-date" type="text" formControlName="title"></ion-input>
+              <ion-input class="form-input" type="text" formControlName="title"></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="10">
@@ -28,10 +28,22 @@
         <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date" formControlName="start" #start></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col size="10">
+          <ion-col size="10" *ngIf="!allDay">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">End Date</ion-label>
               <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date"  formControlName="end"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10" *ngIf="allDay">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Return Date</ion-label>
+              <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date"  formControlName="end"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10" *ngIf="event.desc">
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Event Description</ion-label>
+              <ion-textarea rows="3" class="form-input" formControlName="desc"></ion-textarea>
             </ion-item>
           </ion-col>
         </ion-row>

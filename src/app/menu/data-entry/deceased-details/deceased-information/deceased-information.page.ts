@@ -23,6 +23,9 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { flexibleCompare } from '@fullcalendar/angular';
 import {times} from  '../../../../../fonts/times-normal.Base64.encoded';
 import {timesBold} from  '../../../../../fonts/times-bold.Base64.encoded';
+import { Printer, PrintOptions } from '@ionic-native/printer/ngx';
+import { NoticeLayoutPage } from '../notice-layout/notice-layout.page';
+import { RadioNoticeLayoutComponent } from '../radio-notice-layout/radio-notice-layout.component';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -33,11 +36,14 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class DeceasedInformationPage implements OnInit {
   @ViewChild('pdfNotice', { static: false }) pdfNotice: ElementRef;
+  @ViewChild(NoticeLayoutPage) child: NoticeLayoutPage;
+  @ViewChild(RadioNoticeLayoutComponent) child1: RadioNoticeLayoutComponent;
 
   deceased: Deceased;
   deceasedId: string;
   formType: string;
   isLoading = false;
+  electron: boolean;
 
   radioNoticePar3 = 'You are welcome to send a message of condolence to his/her family on the Foley and McGowan funeral home website www.sligofuneralhome.ie';
   radioNoticePar4 = 'Enquiries to The Foley and McGowan Funeral Home, Market Yard, Sligo 0719162140/info@sligofuneralhome.ie';
@@ -51,7 +57,8 @@ export class DeceasedInformationPage implements OnInit {
     private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController,
     private file: File,
-    private fileOpener: FileOpener
+    private fileOpener: FileOpener,
+    public printer: Printer
   ) {
 
   }
@@ -76,6 +83,13 @@ export class DeceasedInformationPage implements OnInit {
           // }
         });
     });
+
+    if(this.isElectron()){
+      this.electron = true;
+  }else{
+    this.electron = false;
+  }
+  console.log(this.electron);
 
   }
 
@@ -351,12 +365,16 @@ export class DeceasedInformationPage implements OnInit {
 
 
 
-    if (action === 'download') {
-      pdfMake.createPdf(doc).download();
-    } else if (action === 'print') {
-      pdfMake.createPdf(doc).print();
+    if(this.isElectron()){
+      if (action === 'download') {
+        pdfMake.createPdf(doc).download();
+      } else if (action === 'print') {
+        pdfMake.createPdf(doc).print();
+      } else {
+        pdfMake.createPdf(doc).open();
+      }
     } else {
-      pdfMake.createPdf(doc).open();
+      this.printDiv(doc);
     }
   }
 
@@ -475,14 +493,51 @@ export class DeceasedInformationPage implements OnInit {
       pageMargins: [100, 89, 100, 89],
     };
 
+    console.log(doc);
 
 
-    if (action === 'download') {
-      pdfMake.createPdf(doc).download();
-    } else if (action === 'print') {
-      pdfMake.createPdf(doc).print();
+
+    if(this.isElectron()){
+      if (action === 'download') {
+        pdfMake.createPdf(doc).download();
+      } else if (action === 'print') {
+        pdfMake.createPdf(doc).print();
+      } else {
+        pdfMake.createPdf(doc).open();
+      }
     } else {
-      pdfMake.createPdf(doc).open();
+      this.printDiv(doc);
     }
+
   }
+  printDiv(div) {
+    // this.child1.printDiv(div);
+    const pdfObj = pdfMake.createPdf(div);
+    pdfObj.getBuffer(async (buffer) => {
+      const blob = new Blob([buffer], { type: 'application/pdf' });
+        const fileName = 'someNameHere.pdf';
+        await this.file.writeFile(this.file.dataDirectory, fileName, blob, { replace: true });
+        await this.printer.print(this.file.dataDirectory + fileName);
+    });
+
+    }
+
+  isElectron() {
+    // Renderer process
+    if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+        return true;
+    }
+
+    // Main process
+    if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+        return true;
+    }
+
+    // Detect the user agent when the `nodeIntegration` option is set to true
+    if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+        return true;
+    }
+
+    return false;
+}
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -14,6 +14,7 @@ import { ViewReceiptPage } from './view-receipt/view-receipt.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReceiptLayoutPage } from './receipt-layout/receipt-layout.page';
 import { ViewReceiptLayoutPage } from './view-receipt-layout/view-receipt-layout.page';
+import { NewReceiptComponent } from './new-receipt/new-receipt.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { ViewReceiptLayoutPage } from './view-receipt-layout/view-receipt-layout
     ReactiveFormsModule,
     SharedModule,
   ],
-  declarations: [ReceiptsPage],
+  declarations: [ReceiptsPage, NewReceiptComponent],
+  providers: [DecimalPipe]
 })
 export class ReceiptsPageModule {}

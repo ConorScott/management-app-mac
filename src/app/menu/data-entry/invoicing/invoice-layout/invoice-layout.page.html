@@ -1,187 +1,508 @@
-<div class="container">
-  <div class="header">
-    <h1>REPS: {{invoice.responsible}}</h1>
-    <h1 class="date">Invoice Date: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</h1>
-    <h1 class="main-heading">FUNERAL EXPENSES OF THE LATE</h1>
-    <p class="deceasedInfo">{{invoice.deceasedName}}</p>
-    <p class="date-death">{{invoice.address1}}, {{invoice.address2}}, {{invoice.address3}}, {{invoice.county}}</p>
-    <p class="date-death">Date of Death: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</p>
-    </div>
+<div class="container" style="margin: 0;
+/* position: absolute;
+top: 50%;
+-ms-transform: translateY(-50%);
+transform: translateY(-50%);  */
+font-family: Helvetica, sans-serif;">
+  <div class="header" style="border-bottom: solid black 1pt;">
+    <h1 style="font-size:21pt;">REPS: {{invoice.responsible}}</h1>
+    <h1 style="font-size:21pt;" class="date">Invoice Date: {{invoice.invoiceDate | date: 'dd/MM/yyyy'}}</h1>
+    <h1 style="font-size:21pt; font-size: 26px;
+    font-weight: 400;" class="main-heading">FUNERAL EXPENSES OF THE LATE</h1>
+    <p class="deceasedInfo" style="padding: 0px 20px; font-size: 11pt; text-align: start;
+    margin-left: 30%;font-size:36px; margin-top: 5px;
+  margin-bottom: 5px;">{{invoice.deceasedName}}</p>
+    <p class="date-death" style="padding: 0px 20px; font-size: 11pt; font-size:20pt;
+    text-align: start;
+    margin-left: 30%;">{{invoice.address1}}, {{invoice.address2}}, {{invoice.address3}},
+      {{invoice.county}}</p>
+    <p class="date-death" style="padding: 0px 20px; font-size: 11pt; font-size:20pt;
+    text-align: start;
+    margin-left: 30%;">Date of Death: {{invoice.deathDate | date: 'dd/MM/yyyy'}}</p>
+  </div>
 
-    <div class="items-group">
-      <div class="row " *ngIf="invoice.services">
-        <div class="col-10 ">
-          <p>Services:</p>
-          <p>{{invoice.services}}</p>
-        </div>
-        <div class="col-2">
-          <p class="price">€{{invoice.servicesPrice | number : '1.2-2'}}</p>
-        </div>
+  <div class="items-group" style="border-bottom: solid black 1pt;">
+    <div class="row entry" *ngIf="invoice.services" style=" display: flex; flex-wrap: wrap;">
+      <div class="col-10" style="flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%)">
+        <p style="font-size: 11pt; margin:5px 0px">Services:</p>
+        <p style="font-size: 11pt; margin:0;">{{invoice.services}}</p>
       </div>
-      <div class="row entry" *ngIf="invoice.coffinDetails">
-        <div class="col-10 entry-div">
-          <p>Coffin Details: {{invoice.coffinDetails}}</p>
-        </div>
-        <div class="col-2 entry-div" >
-          <p class="price">€{{invoice.coffinPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.casketCover">
-        <div class="col-10 entry-div">
-          <p>Casket Cover:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.casketCoverPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.coronerDoctorCert">
-        <div class="col-10 entry-div">
-          <p>Coroner/Doctor Cert:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.coronerDoctorCertPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.cremation">
-        <div class="col-10 entry-div">
-          <p>Cremation:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.cremationPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.urn">
-        <div class="col-10 entry-div">
-          <p>Urn:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.urnPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.churchOfferring">
-        <div class="col-10 entry-div">
-          <p>Church Offering:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price"> €{{invoice.churchOfferringPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry " *ngIf="invoice.sacristian">
-        <div class="col-10 entry-div">
-          <p>Sacristian:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.sacristianPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.flowers">
-        <div class="col-10 entry-div">
-          <p>Flowers:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.flowersPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.graveOpen">
-        <div class="col-10 entry-div">
-          <p>Grave Open:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.graveOpenPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.gravePurchaseToCouncil">
-        <div class="col-10 entry-div">
-          <p>Grave Purchase to Council:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.gravePurchasePrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.graveMarker">
-        <div class="col-10 entry-div">
-          <p>Grave Marker:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.graveMarkerPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.graveMatsTimbers">
-        <div class="col-10 entry-div">
-          <p>Grave Mats & Timbers:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.graveMatsTimbersPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.cloths">
-        <div class="col-10 entry-div">
-          <p>Clothes:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.clothsPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.hairdresser">
-        <div class="col-10 entry-div">
-          <p>Hairdresser</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.hairdresserPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.radioDeathNotices">
-        <div class="col-10 entry-div">
-          <p>Radio Death Notices:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.radioNoticePrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.paperDeathNotices">
-        <div class="col-10 entry-div">
-          <p>Paper Death Notices:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.paperNoticePrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.organist">
-        <div class="col-10 entry-div">
-          <p>Organist:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.organistPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.soloist">
-        <div class="col-10 entry-div">
-          <p>Soloist:</p>
-        </div>
-        <div class="col-2 entry-div">
-          <p class="price">€{{invoice.soloistPrice | number : '1.2-2'}}</p>
-        </div>
-      </div>
-      <div class="row entry" *ngIf="invoice.otherDetails">
-        <div class="col-10">
-          <p>Other Details:</p>
-          <p>{{invoice.otherDetails}}</p>
-        </div>
-        <div class="col-2">
-          <p class="price">€{{invoice.otherDetailsPrice | number : '1.2-2'}}</p>
-        </div>
+      <div class="col-2" style="text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%)">
+        <p class="price" style="font-size: 11pt; padding-left: 50px; margin:5px 0px">€{{invoice.servicesPrice | number :
+          '1.2-2'}}</p>
       </div>
     </div>
-    <div class="items-group">
-      <div class="row">
-        <div class="col-10">
-          <p>Total Balance:</p>
-        </div>
-        <div class="col-2">
-          <p class="price">€{{invoice.totalBalance | number : '1.2-2'}}</p>
-        </div>
+    <div class="row entry" *ngIf="invoice.coffinDetails"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Coffin Details: {{coffinDetails}}</p>
+      </div>
+      <div class="col-2 entry-div" style="
+    text-align: start !important; position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p class="price" style="font-size: 11pt; padding-left: 50px; ">€{{invoice.coffinPrice | number : '1.2-2'}}</p>
       </div>
     </div>
+    <div class="row entry" *ngIf="invoice.casketCover"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+    flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Casket Cover:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+     text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p class="price" style="font-size: 11pt; padding-left: 50px;">€{{invoice.casketCoverPrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.coronerDoctorCert"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+      flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+        transform: translatey(-50%);
+      top: 50%;">
+        <p style="font-size: 11pt;">Coroner/Doctor Cert:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p class="price" style="font-size: 11pt; padding-left: 50px;"> €{{invoice.coronerDoctorCertPrice | number :
+          '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.cremation"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Cremation:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p class="price" style="font-size: 11pt; padding-left: 50px;"> €{{invoice.cremationPrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.urn"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Urn:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p class="price" style="font-size: 11pt; padding-left: 50px;"> €{{invoice.urnPrice | number : '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.churchOfferring"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Church Offering:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p class="price" style="font-size: 11pt; padding-left: 50px;"> €{{invoice.churchOfferringPrice | number :
+          '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry " *ngIf="invoice.sacristian"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Sacristian:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p class="price" style="font-size: 11pt; padding-left: 50px;">€{{invoice.sacristianPrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.flowers"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Flowers:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.flowersPrice | number : '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.graveOpen"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Grave Open:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.graveOpenPrice | number : '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.gravePurchaseToCouncil"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Grave Purchase to Council:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.gravePurchasePrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.graveMarker"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Grave Marker:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.graveMarkerPrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.graveMatsTimbers"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Grave Mats & Timbers:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.graveMatsTimbersPrice | number :
+          '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.cloths"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Clothes:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.clothsPrice | number : '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.hairdresser"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Hairdresser</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.hairdresserPrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.radioDeathNotices"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Radio Death Notices:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.radioNoticePrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.paperDeathNotices"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Paper Death Notices:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.paperNoticePrice | number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.organist"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Organist:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.organistPrice | number : '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.soloist"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap; height: 1.3em">
+      <div class="col-10 entry-div" style="
+  flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt;">Soloist:</p>
+      </div>
+      <div class="col-2 entry-div" style="
+  text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%); position: relative;
+    transform: translatey(-50%);
+    top: 50%;">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.soloistPrice | number : '1.2-2'}}</p>
+      </div>
+    </div>
+    <div class="row entry" *ngIf="invoice.otherDetails"
+      style="border-top: solid lightgray 1pt;  display: flex; flex-wrap: wrap;">
+      <div class="col-10" style="flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%)">
+        <p style="font-size: 11pt; margin:5px 0px">Other Details:</p>
+        <p style="font-size: 11pt; margin:5px 0px">{{invoice.otherDetails}}</p>
+      </div>
+      <div class="col-2" style="text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%)">
+        <p style="font-size: 11pt; padding-left: 50px; margin:5px 0px" class="price">€{{invoice.otherDetailsPrice |
+          number : '1.2-2'}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="items-group">
+    <div class="row" style=" display: flex; flex-wrap: wrap;">
+      <div class="col-10" style="flex: 0 0 calc(calc(10 /12) * 100%);
+      width: calc(calc(10 /12) * 100%);
+      max-width: calc(calc(10 /12) * 100%)">
+        <p style="font-size: 11pt;">Total Balance:</p>
+      </div>
+      <div class="col-2" style="text-align: start !important; flex: 0 0 calc(calc(2 /12) * 100%);
+      width: calc(calc(2 /12) * 100%);
+      max-width: calc(calc(2 /12) * 100%)">
+        <p style="font-size: 11pt; padding-left: 50px;" class="price">€{{invoice.totalBalance | number : '1.2-2'}}</p>
+      </div>
+    </div>
+  </div>
 
-
+  <!-- <table style="width:100%;">
+    <tr>
+     <td width="70%">{{invoice.services}}</td>
+      <td>€{{invoice.servicesPrice | number :'1.2-2'}}</td>
+    </tr>
+    <tr>
+      <td width="70%">{{invoice.coffinDetails}}</td>
+       <td>€{{invoice.coffinPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.casketCover}}</td>
+       <td>€{{invoice.casketCoverPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.coronerDoctorCert}</td>
+       <td>€{{invoice.coronerDoctorCertPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.cremation}}</td>
+       <td>€{{invoice.cremationPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.urn}}</td>
+       <td>€{{invoice.urnPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.churchOfferring}}</td>
+       <td>€{{invoice.churchOfferringPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.sacristian}}</td>
+       <td>€{{invoice.sacristianPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.flowers}}</td>
+       <td>€{{invoice.flowersPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.graveOpen}}</td>
+       <td>€{{invoice.graveOpenPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.gravePurchaseToCouncil}}</td>
+       <td>€{{invoice.gravePurchasePrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.graveMarker}}</td>
+       <td>€{{invoice.graveMarkerPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.graveMatsTimbers}}</td>
+       <td>€{{invoice.graveMatsTimbersPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.cloths}}</td>
+       <td>€{{invoice.clothsPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.hairdresser}}</td>
+       <td>€{{invoice.hairdresserPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.radioDeathNotices}}</td>
+       <td>€{{invoice.radioNoticePrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.paperDeathNotices}}</td>
+       <td>€{{invoice.paperNoticePrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.organist}}</td>
+       <td>€{{invoice.organistPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.soloist}}</td>
+       <td>€{{invoice.soloistPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">{{invoice.otherDetails}}</td>
+       <td>€{{invoice.otherDetailsPrice | number :'1.2-2'}}</td>
+     </tr>
+     <tr>
+      <td width="70%">Total Balance</td>
+       <td>€{{invoice.totalBalance | number :'1.2-2'}}</td>
+     </tr>
+  </table> -->
 </div>
+

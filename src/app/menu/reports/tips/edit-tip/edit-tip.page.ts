@@ -132,6 +132,12 @@ export class EditTipPage implements OnInit {
   }
 
   onUpdateDonation() {
+    let updatedTotal: number;
+    if(this.form.value.entryAmount > this.tips.entryAmount){
+      updatedTotal = this.form.value.entryAmount - this.tips.entryAmount;
+    } else {
+      updatedTotal = this.form.value.entryAmount - this.tips.entryAmount
+    }
     this.loadingCtrl
       .create({
         message: 'Updating Tip',
@@ -145,7 +151,9 @@ export class EditTipPage implements OnInit {
             this.form.value.entryAmount,
             this.form.value.entryDesc,
             this.form.value.payeeName,
+            updatedTotal,
             this.form.value.paymentDate
+
           )
           .subscribe(() => {
             loadingEl.dismiss();
@@ -170,7 +178,8 @@ export class EditTipPage implements OnInit {
             this.form.value.entryAmount,
             this.form.value.entryDesc,
             this.form.value.payeeName,
-            this.form.value.paymentDate
+            this.form.value.paymentDate,
+            this.tipPayments.payeeId
           )
           .subscribe(() => {
             loadingEl.dismiss();

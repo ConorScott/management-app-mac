@@ -36,6 +36,13 @@ export class TipsService {
   constructor(private http: HttpClient, private authService: AuthService, private tipPaymentService: TipPaymentsService) { }
 
   addTips(entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string, createdAt: Date) {
+    this.tipPaymentService.checkTipPayees(payeeName).subscribe(tip => {
+      if(tip.length > 0){
+        tip.map(payee => {
+          this.tipPaymentService.updateTipPayee(payee.id, payee.name, entryAmount).subscribe();
+        });
+      }
+    })
     let generateId: string;
     let newEntry: Tips;
     let fetchedUserId: string;
@@ -291,7 +298,14 @@ export class TipsService {
     );
   }
 
-  updateTips(tipId: string, entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string, paymentDate?: Date) {
+  updateTips(tipId: string, entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string, updatedTotal: number, paymentDate?: Date) {
+    this.tipPaymentService.checkTipPayees(payeeName).subscribe(tip => {
+      if(tip.length > 0){
+        tip.map(payee => {
+          this.tipPaymentService.updateTipPayee(payee.id, payee.name, updatedTotal).subscribe();
+        });
+      }
+    })
     let updateTips: Tips[];
     let fetchedToken: string;
     return this.authService.token.pipe(

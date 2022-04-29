@@ -6,6 +6,7 @@ import { EditUserPage } from './edit-user/edit-user.page';
 import { NewUserPage } from './new-user/new-user.page';
 import { StoreUser } from './storeUser.model';
 import { UserService } from './user.service';
+import { ViewUserComponent } from './view-user/view-user.component';
 
 @Component({
   selector: 'app-users',
@@ -16,6 +17,7 @@ export class UsersPage implements OnInit {
   title = 'Users';
   users: StoreUser[];
   isLoading = false;
+  mobile = false;
   private userSub: Subscription;
 
 
@@ -28,6 +30,9 @@ export class UsersPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.userSub = this.userService.user.subscribe(users => {
       this.users = users;
     });
@@ -102,11 +107,29 @@ export class UsersPage implements OnInit {
     });
   }
 
-  onView(debtorId: string) {
-    this.router.navigate(['/', 'menu', 'tabs', 'debtors', 'view', debtorId]);
-  }
+  onView(userId: string) {
+    this.modalCtrl
+    .create({
+      component: ViewUserComponent,
+      cssClass: 'new-donation',
+      componentProps: {
+        userId,
+      },
+    })
+    .then((modalEl) => {
+      modalEl.onDidDismiss().then((modalData) => {
+        if (!modalData.data) {
+          return;
+        } else if(modalData.data.editUser.action === 'edit') {
+          this.onEdit(modalData.data.editUser.userId);
+        } else if(modalData.data.editUser.action === 'delete') {
+          this.onDeleteEntry(modalData.data.editUser.userId);
+        }
+      });
+      modalEl.present();
+    });    }
 
-  onDeleteEntry(userId: string, event: any) {
+  onDeleteEntry(userId: string) {
     event.stopPropagation();
     this.actionSheetCtrl
       .create({

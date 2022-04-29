@@ -83,7 +83,8 @@ export class EditCoffinPage implements OnInit, OnDestroy {
           editCoffin: {
             coffinName: this.form.value.coffinName,
             stockLevel: this.form.value.stockLevel,
-            stockLocation: this.form.value.stockLocation
+            stockLocation: this.form.value.stockLocation,
+            oldstocklocation: this.coffin.stockLocation
           }
         },
         'confirm'

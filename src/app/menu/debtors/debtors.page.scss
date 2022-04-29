@@ -88,7 +88,7 @@ ion-card-header{
 }
 .viewport {
   // height: 60vh;
-  height: calc(100vh - 390px);
+  height: calc(100vh - 305px);
   width: 100%;
 
 }
@@ -147,6 +147,11 @@ ion-card-header{
   .mobile-btn{
     text-align: right;
   }
+  .list-name {
+    font-size: 13px !important;
+    text-overflow: unset !important;
+    padding: 12px 24px 12px 10px !important;
+  }
 }
 @media only screen and (min-width: 577px)
 {
@@ -164,11 +169,15 @@ ion-card-header{
     width: 95%;
     margin-left: auto;
     margin-right: auto;
+    margin-top:-70px;
   }
   .col-buttons{
     padding-right: 20px;
     display: flex;
     justify-content: flex-end;
+  }
+  .new-filter-button{
+    margin-right:10px;
   }
 }
 @media screen and (max-width: 767px) {

@@ -248,3 +248,25 @@ mwl-calendar-month-cell{
 .tips-alert .alert-wrapper .alert-head{
   display:none;
 }
+.list-label{
+  white-space: normal !important;
+}
+@media only screen and (max-width: 576px){
+  .list-label{
+    font-size: 13px !important;
+    white-space: normal !important;
+    text-overflow: unset !important;
+    padding: 12px 24px 12px 10px !important;
+  }
+  mwl-calendar-month-cell{
+    min-height: 100px !important;
+  }
+  .no-info p{
+    font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width:991px){
+  mwl-calendar-month-cell{
+    min-height: 160px !important;
+  }
+}

@@ -153,7 +153,8 @@ export class DonationsPage implements OnInit, OnDestroy {
         }
       });
       modalEl.present();
-    });  }
+    });
+  }
 
   clearDateFilter() {
     this.startDate = null;

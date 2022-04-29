@@ -1,13 +1,11 @@
 import {
   app,
   BrowserWindow,
-  ipcMain,
   Menu,
   MenuItem,
   nativeImage,
   Tray,
 } from "electron";
-import { autoUpdater} from "electron-updater"
 import { join } from "path";
 import electronIsDev from "electron-is-dev";
 import electronServe from "electron-serve";
@@ -49,9 +47,6 @@ class ElectronCapacitorApp {
       // The scheme can be changed to whatever you'd like (ex: someapp)
       scheme: CapacitorFileConfig.customUrlScheme ?? "capacitor-electron",
     });
-
-    autoUpdater.checkForUpdates();
-
   }
 
   private async loadMainWindow(thisRef: any) {
@@ -89,30 +84,7 @@ class ElectronCapacitorApp {
           "electron-rt.js"
         ),
       },
-
-
     });
-
-
-
-
-
-    this.MainWindow.maximize();
-
-    this.MainWindow.once('ready-to-show', () => {
-      console.log('working check');
-      autoUpdater.checkForUpdatesAndNotify();
-    });
-
-    autoUpdater.on('update-available', () => {
-
-      this.MainWindow.webContents.send('update_available');
-    });
-    autoUpdater.on('update-downloaded', () => {
-      this.MainWindow.webContents.send('update_downloaded');
-    });
-
-
 
     if (CapacitorFileConfig.backgroundColor) {
       this.MainWindow.setBackgroundColor(CapacitorFileConfig.backgroundColor);
@@ -127,8 +99,6 @@ class ElectronCapacitorApp {
         this.SplashScreen.getSplashWindow().close();
       }
     });
-
-
 
     if (CapacitorFileConfig.trayIconAndMenuEnabled) {
       this.TrayIcon = new Tray(icon);
@@ -197,12 +167,7 @@ class ElectronCapacitorApp {
         );
       }, 400);
     });
-
-
-
   }
-
-
 }
 const myCapacitorApp = new ElectronCapacitorApp();
 if (CapacitorFileConfig.deepLinkingEnabled) {
@@ -233,14 +198,3 @@ app.on("activate", async function () {
 });
 
 // Place all ipc or other electron api calls and custom functionality under this line
-ipcMain.on('app_version', (event) => {
-  console.log('working version');
-  event.sender.send('app_version', { version: app.getVersion() });
-});
-
-
-
-ipcMain.on('restart_app', () => {
-  console.log('working');
-  autoUpdater.quitAndInstall();
-});

@@ -16,8 +16,12 @@
       <ion-card-content>
         <ion-grid>
         <ion-item>
-          <ion-label class="form-label">Receipt Date:</ion-label>
+          <ion-label class="form-label">Payment Date:</ion-label>
           <ion-label class="label"> {{receipt.paymentDate | date: 'dd/MM/YYYY'}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="form-label">Receipt Date:</ion-label>
+          <ion-label class="label"> {{receipt.receiptDate | date: 'dd/MM/YYYY'}}</ion-label>
         </ion-item>
         <ion-item>
           <ion-label class="form-label">Payment Amount: </ion-label>
@@ -33,7 +37,7 @@
         </ion-item>
         <ion-row>
           <ion-col size-lg="4">
-        <ion-button class="submit-button" type="submit" expand="block" (click)="onGenerateReceipt('print_div')">
+        <ion-button class="submit-button" type="submit" expand="block" (click)="onGenerateReceipt()">
           Print Receipt
         </ion-button>
       </ion-col>

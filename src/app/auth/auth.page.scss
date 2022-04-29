@@ -72,7 +72,7 @@ ion-img {
 }
 .header {
   background: linear-gradient(87deg, #3880ff 0, #80aeff 100%) !important;
-  padding-top: 18rem !important;
+  padding-top: 15% !important;
   // padding-bottom: 8rem !important;
   z-index:-1;
 }
@@ -107,7 +107,7 @@ ion-item {
 .fill-default{
   fill:#172b4d;
 }
-.seperator{ 
+.seperator{
   // position: absolute;
   top: auto;
   left: 0;
@@ -120,7 +120,7 @@ ion-item {
 }
 svg{
   position: absolute;
-  bottom: 0px;
+  bottom: -1px;
   width: 103%;
 }
 @media only screen and (min-width: 768px) and (max-width:1025px)
@@ -152,5 +152,18 @@ svg{
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   width:90%;
+  }
+}
+@media only screen and (max-width: 576px){
+  .header{
+    padding-top: 60% !important;
+  }
+  svg{
+    bottom: -0.2px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width:1025px){
+  .header{
+    padding-top: 35% !important;
   }
 }

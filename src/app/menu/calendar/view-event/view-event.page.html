@@ -1,66 +1,70 @@
 <ion-content>
   <!-- <div *ngIf="isLoading"> -->
-    <ion-card>
-      <ion-card-header>
-        <ion-item lines="none">
-          <ion-label class="card-title" >
-            Event Details
-          </ion-label>
-          <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+  <ion-card>
+    <ion-card-header>
+      <ion-item lines="none" class="card-title-header">
+        <ion-label class="card-title">
+          Event Details:
+        </ion-label>
+        <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
+      </ion-item>
+      <ion-item lines="none" class="card-title-header today-date">
+        <ion-label class="card-title today-date-label">
+          {{date | date: "longDate"}}
+        </ion-label>
+      </ion-item>
+
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+
+        <ion-item lines="none" *ngIf="!dayOff">
+          <ion-label class="form-label">Event Title:</ion-label>
+          <ion-label class="label" text-wrap>{{title}}</ion-label>
         </ion-item>
 
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
 
-            <ion-item *ngIf="!dayOff">
-              <ion-label class="form-label">Event Title:</ion-label>
-              <ion-label class="label" text-wrap>{{title}}</ion-label>
-            </ion-item>
+        <ion-item lines="none" *ngIf="!dayOff">
+          <ion-label class="form-label">Event Start Time:</ion-label>
+          <ion-label class="label">{{start | date: "shortTime"}}</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="!dayOff">
+          <ion-label class="form-label">Event End Time:</ion-label>
+          <ion-label class="label">{{end | date: "shortTime"}}</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="!dayOff && desc">
+          <ion-label position="stacked" class="form-label">Event Description:</ion-label>
+          <ion-textarea rows="3" class="label">{{desc}}</ion-textarea>
+        </ion-item>
 
+        <ion-item lines="none" *ngIf="dayOff">
+          <ion-label class="form-label">Event Title:</ion-label>
+          <ion-label class="label" text-wrap>{{title}}</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="dayOff">
+          <ion-label class="form-label">Start Date:</ion-label>
+          <ion-label class="label">{{start | date: "dd/MM/YYY"}}</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="dayOff">
+          <ion-label class="form-label">Return Date:</ion-label>
+          <ion-label class="label">{{returnDate | date: "dd/MM/YYY"}}</ion-label>
+        </ion-item>
 
-      <ion-item *ngIf="!dayOff">
-        <ion-label class="form-label">Event Start Time:</ion-label>
-        <ion-label class="label">{{start | date: "shortTime"}}</ion-label>
-      </ion-item>
-      <ion-item *ngIf="!dayOff">
-        <ion-label class="form-label">Event End Time:</ion-label>
-        <ion-label class="label">{{end | date: "shortTime"}}</ion-label>
-      </ion-item>
-      <ion-item lines="none" *ngIf="!dayOff && desc">
-        <ion-label position="stacked" class="form-label-desc">Event Description:</ion-label>
-        <ion-textarea rows="3" class="label">{{desc}}</ion-textarea>
-      </ion-item>
+        <ion-row class="row-padding">
 
-      <ion-item *ngIf="dayOff">
-        <ion-label class="form-label">Employee Name:</ion-label>
-        <ion-label class="label" text-wrap>{{title}}</ion-label>
-      </ion-item>
-      <ion-item *ngIf="dayOff">
-        <ion-label class="form-label">Start Date:</ion-label>
-        <ion-label class="label">{{start | date: "dd/MM/YYY"}}</ion-label>
-      </ion-item>
-      <ion-item *ngIf="dayOff">
-        <ion-label class="form-label">Return Date:</ion-label>
-        <ion-label class="label">{{returnDate | date: "dd/MM/YYY"}}</ion-label>
-      </ion-item>
-
-      <ion-row>
-
-        <ion-col size-lg="6">
-          <ion-button class="submit-button" type="submit" expand="block" (click)="onEditEvent()">
-            Edit Event
-          </ion-button>
-        </ion-col>
-        <ion-col size-lg="6">
-          <ion-button class="submit-button" color="danger" type="submit" expand="block" (click)="onDeleteEvent()">
-            Delete Event
-          </ion-button>
-        </ion-col>
-      </ion-row>
+          <ion-col size-lg="6">
+            <ion-button class="submit-button" type="submit" expand="block" (click)="onEditEvent()">
+              Edit Event
+            </ion-button>
+          </ion-col>
+          <ion-col size-lg="6">
+            <ion-button class="submit-button" color="danger" type="submit" expand="block" (click)="onDeleteEvent()">
+              Delete Event
+            </ion-button>
+          </ion-col>
+        </ion-row>
       </ion-grid>
-      </ion-card-content>
-    </ion-card>
+    </ion-card-content>
+  </ion-card>
   <!-- </div> -->
 </ion-content>
-

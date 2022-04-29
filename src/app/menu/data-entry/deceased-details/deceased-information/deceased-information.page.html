@@ -29,7 +29,7 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col size-md="6" size-lg="6">
+            <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
               <ion-item lines="none" class="ion-text-start">
                 <ion-label class="form-label">Deceased Name:</ion-label>
                 <ion-label>{{deceased.deceasedName}}</ion-label>
@@ -243,10 +243,17 @@
 
           <ion-card-header>
             <ion-row>
-              <ion-col size-xs="4" size-lg="4" size-md="9.5" size-sm="10" class="ion-align-self-center">
+              <ion-col size-xs="5" size-lg="4" size-md="8" size-sm="4" class="ion-align-self-center">
                 <ion-card-subtitle class="card-title sub">Death Notice</ion-card-subtitle>
                 </ion-col>
-                <ion-col size-xs="8" size-lg="8" size-md="2.5" size-sm="3" class="ion-text-end">
+                <ion-col size-xs="7" size-lg="8" size-md="4" size-sm="8" class="ion-text-end" *ngIf="!electron">
+                <ion-button class="radio-notice" color="primary" (click)="viewPdf()">Radio Notice</ion-button>
+                <ion-button class="radio-notice" color="primary" (click)="viewPdfWeb()">Website Notice</ion-button>
+                <div id="print_notice">
+                  <app-radio-notice-layout [deceased]="deceased"></app-radio-notice-layout>
+                </div>
+              </ion-col>
+              <ion-col size-xs="7" size-lg="8" size-md="4" size-sm="8" class="ion-text-end" *ngIf="electron">
                 <ion-button class="radio-notice" color="primary" (click)="viewPdf()">Radio Death Notice</ion-button>
                 <ion-button class="radio-notice" color="primary" (click)="viewPdfWeb()">Website Death Notice</ion-button>
               </ion-col>
@@ -254,16 +261,16 @@
           </ion-card-header>
 
           <ion-row>
-            <ion-col size-xs="12" size-md="6" size-lg="12">
+            <ion-col size-xs="12" size-md="12" size-lg="12">
               <ion-item lines="none" class="ion-text-start">
                 <ion-label position="stacked" class="form-label notice-label">Notice Paragraph 1:</ion-label>
-                <ion-textarea disabled="true">{{deceased.noticePar1}}</ion-textarea>
+                <ion-textarea class="notice-par" disabled="true">{{deceased.noticePar1}}</ion-textarea>
 
               </ion-item>
               <ion-item lines="none" class="ion-text-start">
                 <ion-label position="stacked" class="form-label notice-label">Notice Paragraph 2:</ion-label>
 
-                <ion-textarea disabled="true">{{deceased.noticePar2}}</ion-textarea>
+                <ion-textarea class="notice-par" disabled="true">{{deceased.noticePar2}}</ion-textarea>
 
               </ion-item>
             </ion-col>
@@ -293,19 +300,19 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="6" size-md="6" size-lg="3" *ngIf="deceased.formType == 'horizon'">
+            <ion-col size="6" size-md="4" size-lg="3" *ngIf="deceased.formType == 'horizon'">
               <ion-button class="new-entry-button" color="primary" type="submit" expand="block"
                 (click)="onTransfer()">
                 Transfer Entry
               </ion-button>
             </ion-col>
-            <ion-col size="6" size-md="6" size-lg="3">
+            <ion-col size="6" size-md="4" size-lg="3">
               <ion-button class="new-entry-button" color="success" type="submit" expand="block"
                 (click)="onEdit(deceased.id)">
                 Edit Information
               </ion-button>
             </ion-col>
-            <ion-col size="6" size-md="6" size-lg="3">
+            <ion-col size="6" size-md="4" size-lg="3">
               <ion-button class="new-entry-button" color="danger" type="submit" expand="block"
                 (click)="onDeleteEntry(deceased.id)">
                 Delete Information

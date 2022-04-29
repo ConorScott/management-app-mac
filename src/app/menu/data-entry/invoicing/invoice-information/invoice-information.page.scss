@@ -72,7 +72,7 @@ ion-toolbar {
   font-size: 1.275rem !important;
 }
 .entry-textarea{
-  font-size: .850rem;
+  font-size: .8rem;
 }
 .header{
   background-color: #3880ff;
@@ -89,6 +89,10 @@ ion-title{
 }
 ion-back-button{
   color:white;
+}
+.other-details-area{
+  padding-top:20px;
+  padding-bottom:20px;
 }
 @media only screen and (max-width: 576px) {
   ion-card {
@@ -108,6 +112,13 @@ ion-back-button{
   .other-details{
     margin-top:25px;
   }
+  ion-item ion-label{
+    font-size:.8rem !important;
+  }
+  .new-entry-button{
+    font-size: .75rem !important;
+    margin-top: 16px;
+  }
 }
 @media only screen and (min-width: 768px) and (max-width:1025px)
 {
@@ -123,5 +134,16 @@ ion-back-button{
 
   .entry-label{
     font-size: .875rem !important;
+  }
+
+  .price-label{
+    min-width: 60%;
+  }
+  .other-details-area{
+    padding-top:20px;
+    padding-bottom:20px;
+  }
+  .personal-info{
+    max-width: 30%;
   }
 }

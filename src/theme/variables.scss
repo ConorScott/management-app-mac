@@ -207,6 +207,10 @@
     --ion-toolbar-border-color: var(--ion-color-step-250);
   }
 
+  .ios .new-entry-button{
+    letter-spacing: .5px !important;
+  }
+
 
   /*
    * Material Design Dark Theme
@@ -263,6 +267,36 @@ ion-toolbar {
   width: 100% !important;
 }
 
+
+ion-card-subtitle{
+  text-transform: capitalize;
+}
+.ios .new-entry-button{
+  letter-spacing: .5px !important;
+}
+.ios .new-filter-button{
+  letter-spacing: .5px !important;
+}
+.ios .submit-button{
+  letter-spacing: .5px !important;
+}
+.searchbar-input.sc-ion-searchbar-ios::placeholder {
+  font-size: .85rem;
+}
+.searchbar-search-icon.sc-ion-searchbar-ios {
+  width:18px;
+}
+@media only screen and (max-width: 576px) {
+  .searchbar-input.sc-ion-searchbar-ios::placeholder {
+    font-size: .75rem;
+  }
+  .searchbar-search-icon.sc-ion-searchbar-ios {
+    width:18px;
+  }
+  .ios .submit-button{
+    font-size:.75rem;
+  }
+}
 
 /* Importing Bootstrap SCSS file. */
 // @import '~bootstrap/scss/bootstrap';

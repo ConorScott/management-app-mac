@@ -37,7 +37,7 @@
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Payee</ion-label>
               <ion-select class="form-input-select" [value]="currentPayee" placeholder="Payee"  formControlName="payeeName" #mySelect [selectedText]="currentPayee"  (ionChange)="customSelect(mySelect.value)">
-                <ion-select-option *ngFor="let payee of names">{{payee.payeeName}}</ion-select-option>
+                <ion-select-option *ngFor="let payee of duplicate">{{payee}}</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-col>
@@ -78,7 +78,7 @@
         </ion-button>
       </ion-col>
       <ion-col size="8" *ngIf="tipPayment">
-        <ion-button class="submit-button" type="submit" expand="block" (click)="onAddTipPayment()">
+        <ion-button class="submit-button" type="submit" expand="block" (click)="checkTipPayee()">
           Submit
         </ion-button>
       </ion-col>

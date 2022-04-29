@@ -1,0 +1,25 @@
+.container{
+  // margin: 100, 70, 100, 70;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14pt;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+p{
+  font-size: 14pt;
+}
+.oceanfm{
+  font-size: 12pt;
+  font-family: 'Times New Roman', Times, serif;
+}
+.header{
+  font-size:20px;
+  font-weight: bold;
+}
+@media screen {
+  :host {
+    display:none;
+  }
+}

@@ -39,7 +39,9 @@ export class NewCoffinPage implements OnInit {
   }
 
   onCreateCoffin(){
-    this.loadingCtrl
+    if(this.form.value.stockLocation === 'sligo') {
+
+      this.loadingCtrl
       .create({
         message: 'Creating Coffin Entry...'
       }).then(loadingEl => {
@@ -54,6 +56,24 @@ export class NewCoffinPage implements OnInit {
           this.modal.dismiss();
         });
       });
+    } else if (this.form.value.stockLocation === 'ballina') {
+      this.loadingCtrl
+      .create({
+        message: 'Creating Coffin Entry...'
+      }).then(loadingEl => {
+        loadingEl.present();
+        this.coffinService.addCoffinBallina(
+           this.form.value.coffinName,
+           this.form.value.stockLevel,
+           this.form.value.stockLocation
+        ).subscribe(() => {
+          loadingEl.dismiss();
+          this.form.reset();
+          this.modal.dismiss();
+        });
+      });
+    }
+
 
   }
 

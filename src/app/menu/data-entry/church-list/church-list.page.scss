@@ -62,7 +62,7 @@ ion-list {
   }
 }
 .viewport {
-  height: calc(100vh - 383px);
+  height: calc(100vh - 340px);
   width: 100%;
 
   box-shadow: 1px 1px 1px grey;
@@ -88,18 +88,23 @@ ion-list {
     display: flex;
     justify-content: flex-end;
   }
-}
-@media only screen and (max-width: 576px) {
   .viewport {
-    // height: 52vh;
-    height: calc(100vh - 351px);
+    height: calc(100vh - 380px);
     width: 100%;
     box-shadow: 1px 1px 1px grey;
   }
+}
+@media only screen and (max-width: 576px) {
+
   ion-card {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom:0px;
+  }
+  .viewport {
+    height: calc(100vh - 360px);
+    width: 100%;
+    box-shadow: 1px 1px 1px grey;
   }
 }

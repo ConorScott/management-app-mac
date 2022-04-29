@@ -10,8 +10,16 @@
     <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser"/>
   </feature>
 
+  <feature name="NetworkStatus">
+    <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager"/>
+  </feature>
+
   <feature name="Printer">
     <param name="android-package" value="de.appplant.cordova.plugin.printer.Printer"/>
+  </feature>
+
+  <feature name="SQLitePlugin">
+    <param name="android-package" value="io.sqlc.SQLitePlugin"/>
   </feature>
 
   <feature name="File">

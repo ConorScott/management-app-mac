@@ -8,23 +8,23 @@
   <ion-grid>
     <ion-row class="ion-text-center">
 
-      <ion-col size-xs="6" size-lg="2.5" class="view-month">
+      <ion-col size-xs="6" size-lg="2.5" size-md="4" class="view-month">
         <h3 class="view-date">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
       </ion-col>
-      <ion-col  size-xs="2" size-lg="2" class="view-month">
+      <ion-col  size-xs="2" size-lg="2" class="view-month view-month-blank">
         <div class="btn-group">
 
         </div>
       </ion-col>
 
-      <ion-col  size-xs="4" size-lg=".5">
+      <ion-col  size-xs="4" size-lg=".5" class="tablet-col">
         <ion-button color="primary" type="submit" expand="block" class="submit-button mobile-search" (click)="openCalModal()">
           <ion-icon name="add-outline"></ion-icon>
           Add New
         </ion-button>
       </ion-col>
 
-      <ion-col size-lg="7" class="ion-buttons">
+      <ion-col size-lg="7" size-md="8" class="ion-buttons">
         <div class="btn-group add-new">
           <ion-button color="primary" type="submit" expand="block" class="submit-button desktop-search" (click)="openCalModal()">
           <ion-icon name="add-outline"></ion-icon>
@@ -69,13 +69,13 @@
       <div [ngSwitch]="view">
         <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="calendar"
           [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
-          (eventClicked)="handleEvent($event)">
+          (eventClicked)="handleEvent($event, viewDate)">
         </mwl-calendar-month-view>
         <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="calendar"
-          [refresh]="refresh" (eventClicked)="handleEvent($event)">
+          [refresh]="refresh" (eventClicked)="handleEvent($event, viewDate)">
         </mwl-calendar-week-view>
         <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="calendar"
-          [refresh]="refresh" (eventClicked)="handleEvent($event)">
+          [refresh]="refresh" (eventClicked)="handleEvent($event, viewDate)">
         </mwl-calendar-day-view>
       </div>
     </ion-card>

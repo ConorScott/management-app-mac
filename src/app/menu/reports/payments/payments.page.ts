@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { DateRangePage } from 'src/app/shared/date-range/date-range.page';
 import { EditPaymentModalPage } from 'src/app/shared/edit-payment-modal/edit-payment-modal.page';
 import { Payment } from 'src/app/shared/payment.model';
-import { ViewPaymentModalPage } from 'src/app/shared/view-payment-modal/view-payment-modal.page';
 import { DebtorService } from '../../debtors/debtor.service';
 import { ReceiptLayoutPage } from '../receipts/receipt-layout/receipt-layout.page';
 import { ReceiptService } from '../receipts/receipt.service';

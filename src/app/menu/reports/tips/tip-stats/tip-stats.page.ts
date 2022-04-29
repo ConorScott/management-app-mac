@@ -30,6 +30,7 @@ export class TipStatsPage implements OnInit {
   paymentTotal: number;
   amount: string;
   otherValue: number;
+  filtered: TipPayee[];
   totals = [];
   isLoading = false;
 
@@ -44,19 +45,29 @@ export class TipStatsPage implements OnInit {
     if(this.tipPayment){
     this.tipPayeeSub = this.tipPaymentService.tipPayee.subscribe((payee) => {
       this.tipPayees = payee;
+      this.filtered = this.tipPayees;
+      this.filtered = [...this.tipPayees];
+      this.filtered.map(res => {
+        this.tipPaymentService.fetchTipPaymentId(res.id).subscribe(payment => {
+          console.log('payment');
+          console.log(payment);
+          payment.map(resData => {
+
+            res.balance -= resData.entryAmount;
+          })
+        })
+      })
+      // this.getIds(this.tipPayees);
       payee.reduce((acc, val) => (this.paymentTotal = acc + val.balance), 0);
-      console.log(this.tipPayees);
     });
     } else {
       this.filter();
 
     this.tips.forEach(tip => {
     this.tipService.fetchTotalPayments(tip.payeeName).subscribe((total) => {
-      // console.log(total);
 
 
       total.reduce((acc, val) => (this.otherValue = acc + val.entryAmount), 0);
-      console.log(this.otherValue);
       this.filteredTips.push({payeeName: tip.payeeName, entryAmount : this.otherValue});
 
 
@@ -66,7 +77,6 @@ export class TipStatsPage implements OnInit {
     });
     this.isLoading = false;
     this.totals = this.filteredTips;
-    console.log(this.filteredTips);
     }
 
 
@@ -81,6 +91,19 @@ export class TipStatsPage implements OnInit {
     });
   }
 
+  getIds(tipPayee){
+    let array = [];
+    let total: number;
+    array.push(tipPayee);
+    console.log('array');
+    console.log(array);
+    array.map(res => {
+      this.tipPaymentService.fetchTipPaymentId(res.id).subscribe(tip => {
+        tip.reduce((acc, val) => (total = acc + val.entryAmount), 0);
+      });
+    })
+  }
+
   filter(){
     this.tips = this.tips.reduce((a, b) => {
       if(!a.find(data => data.payeeName === b.payeeName)){
@@ -93,6 +116,9 @@ export class TipStatsPage implements OnInit {
   }
 
   onCancel(){
+    if (this.tipPayeeSub) {
+      this.tipPayeeSub.unsubscribe();
+    }
     this.modal.dismiss();
   }
 

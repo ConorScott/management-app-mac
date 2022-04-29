@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -20,6 +20,6 @@ import { Printer, PrintOptions } from '@ionic-native/printer/ngx';
     NgxPrintModule,
   ],
   declarations: [InvoiceInformationPage, InvoiceLayoutPage],
-  providers: [Printer]
+  providers: [Printer, DecimalPipe]
 })
 export class InvoiceInformationPageModule {}

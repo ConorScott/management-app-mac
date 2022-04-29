@@ -67,7 +67,7 @@ ion-list {
   }
 }
 .viewport {
-  height: calc(100vh - 383px);
+  height: calc(100vh - 340px);
   width: 100%;
 
   box-shadow: 1px 1px 1px grey;
@@ -96,11 +96,16 @@ ion-content{
     display: flex;
     justify-content: flex-end;
   }
+  .viewport {
+    height: calc(100vh - 380px);
+    width: 100%;
+    box-shadow: 1px 1px 1px grey;
+  }
 }
 @media only screen and (max-width: 576px) {
   .viewport {
     // height: 52vh;
-    height: calc(100vh - 351px);
+    height: calc(100vh - 356px);
     width: 100%;
     box-shadow: 1px 1px 1px grey;
   }

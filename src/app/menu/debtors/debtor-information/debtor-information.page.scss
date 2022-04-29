@@ -146,6 +146,9 @@ ion-back-button{
     width: 100%;
     box-shadow: 1px 1px 1px grey;
   }
+  .new-entry-button{
+    font-size: .75rem !important;
+  }
   ion-card {
     width: 100%;
     margin-left: auto;
@@ -175,4 +178,30 @@ ion-back-button{
     text-overflow: unset;
     padding: 1rem 4.5rem 1rem 1rem;
   }
+  .submit-button{
+    font-size:.75rem !important;
+  }
+  .new-payment{
+    font-size:10.4px !important;
+  }
+  ion-item ion-label:not(.list-label){
+    font-size:.8rem !important;
+  }
+  .nh{
+    padding-right:0px !important;
+    min-width: 35%;
+    max-width: 35%;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width:991px){
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .viewport {
+    height: calc(100vh - 370px);
+     width: 100%;
+     box-shadow: 1px 1px 1px grey;
+   }
 }

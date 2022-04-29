@@ -23,21 +23,21 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col size-md="6" size-lg="4">
+            <ion-col size-xs="12" size-md="6" size-lg="4">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Deceased:</ion-label>
+                <ion-label class="form-label personal-info">Deceased:</ion-label>
                 <ion-label>{{invoice.deceasedName}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size-lg="4">
+            <ion-col size-xs="12" size-md="6" size-lg="4">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Responsible:</ion-label>
+                <ion-label class="form-label personal-info">Responsible:</ion-label>
                 <ion-label>{{invoice.responsible}}</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="6" size-lg="4">
+            <ion-col size-xs="12" size-md="6" size-lg="4">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Invoice Date:</ion-label>
+                <ion-label class="form-label personal-info">Invoice Date:</ion-label>
                 <ion-label>{{invoice.invoiceDate | date:'dd/MM/yyyy'}}</ion-label>
               </ion-item>
             </ion-col>
@@ -48,141 +48,141 @@
             <ion-card-subtitle class="card-title">Account Breakdown</ion-card-subtitle>
           </ion-card-header>
 
-          <ion-row>
+          <ion-row class="other-details-area">
             <ion-col size="12" size-md="6" size-lg="8">
               <ion-item lines="none">
                 <ion-label class="entry-label" position="stacked">Services</ion-label>
                 <p class="entry-textarea">{{invoice.services}}</p>
               </ion-item>
             </ion-col>
-            <ion-col size="12" size-xs="8.5" size-md="4" size-lg="4">
+            <ion-col size="12" size-xs="8.5" size-md="6" size-lg="4">
               <ion-item lines="none">
-                <ion-label class="form-label">Services Price:</ion-label>
-                <p >€{{invoice.servicesPrice | number : '1.2-2'}}</p>
+                <ion-label class="form-label price-label">Services Price:</ion-label>
+                <ion-label>€{{invoice.servicesPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
           <ion-row >
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.coffinDetails">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Coffin:</ion-label>
+                <ion-label class="form-label price-label">Coffin:</ion-label>
                 <ion-label>€{{invoice.coffinPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.casketCover">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Casket Cover:</ion-label>
+                <ion-label class="form-label price-label">Casket Cover:</ion-label>
                 <ion-label>€{{invoice.casketCoverPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.coronerDoctorCert">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Coroner/Doctor Cert:</ion-label>
+                <ion-label class="form-label price-label">Coroner/Doctor Cert:</ion-label>
                 <ion-label>€{{invoice.coronerDoctorCertPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.cremation">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Cremation:</ion-label>
+                <ion-label class="form-label price-label">Cremation:</ion-label>
                 <ion-label>€{{invoice.cremationPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.urn">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Urn:</ion-label>
+                <ion-label class="form-label price-label">Urn:</ion-label>
                 <ion-label>€{{invoice.urnPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.churchOfferring">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Church Offerring:</ion-label>
+                <ion-label class="form-label price-label">Church Offerring:</ion-label>
                 <ion-label>€{{invoice.churchOfferringPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.sacristianPrice">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Sacristian:</ion-label>
+                <ion-label class="form-label price-label">Sacristian:</ion-label>
                 <ion-label>€{{invoice.sacristianPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.flowersPrice">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Flowers:</ion-label>
+                <ion-label class="form-label price-label">Flowers:</ion-label>
                 <ion-label>€{{invoice.flowersPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.graveOpenPrice">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Grave Open:</ion-label>
+                <ion-label class="form-label price-label">Grave Open:</ion-label>
                 <ion-label>€{{invoice.graveOpenPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.gravePurchasePrice">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Grave Purchase to Council:</ion-label>
+                <ion-label class="form-label price-label">Grave Purchase to Council:</ion-label>
                 <ion-label>€{{invoice.gravePurchasePrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.graveMarker">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Grave Marker:</ion-label>
+                <ion-label class="form-label price-label">Grave Marker:</ion-label>
                 <ion-label>€{{invoice.graveMarkerPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.graveMatsTimbers">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Grave Mats Timbers:</ion-label>
+                <ion-label class="form-label price-label">Grave Mats Timbers:</ion-label>
                 <ion-label>€{{invoice.graveMatsTimbersPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.cloths">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Clothes:</ion-label>
+                <ion-label class="form-label price-label">Clothes:</ion-label>
                 <ion-label>€{{invoice.clothsPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.hairdresser">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Hairdresser</ion-label>
+                <ion-label class="form-label price-label">Hairdresser</ion-label>
                 <ion-label>€{{invoice.hairdresserPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.radioDeathNotices">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Radio Death Notices:</ion-label>
+                <ion-label class="form-label price-label">Radio Death Notices:</ion-label>
                 <ion-label>€{{invoice.radioNoticePrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.paperDeathNotices">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Paper Death Notice:</ion-label>
+                <ion-label class="form-label price-label">Paper Death Notice:</ion-label>
                 <ion-label>€{{invoice.paperNoticePrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.organist">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Organist:</ion-label>
+                <ion-label class="form-label price-label">Organist:</ion-label>
                 <ion-label>€{{invoice.organistPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
             <ion-col size-xs="12" size-md="6" size="6" *ngIf="invoice.soloist">
               <ion-item lines="none" class="ion-text-start" >
-                <ion-label class="form-label">Soloist:</ion-label>
+                <ion-label class="form-label price-label">Soloist:</ion-label>
                 <ion-label>€{{invoice.soloistPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="invoice.otherDetailsPrice">
+          <ion-row *ngIf="invoice.otherDetailsPrice" class="other-details-area">
             <ion-col size-xs="12" size="12" size-md="6" size-lg="8" *ngIf="invoice.otherDetailsPrice">
               <ion-item lines="none">
-                <ion-label position="floating" class="entry-label">Other Details</ion-label>
+                <ion-label position="stacked" class="entry-label">Other Details</ion-label>
                 <p class="entry-textarea other-details">{{invoice.otherDetails}}</p>
               </ion-item>
             </ion-col>
             <ion-col size-xs="8" size="12" size-md="6" size-lg="4">
               <ion-item lines="none" class="ion-text-start">
-                <ion-label class="form-label">Other Details Price:</ion-label>
-                <p >€{{invoice.otherDetailsPrice | number : '1.2-2'}}</p>
+                <ion-label class="form-label price-label">Other Details Price:</ion-label>
+                <ion-label>€{{invoice.otherDetailsPrice | number : '1.2-2'}}</ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -203,17 +203,25 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="3">
-              <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="printDiv1('print_div')">
+            <ion-col size="12" size-xs="10" offset-xs="1" size-md="6" size-lg="3">
+              <!-- <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="printDiv1('print_div')">
+                Print Invoice
+              </ion-button> -->
+              <ion-button class="new-entry-button" color="success" type="submit" expand="block" (click)="generatePDF()">
                 Print Invoice
               </ion-button>
               <div id="print_div">
                 <app-invoice-layout [invoice]="invoice"></app-invoice-layout>
               </div>
             </ion-col>
-            <ion-col size="12" size-md="6" size-lg="3">
+            <ion-col size="12" size-xs="10" offset-xs="1" size-md="6" size-lg="3">
+              <ion-button class="new-entry-button" color="primary" type="submit" expand="block" (click)="onEdit(invoice.id)">
+                Edit Entry
+              </ion-button>
+            </ion-col>
+            <ion-col size="12" size-xs="10" offset-xs="1" size-md="6" size-lg="3">
               <ion-button class="new-entry-button" color="danger" type="submit" expand="block" (click)="onDeleteInvoice()">
-                Delete Invoice
+                Delete Entry
               </ion-button>
             </ion-col>
           </ion-row>

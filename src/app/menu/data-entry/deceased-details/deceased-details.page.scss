@@ -88,7 +88,7 @@ ion-select::part(icon) {
 }
 .viewport {
   // height: 52vh;
-  height: calc(100vh - 383px);
+  height: calc(100vh - 340px);
   width: 100%;
   box-shadow: 1px 1px 1px grey;
 }
@@ -130,7 +130,7 @@ ion-searchbar .searchbar-input-container input::placeholder {
   }
   .ion-label{
     text-overflow: unset;
-    padding: 1rem 5.5rem 1rem 1rem;
+    padding: 12px 24px 12px 10px;
   }
   .viewport {
     // height: 52vh;
@@ -160,6 +160,17 @@ ion-searchbar .searchbar-input-container input::placeholder {
   .search-icon .btn-icon{
     font-size: 16px;
   }
+  ion-select{
+    font-size:.75rem;
+  }
+  .nh{
+    min-width: 35%;
+padding-right: 0px !important;
+  }
+  .eh{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
 }
 @media only screen and (min-width: 577px)
 {
@@ -178,6 +189,14 @@ ion-searchbar .searchbar-input-container input::placeholder {
     padding-right: 20px;
     display: flex;
     justify-content: flex-end;
+  }
+  .viewport {
+    height: calc(100vh - 380px);
+    width: 100%;
+    box-shadow: 1px 1px 1px grey;
+  }
+  .new-filter-button{
+    margin-right:10px;
   }
 }
 

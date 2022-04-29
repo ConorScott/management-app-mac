@@ -66,6 +66,7 @@ const colors: any = {
   ],
 })
 export class CalendarPage implements OnInit {
+  mobile = false;
 
   public weekViewColumnHeader({ date, locale }: DateFormatterParams): string {
     return formatDate(date, 'EEE', locale);
@@ -123,6 +124,9 @@ events: Event;
   ) {}
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     // this.calendarService.deleteEventDetails().subscribe();
     this.eventSub = this.calendarService.calendar.subscribe((calendar) => {
       this.calendar = calendar;
@@ -159,6 +163,11 @@ events: Event;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    console.log('date');
+    console.log(date);
+
+
+
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -190,8 +199,10 @@ events: Event;
   //   // this.handleEvent('Dropped or resized', event);
   // }
 
-  handleEvent({event}: {event: CalendarEvent}): void {
-    this.openEventModal(event.id, event.title, event.start, event.end, event.allDay);
+  handleEvent({event}: {event: CalendarEvent}, date: Date): void {
+    console.log('event');
+    console.log(date);
+    this.openEventModal(event.id, event.title, event.start, event.end, event.allDay, date);
   }
 
   // addEvent(): void {
@@ -228,7 +239,7 @@ events: Event;
   // }
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  openEventModal(eventId, title, start, end, allDay) {
+  openEventModal(eventId, title, start, end, allDay, date) {
     let newEvents: Event;
     this.modalCtrl
       .create({
@@ -239,6 +250,7 @@ events: Event;
           start,
           end,
           allDay,
+          date
         },
         cssClass: 'new-donation'
       })
@@ -247,7 +259,7 @@ events: Event;
           if (!modalData.data) {
             return;
           } else if(modalData.data.editEvent.action === 'edit') {
-            this.onEditEvent(modalData.data.editEvent.eventId);
+            this.onEditEvent(modalData.data.editEvent.eventId, modalData.data.editEvent.allDay);
           } else if(modalData.data.editEvent.action === 'delete') {
             this.onDeleteEvent(modalData.data.editEvent.eventId);
           }
@@ -256,14 +268,15 @@ events: Event;
       });
   }
 
-  onEditEvent(eventId: string) {
+  onEditEvent(eventId: string, allDay: boolean) {
     this.modalCtrl.create({
       component: EditEventPage,
       cssClass: 'new-donation',
       componentProps:{
         // eslint-disable-next-line quote-props
         // eslint-disable-next-line object-shorthand
-        eventId: eventId
+        eventId: eventId,
+        allDay: allDay
       }
     }).then(modalEl => {
       modalEl.onDidDismiss().then(modalData => {

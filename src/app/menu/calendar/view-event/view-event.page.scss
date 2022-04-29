@@ -69,10 +69,28 @@ ion-icon:hover {
     margin:auto;
   }
   .form-label{
-    min-width: 0%;
+    min-width: 30%;
+    max-width: 30%;
     white-space: normal;
+    font-size: .8rem;
+  }
+  .label{
+    font-size: .8rem;
   }
   ion-card-content{
     padding: 0;
+  }
+  .card-title-header::part(native){
+    padding-inline-start: 0px !important;
+  }
+  .today-date{
+    font-size:.8rem;
+    font-weight: 500;
+  }
+  .today-date-label{
+    margin-top:0px;
+  }
+  .row-padding{
+    padding-top:16px;
   }
 }

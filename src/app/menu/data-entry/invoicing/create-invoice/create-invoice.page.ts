@@ -36,6 +36,7 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
     'Ambulance to transfer to Mcgowans Funeral home Ballina. Hearse and two men for removal from Funeral home to Church. Hearse and two men for Funeral to Cemetery. Embalming and hygienic treatment carried out. Dressing and preparation of Deceased for viewing. Arrangement and supervision of all the details in the care, planning and arranging of the Funeral. Liaising with the Clergy and arranging with the radio, Press and cemetery. Full access to all the Funeral Home facilities and services therein.';
 
   deceasedId: string;
+  deathDate: string;
   address1: string;
   address2: string;
   address3: string;
@@ -88,6 +89,7 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
       this.deceased.map((res) => {
         this.deceasedName = res.deceasedName;
         this.deceasedId = res.id;
+        this.deathDate = res.deathDate;
       });
     });
 
@@ -331,7 +333,8 @@ export class CreateInvoicePage implements OnInit, OnDestroy {
             this.address2,
             this.address3,
             this.county,
-            this.userName
+            this.userName,
+            this.deathDate
           )
           .subscribe(() => {
             loadingEl.dismiss();

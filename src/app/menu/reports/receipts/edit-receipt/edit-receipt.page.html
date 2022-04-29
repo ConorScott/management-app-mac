@@ -14,18 +14,21 @@
 
         <ion-row class="ion-justify-content-center">
           <ion-col size="10">
-            <div *ngIf="isLoading" class="ion-text-center">
-              <ion-spinner color="primary"></ion-spinner>
-            </div>
+
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Payment Date</ion-label>
               <ion-datetime class="form-input-date" type="text" placeholder="Payment Date" formControlName="paymentDate"></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col size="10">
-            <div *ngIf="isLoading" class="ion-text-center">
-              <ion-spinner color="primary"></ion-spinner>
-            </div>
+
+            <ion-item lines="none">
+              <ion-label position="stacked" class="form-label">Receipt Date</ion-label>
+              <ion-datetime class="form-input-date" type="text" placeholder="Receipt Date" formControlName="receiptDate"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10">
+
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Payment Amount</ion-label>
               <ion-input class="form-input" type="text" placeholder="Payment Amount" formControlName="amount"></ion-input>

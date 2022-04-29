@@ -5,6 +5,7 @@ import { isWithinInterval } from 'date-fns';
 import { Subscription } from 'rxjs';
 import { DateRangePage } from 'src/app/shared/date-range/date-range.page';
 import { EditReceiptPage } from './edit-receipt/edit-receipt.page';
+import { NewReceiptComponent } from './new-receipt/new-receipt.component';
 import { Receipt } from './receipt.model';
 import { ReceiptService } from './receipt.service';
 import { ViewReceiptPage } from './view-receipt/view-receipt.page';
@@ -170,6 +171,33 @@ export class ReceiptsPage implements OnInit {
         });
         modalEl.present();
       });
+  }
+
+  // onAddNew() {
+  //   console.log('hello');
+  //   this.modalCtrl
+  //     .create({
+  //       component: NewReceiptComponent,
+  //       cssClass: 'new-donation'
+  //     })
+  //     .then((modalEl) => {
+  //       modalEl.onDidDismiss().then((modalData) => {
+  //         if (!modalData.data) {
+  //           return;
+  //         }
+  //       });
+  //       modalEl.present();
+  //     });
+  // }
+
+  async onAddNew() {
+    console.log('hello');
+    const modal = await this.modalCtrl
+      .create({
+        component: NewReceiptComponent,
+        cssClass: 'new-donation'
+      });
+      return await modal.present();
   }
 
   onDeleteEntry(receiptId: string, event?: any) {

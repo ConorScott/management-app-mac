@@ -30,6 +30,8 @@ import {  } from 'src/app/shared/shared.module';
 
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Network } from '@ionic-native/network/ngx';
+import { Printer, PrintOptions } from '@ionic-native/printer/ngx';
+import { DecimalPipe } from '@angular/common';
 
 @NgModule({
     declarations: [AppComponent],
@@ -62,7 +64,9 @@ import { Network } from '@ionic-native/network/ngx';
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         AppVersion,
         InAppBrowser,
-        Network
+        Network,
+        Printer,
+        DecimalPipe
     ],
     bootstrap: [AppComponent]
 })

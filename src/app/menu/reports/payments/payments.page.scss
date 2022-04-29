@@ -137,7 +137,7 @@ ion-toolbar {
     margin-bottom:0px;
   }
   .viewport {
-    height: calc(100vh - 294px);
+    height: calc(100vh - 360px);
     width: 100%;
 
     box-shadow: 1px 1px 1px grey;
@@ -157,5 +157,40 @@ ion-toolbar {
   .mobile-icon{
     padding-right:5px;
   }
+.nh{
+  min-width: 38%;
+  padding-right:0px !important
+}
+.dh{
+  padding-right: 0px !important;
+}
+.ah{
+  padding-left: 40px;
+padding-right: 10px;
+}
 
+}
+@media only screen and (min-width: 768px) and (max-width:991px)
+{
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .col-buttons{
+    padding-right: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .viewport {
+    height: calc(100vh - 380px);
+    width: 100%;
+    box-shadow: 1px 1px 1px grey;
+  }
+  .new-filter-button{
+    margin-right:10px;
+  }
+  .item-title::part(native){
+    padding-inline-start: 0px;
+  }
 }

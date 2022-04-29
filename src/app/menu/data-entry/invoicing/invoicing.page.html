@@ -4,32 +4,50 @@
   </div>
   <ion-card>
     <ion-card-header>
-        <ion-card-subtitle class="card-title">Invoice List</ion-card-subtitle>
+      <ion-row>
+        <ion-col size-xs="8" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
+          <ion-card-subtitle class="card-title">Invoice List</ion-card-subtitle>
+        </ion-col>
+        <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center">
+
+          <ion-button *ngIf="mobile" class="new-entry-button" routerLink="/menu/tabs/data-entry/invoicing/new">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            New Invoice
+          </ion-button>
+
+        </ion-col>
+      </ion-row>
 
 
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col size-xs="12" size-md="8" *ngIf="searchbarOpened">
+          <!-- <ion-col size-xs="12" size-md="8" *ngIf="searchbarOpened">
             <ion-searchbar  *ngIf="searchbarOpened" showCancelButton="true" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true" (ionCancel)="searchbarOpened=false"></ion-searchbar>
 
-          </ion-col>
-          <ion-col size-lg="8" size-md="7" size-xs="4" class="ion-align-self-center">
-            <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
+          </ion-col> -->
+          <ion-col size="8" size-md="7">
+            <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name" animated="true"></ion-searchbar>
 
-              <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
+              <!-- <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
                 <ion-icon name="search"></ion-icon>
                 Search
-              </ion-button>
+              </ion-button> -->
 
           </ion-col>
-          <ion-col size-lg="4" size-md="5" size-xs="8"  class="col-buttons ion-align-self-center ion-text-end" *ngIf="!searchbarOpened">
+          <ion-col *ngIf="mobile" size="4" class="ion-align-self-center">
+            <ion-button (click)="onFilterDates()" class="new-filter-button ">
+              <ion-icon slot="start" name="funnel-outline"></ion-icon>
+              Filter Dates
+            </ion-button>
+          </ion-col>
+          <ion-col *ngIf="!mobile" size-lg="4" size-md="5" size-xs="8"  class="col-buttons ion-align-self-center ion-text-end">
             <ion-button (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates
             </ion-button>
-            <ion-button class="new-entry-button" routerLink="/menu/tabs/data-entry/invoicing/new">
+            <ion-button  class="new-entry-button" routerLink="/menu/tabs/data-entry/invoicing/new">
               <ion-icon slot="start" name="add-outline"></ion-icon>
               New Invoice
             </ion-button>
@@ -54,10 +72,11 @@
                   Name
                 </ion-label>
                 <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                  Responsible
+                </ion-label>
+                <ion-label class="ion-label" color="primary" style="font-weight: 300;">
                   Invoice Date
                 </ion-label>
-                <ion-icon></ion-icon>
-                <ion-icon></ion-icon>
               </ion-item>
               <div *ngIf="isLoading" class="ion-text-center">
                 <ion-spinner color="primary"></ion-spinner>
@@ -66,23 +85,25 @@
                 <p>No invoices found!</p>
               </div>
               <div class="virtualScroll">
-                <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && invoice.length > 0">
+                <cdk-virtual-scroll-viewport itemSize="62.2" class="viewport" *ngIf="!isLoading && invoice.length > 0">
                   <ion-item class="list-item th" *ngIf="filtered.length > 0 && mobile">
-                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    <ion-label class="ion-label list-label nh" color="primary" style="font-weight: 300;">
                       Name
                     </ion-label>
-                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    <ion-label class="ion-label list-label nh" color="primary" style="font-weight: 300;">
+                      Responsible
+                    </ion-label>
+                    <ion-label class="ion-label list-label eh" color="primary" style="font-weight: 300;">
                       Invoice Date
                     </ion-label>
-                    <ion-icon></ion-icon>
-                    <ion-icon></ion-icon>
+
                   </ion-item>
                   <ion-item *cdkVirtualFor="let invoice of filtered" class="ion-item list-item"
                     (click)="onView(invoice.id)">
-                    <ion-label class="ion-label name">{{invoice.deceasedName}}</ion-label>
-                    <ion-label class="ion-label">{{invoice.invoiceDate | date:'dd/MM/yyyy'}}</ion-label>
-                    <ion-icon name="create" color="primary" (click)="onEdit(invoice.id, $event)"></ion-icon>
-                    <ion-icon name="trash" color="danger" (click)="onDeleteEntry(invoice.id, $event)"></ion-icon>
+                    <ion-label class="ion-label name list-label nh">{{invoice.deceasedName}}</ion-label>
+                    <ion-label class="ion-label name list-label nh">{{invoice.responsible}}</ion-label>
+                    <ion-label class="ion-label list-label eh">{{invoice.invoiceDate | date:'dd/MM/yyyy'}}</ion-label>
+
                   </ion-item>
                 </cdk-virtual-scroll-viewport>
               </div>

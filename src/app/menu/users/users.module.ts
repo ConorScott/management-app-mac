@@ -12,6 +12,7 @@ import { NewUserPage } from './new-user/new-user.page';
 import { EditUserPage } from './edit-user/edit-user.page';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ViewUserComponent } from './view-user/view-user.component';
 
 
 @NgModule({
@@ -24,6 +25,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
         SharedModule,
         ScrollingModule
     ],
-    declarations: [UsersPage, NewUserPage, EditUserPage]
+    declarations: [UsersPage, NewUserPage, EditUserPage, ViewUserComponent]
 })
 export class UsersPageModule {}

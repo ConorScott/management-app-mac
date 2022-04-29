@@ -60,6 +60,7 @@ interface InvoiceData {
   address3: string;
   county: string;
   createdBy: string;
+  deathDate: string;
 }
 
 @Injectable({
@@ -128,7 +129,8 @@ export class InvoiceService {
     address2: string,
     address3: string,
     county: string,
-    createdBy: string
+    createdBy: string,
+    deathDate: string
   ) {
     let generateId: string;
     let newInvoice: Invoice;
@@ -195,7 +197,8 @@ export class InvoiceService {
           address2,
           address3,
           county,
-          createdBy
+          createdBy,
+          deathDate
         );
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`,
@@ -316,7 +319,8 @@ export class InvoiceService {
                 invoiceData[key].address2,
                 invoiceData[key].address3,
                 invoiceData[key].county,
-                invoiceData[key].createdBy
+                invoiceData[key].createdBy,
+                invoiceData[key].deathDate
               )
             );
           }
@@ -388,7 +392,8 @@ export class InvoiceService {
           resData.address2,
           resData.address3,
           resData.county,
-          resData.createdBy
+          resData.createdBy,
+          resData.deathDate
         );
       })
     );
@@ -535,7 +540,8 @@ export class InvoiceService {
           oldInvoiceInfo.address2,
           oldInvoiceInfo.address3,
           oldInvoiceInfo.county,
-          oldInvoiceInfo.createdBy
+          oldInvoiceInfo.createdBy,
+          oldInvoiceInfo.deathDate
         );
         return this.http.put(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices/${invoiceId}.json?auth=${fetchedToken}`,

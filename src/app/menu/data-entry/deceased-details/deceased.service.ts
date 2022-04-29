@@ -351,9 +351,9 @@ export class DeceasedService {
         }
         return deceased.reverse();
       }),
-      tap((deceased) => {
-        this._deceased.next(deceased);
-      })
+      // tap((deceased) => {
+      //   this._deceased.next(deceased);
+      // })
     );
   }
 

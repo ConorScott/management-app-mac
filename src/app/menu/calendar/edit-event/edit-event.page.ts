@@ -1,3 +1,5 @@
+import { DatePipe } from '@angular/common';
+import { formatDate } from '@angular/common'
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,6 +16,7 @@ import { Event } from '../event.model';
 export class EditEventPage implements OnInit {
 
   @Input() eventId: string;
+  @Input() allDay: boolean;
 
 
   event: Event;
@@ -21,6 +24,9 @@ export class EditEventPage implements OnInit {
 
   form: FormGroup;
   modal: HTMLIonModalElement;
+  returnDate: Date;
+  endDate: Date;
+  dateString: string;
   private eventSub: Subscription;
 
   constructor(
@@ -28,21 +34,38 @@ export class EditEventPage implements OnInit {
     private loadingCtrl: LoadingController,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    public datepipe: DatePipe
   ) { }
 
   ngOnInit() {
     console.log(this.eventId);
-    if (!this.eventId) {
-      this.navCtrl.navigateBack('/menu/tabs/reports/donations');
-      return;
-    }
+    console.log(this.allDay);
+
     this.isLoading = true;
     this.eventSub = this.calendarService
     .getEventEdit(this.eventId)
     .subscribe((event) => {
       console.log(event);
+
       this.event = event;
+      if(this.allDay === true){
+        console.log('All Day');
+        // this.returnDate = new Date(this.event.end).toISOString();
+        console.log(this.event.end);
+        this.returnDate = new Date(this.event.end);
+        console.log(this.returnDate);
+
+        this.returnDate.setHours(this.returnDate.getHours() + 24);
+        // new Date(this.returnDate).toISOString();
+        this.dateString = new Date(this.returnDate).toISOString();
+        console.log('dateString');
+        console.log(this.dateString);
+        this.returnDate = new Date(this.dateString);
+      } else {
+        this.dateString = new Date(this.event.end).toISOString();
+            }
+
       this.form = new FormGroup({
         title: new FormControl(this.event.title, {
           validators: [Validators.required]
@@ -50,9 +73,10 @@ export class EditEventPage implements OnInit {
         start: new FormControl(this.event.start, {
           validators: [Validators.required]
         }),
-        end: new FormControl(this.event.end, {
+        end: new FormControl(this.dateString, {
           validators: [Validators.required]
-        })
+        }),
+        desc: new FormControl(this.event.desc)
       });
       this.isLoading = false;
     },
@@ -79,7 +103,10 @@ export class EditEventPage implements OnInit {
   }
 
   onUpdateEvent() {
-    this.loadingCtrl
+    this.endDate = new Date(this.form.value.end);
+    this.endDate.setHours(this.endDate.getHours() - 24);
+
+        this.loadingCtrl
       .create({
         message: 'Updating Event',
       })
@@ -90,7 +117,8 @@ export class EditEventPage implements OnInit {
             this.eventId,
             this.form.value.title,
             this.form.value.start,
-            this.form.value.end
+            this.endDate,
+            this.allDay
           )
           .subscribe(() => {
             loadingEl.dismiss();

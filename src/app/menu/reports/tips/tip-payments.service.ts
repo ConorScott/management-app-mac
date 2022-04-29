@@ -13,17 +13,18 @@ interface TipPaymentData {
   entryAmount: number;
   entryDesc: string;
   payeeName: string;
-  paymentDate?: Date;
- }
+  paymentDate: Date;
+  payeeId: string;
+}
 
- interface TipPayeeData {
+interface TipPayeeData {
   id: string;
   name: string;
   balance: number;
- }
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TipPaymentsService {
   private _tipPayment = new BehaviorSubject<TipPayments[]>([]);
@@ -38,26 +39,56 @@ export class TipPaymentsService {
     return this._tipPayee.asObservable();
   }
 
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  // addTipPaymentInfo(
+  //   entryDate: Date,
+  //   entryAmount: number,
+  //   entryDesc: string,
+  //   payeeName: string,
+  //   createdAt: Date,
+  //   payeeId: string
+  // ) {
+  //   console.log(payeeName);
+  //   this.checkTipPayees(payeeName).subscribe((tip) => {
+  //     if (tip.length > 0) {
+  //       tip.map((payee) => {
+  //         this.updateTipPaymentInfo(
+  //           payee.id,
+  //           payee.name,
+  //           entryAmount
+  //         ).subscribe();
+  //         this.addTipPayment(
+  //           entryDate,
+  //           entryAmount,
+  //           entryDesc,
+  //           payeeName,
+  //           createdAt,
+  //           payeeId
+  //         ).subscribe();
+  //       });
+  //     } else {
+  //       console.log('success');
+  //       this.addTipPayment(
+  //         entryDate,
+  //         entryAmount,
+  //         entryDesc,
+  //         payeeName,
+  //         createdAt,
+  //         payeeId
+  //       ).subscribe();
+  //     }
+  //   });
+  // }
 
-  addTipPaymentInfo(entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string, createdAt: Date){
-    console.log(payeeName);
-    this.checkTipPayees(payeeName).subscribe(tip => {
-
-      if(tip.length > 0){
-        tip.map(payee => {
-        this.updateTipPaymentInfo(payee.id, payee.name, entryAmount).subscribe();
-        this.addTipPayment(entryDate, entryAmount, entryDesc, payeeName, createdAt).subscribe();
-        });
-      } else {
-        console.log('success');
-        this.addTipPayment(entryDate, entryAmount, entryDesc, payeeName, createdAt).subscribe();
-      }
-    });
-  }
-
-  addTipPayment(entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string, createdAt: Date) {
+  addTipPayment(
+    entryDate: Date,
+    entryAmount: number,
+    entryDesc: string,
+    payeeName: string,
+    createdAt: Date,
+    payeeId: string
+  ) {
     let generateId: string;
     let newEntry: TipPayments;
     let fetchedUserId: string;
@@ -72,7 +103,15 @@ export class TipPaymentsService {
       }),
       take(1),
       switchMap((token) => {
-        newEntry = new TipPayments(Math.random().toString(), createdAt, entryAmount, entryDesc, payeeName, entryDate);
+        newEntry = new TipPayments(
+          Math.random().toString(),
+          createdAt,
+          entryAmount,
+          entryDesc,
+          payeeName,
+          entryDate,
+          payeeId
+        );
         return this.http.post<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`,
           { ...newEntry, id: null }
@@ -90,27 +129,29 @@ export class TipPaymentsService {
     );
   }
 
-
-
   fetchTipPayments() {
-
     return this.authService.token.pipe(
       take(1),
-      switchMap((token) => this.http.get<{ [key: string]: TipPaymentData }>(
+      switchMap((token) =>
+        this.http.get<{ [key: string]: TipPaymentData }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`
-        )),
+        )
+      ),
       map((resData) => {
         const tips = [];
         for (const key in resData) {
           if (resData.hasOwnProperty(key)) {
-            tips.push(new TipPayments(
-              key,
-              resData[key].entryDate,
-              resData[key].entryAmount,
-              resData[key].entryDesc,
-              resData[key].payeeName,
-              resData[key].paymentDate
-              ));
+            tips.push(
+              new TipPayments(
+                key,
+                resData[key].entryDate,
+                resData[key].entryAmount,
+                resData[key].entryDesc,
+                resData[key].payeeName,
+                resData[key].paymentDate,
+                resData[key].payeeId
+              )
+            );
           }
         }
         return tips;
@@ -121,24 +162,70 @@ export class TipPaymentsService {
     );
   }
 
-  getTips(id: string) {
+  fetchTipPaymentId(payeeId) {
     return this.authService.token.pipe(
       take(1),
-      switchMap((token) => this.http.get<TipPaymentData>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments/${id}.json?auth=${token}`
-        )),
-      map((resData) => new TipPayments(
-         id,
-         resData.entryDate,
-         resData.entryAmount,
-         resData.entryDesc,
-         resData.payeeName,
-         resData.paymentDate
-         ))
+      switchMap((token) =>
+        this.http.get<{ [key: string]: TipPaymentData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`
+        )
+      ),
+      map((resData) => {
+        const tips = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key) && resData[key].payeeId === payeeId) {
+            tips.push(
+              new TipPayments(
+                key,
+                resData[key].entryDate,
+                resData[key].entryAmount,
+                resData[key].entryDesc,
+                resData[key].payeeName,
+                resData[key].paymentDate,
+                resData[key].payeeId
+              )
+            );
+          }
+        }
+        return tips;
+      })
+      // tap((tip) => {
+      // })
     );
   }
 
-  updateTipPayment(tipId: string, entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string, paymentDate?: Date) {
+  getTips(id: string) {
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) =>
+        this.http.get<TipPaymentData>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments/${id}.json?auth=${token}`
+        )
+      ),
+      map(
+        (resData) =>
+          new TipPayments(
+            id,
+            resData.entryDate,
+            resData.entryAmount,
+            resData.entryDesc,
+            resData.payeeName,
+            resData.paymentDate,
+            resData.payeeId
+          )
+      )
+    );
+  }
+
+  updateTipPayment(
+    tipId: string,
+    entryDate: Date,
+    entryAmount: number,
+    entryDesc: string,
+    payeeName: string,
+    paymentDate: Date,
+    payeeId: string
+  ) {
     let updateTips: TipPayments[];
     let fetchedToken: string;
     return this.authService.token.pipe(
@@ -156,9 +243,7 @@ export class TipPaymentsService {
         }
       }),
       switchMap((donation) => {
-        const updateTipsIndex = donation.findIndex(
-          (pl) => pl.id === tipId
-        );
+        const updateTipsIndex = donation.findIndex((pl) => pl.id === tipId);
         updateTips = [...donation];
         const oldDonation = updateTips[updateTipsIndex];
 
@@ -168,7 +253,8 @@ export class TipPaymentsService {
           entryAmount,
           entryDesc,
           payeeName,
-          paymentDate
+          paymentDate,
+          payeeId
         );
         return this.http.put<TipPayments>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments/${tipId}.json?auth=${fetchedToken}`,
@@ -182,20 +268,14 @@ export class TipPaymentsService {
   }
 
   deleteTipPayment(tipId: string) {
-    this.getTips(tipId).subscribe((tip) => {
-      this.checkTipPayees(tip.payeeName).subscribe(payee => {
-        payee.map(tipPayeeInfo => {
-          this.updateTipPayee(tipPayeeInfo.id, tipPayeeInfo.name, tip.entryAmount).subscribe();
-        });
 
-      });
-
-    });
     return this.authService.token.pipe(
       take(1),
-      switchMap((token) => this.http.delete(
+      switchMap((token) =>
+        this.http.delete(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments/${tipId}.json?auth=${token}`
-        )),
+        )
+      ),
       switchMap(() => this.tipPayment),
       take(1),
       tap((tip) => {
@@ -208,11 +288,11 @@ export class TipPaymentsService {
     let balance: number;
     // eslint-disable-next-line prefer-const
     balance += amount;
-    this.checkTipPayees(name).subscribe(tip => {
+    this.checkTipPayees(name).subscribe((tip) => {
       console.log(tip);
-      if(tip.length > 0){
-        tip.map(payee => {
-        this.updateTipPayee(payee.id, payee.name, amount).subscribe();
+      if (tip.length > 0) {
+        tip.map((payee) => {
+          this.updateTipPayee(payee.id, payee.name, amount).subscribe();
         });
       } else {
         console.log('success');
@@ -221,7 +301,7 @@ export class TipPaymentsService {
     });
   }
 
-  addTipPayeeInfo(name: string, amount: number){
+  addTipPayeeInfo(name: string, amount: number) {
     let generateId: string;
     let newEntry: TipPayee;
     let fetchedUserId: string;
@@ -255,50 +335,45 @@ export class TipPaymentsService {
   }
 
   checkTipPayees(name: string) {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: TipPayee }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayee.json?auth=${token}`
-      );
-    }), map((resData) => {
-      const tips = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key) &&
-        resData[key].name === name) {
-          tips.push(
-            new TipPayee(
-              key,
-              resData[key].name,
-              resData[key].balance,
-            )
-          );
-
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: TipPayee }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayee.json?auth=${token}`
+        );
+      }),
+      map((resData) => {
+        const tips = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key) && resData[key].name === name) {
+            tips.push(
+              new TipPayee(key, resData[key].name, resData[key].balance)
+            );
+          }
         }
-      }
-      return tips;
-    }),
-    tap((tips) => {
-      this._tipPayee.next(tips);
-    })
+        return tips;
+      }),
+      tap((tips) => {
+        this._tipPayee.next(tips);
+      })
     );
   }
 
   fetchTipPayee() {
-
     return this.authService.token.pipe(
       take(1),
-      switchMap((token) => this.http.get<{ [key: string]: TipPayeeData }>(
+      switchMap((token) =>
+        this.http.get<{ [key: string]: TipPayeeData }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayee.json?auth=${token}`
-        )),
+        )
+      ),
       map((resData) => {
         const tips = [];
         for (const key in resData) {
           if (resData.hasOwnProperty(key)) {
-            tips.push(new TipPayee(
-              key,
-              resData[key].name,
-              resData[key].balance,
-              ));
+            tips.push(
+              new TipPayee(key, resData[key].name, resData[key].balance)
+            );
           }
         }
         return tips;
@@ -330,9 +405,7 @@ export class TipPaymentsService {
         }
       }),
       switchMap((donation) => {
-        const updateTipsIndex = donation.findIndex(
-          (pl) => pl.id === tipId
-        );
+        const updateTipsIndex = donation.findIndex((pl) => pl.id === tipId);
         updateTips = [...donation];
         const oldDonation = updateTips[updateTipsIndex];
         balance = oldDonation.balance + amount;
@@ -340,7 +413,7 @@ export class TipPaymentsService {
         updateTips[updateTipsIndex] = new TipPayee(
           oldDonation.id,
           name,
-          balance,
+          balance
         );
         return this.http.put<TipPayee>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayee/${tipId}.json?auth=${fetchedToken}`,
@@ -373,9 +446,7 @@ export class TipPaymentsService {
         }
       }),
       switchMap((donation) => {
-        const updateTipsIndex = donation.findIndex(
-          (pl) => pl.id === tipId
-        );
+        const updateTipsIndex = donation.findIndex((pl) => pl.id === tipId);
         updateTips = [...donation];
         const oldDonation = updateTips[updateTipsIndex];
         balance = oldDonation.balance - amount;
@@ -383,7 +454,7 @@ export class TipPaymentsService {
         updateTips[updateTipsIndex] = new TipPayee(
           oldDonation.id,
           name,
-          balance,
+          balance
         );
         return this.http.put<TipPayee>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayee/${tipId}.json?auth=${fetchedToken}`,
@@ -417,9 +488,7 @@ export class TipPaymentsService {
         }
       }),
       switchMap((donation) => {
-        const updateTipsIndex = donation.findIndex(
-          (pl) => pl.id === tipId
-        );
+        const updateTipsIndex = donation.findIndex((pl) => pl.id === tipId);
         updateTips = [...donation];
         const oldDonation = updateTips[updateTipsIndex];
         balance = oldDonation.balance - amount;
@@ -427,7 +496,7 @@ export class TipPaymentsService {
         updateTips[updateTipsIndex] = new TipPayee(
           oldDonation.id,
           name,
-          balance,
+          balance
         );
         return this.http.put<TipPayee>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayee/${tipId}.json?auth=${fetchedToken}`,
@@ -439,5 +508,4 @@ export class TipPaymentsService {
       })
     );
   }
-
 }

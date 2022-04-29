@@ -63,7 +63,7 @@ cssClass:'new-donation',
           cemeteryId,
           modalData.data.editCemetery.cemeteryName,
         ).subscribe(cemetery => {
-          this.cemetery = [cemetery];
+          // this.cemetery = [cemetery];
         });
       });
       modalEl.present();

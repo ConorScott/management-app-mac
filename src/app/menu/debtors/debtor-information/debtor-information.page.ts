@@ -268,7 +268,12 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
             return;
           } else if (modalData.data.editPayment.action === 'add'){
             this.receipt = modalData.data.receiptData.paymentInfo;
-            this.receiptService.addReceipt(this.receipt, debtorId).subscribe();
+
+            this.receiptService.addDebtorReceipt(this.receipt, debtorId).subscribe(receipt => {
+              this.fetchReceipts();
+            });
+
+
           } else if (modalData.data.editPayment.action === 'delete'){
             this.deletePayment(
               modalData.data.editPayment.paymentId,
@@ -279,6 +284,12 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
         });
         modalEl.present();
       });
+  }
+
+  fetchReceipts(){
+    console.log('fetch Receipts');
+    this.receiptService.fetchReceipts(this.debtorId).subscribe(receipt => {
+  });
   }
 
   deletePayment(paymentId: string, debtorId: string, amount: number, event?: any){
@@ -436,6 +447,48 @@ export class DebtorInformationPage implements OnInit, OnDestroy {
         item.payeeName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
       );
     });
+  }
+
+  onEdit(debtorId: string) {
+    this.router.navigate([
+      '/',
+      'menu',
+      'tabs',
+      'debtors',
+      'edit',
+      debtorId,
+    ]);
+    console.log('Editing item', debtorId);
+  }
+
+  onDeleteEntry(debtorId: string) {
+    this.actionSheetCtrl
+      .create({
+        header: 'Delete Entry?',
+        buttons: [
+          {
+            text: 'Delete',
+            role: 'destructive',
+            handler: () => {
+              this.loadingCtrl
+                .create({ message: 'Deleting Entry...' })
+                .then((loadingEl) => {
+                  loadingEl.present();
+                  this.debtorService.cancelBooking(debtorId).subscribe(() => {
+                    loadingEl.dismiss();
+                  });
+                });
+            },
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+        ],
+      })
+      .then((actionSheetEl) => {
+        actionSheetEl.present();
+      });
   }
 
   ngOnDestroy() {

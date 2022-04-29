@@ -6,7 +6,12 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { Printer, PrintOptions } from '@ionic-native/printer/ngx';
 import { Invoice } from '../invoice.model';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-invoice-layout',
@@ -37,18 +42,41 @@ export class InvoiceLayoutPage implements OnInit {
   soloistPrice: string;
   otherDetailsPrice: string;
   totalBalance: string;
+  coffinDetails: string;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, public printer: Printer) {}
 
   ngOnInit() {
+    this.coffinDetails = this.invoice.coffinDetails.split(' (')[0];
   }
 
+  // printDiv(div) {
+  //   const printContents = document.getElementById(div).innerHTML;
+  //   const originalContents = document.body.innerHTML;
+  //   document.body.innerHTML = printContents;
+  //   window.print();
+  //   document.body.innerHTML = originalContents;
+  //   window.location.reload();
+  // }
+
   printDiv(div) {
-    const printContents = document.getElementById(div).innerHTML;
-    const originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    window.location.reload();
-  }
+    this.printer.isAvailable().then((onSuccess: any) => {
+    let content = document.getElementById(div).innerHTML;
+    let options: PrintOptions = {
+    name: 'MyDocument',
+    duplex: true,
+    orientation: "portrait",
+    monochrome: true
+    };
+    this.printer.print(content, options).then((value: any) => {
+    console.log('value:', value);
+    }, (error) => {
+    console.log('err:', error);
+    });
+    }, (err) => {
+    console.log('err:', err);
+    });
+    }
+
+
 }

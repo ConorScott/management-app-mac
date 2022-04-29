@@ -13,7 +13,7 @@
               <ion-col size="8">
                 <ion-searchbar (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
               </ion-col>
-              <ion-col size="4" class="ion-align-self-center">
+              <ion-col size="4" class="ion-align-self-center col-buttons">
                 <ion-button class="new-entry-button" (click)="onAddNew()">
                   <ion-icon slot="start" name="add-outline"></ion-icon>
                   New Entry
@@ -26,7 +26,7 @@
                   <ion-spinner color="primary"></ion-spinner>
                 </div>
                   <ion-item class="list-item th">
-                    <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+                    <ion-label class="ion-label list-label" color="primary" style="font-weight: 300;">
                       Name
                     </ion-label>
                   </ion-item>
@@ -34,9 +34,9 @@
                     <p>No church entries found!</p>
                   </div>
                   <div class="virtualScroll">
-                  <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!isLoading && church.length > 0">
+                  <cdk-virtual-scroll-viewport itemSize="62.2" class="viewport" *ngIf="!isLoading && church.length > 0">
                   <ion-item *cdkVirtualFor="let church of filtered" class="ion-item list-item">
-                    <ion-label class="ion-label name">{{church.churchName}}</ion-label>
+                    <ion-label class="ion-label name list-label">{{church.churchName}}</ion-label>
                     <ion-icon name="create" color="primary" (click)="onEdit(church.id)"></ion-icon>
                     <ion-icon name="trash" color="danger" (click)="onDeleteEntry(church.id)"></ion-icon>
                   </ion-item>

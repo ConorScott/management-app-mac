@@ -5,25 +5,31 @@
   <ion-card>
     <ion-card-header>
       <ion-row class="header-row">
-        <ion-col *ngIf="!tipPayment" size-xs="4" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
+        <ion-col  *ngIf="mobile" size-sm="9" size="7">
+          <ion-select class="mobile-select" [interfaceOptions]="{ cssClass: 'tips-alert' }" (ionChange)="listTypeChange($event)" value="tips">
+            <ion-select-option value="tips">Tips</ion-select-option>
+            <ion-select-option value="tipPayments">Tip Payments</ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col *ngIf="!tipPayment && !mobile" size-xs="4" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
           <ion-card-subtitle class="card-title">Tips</ion-card-subtitle>
         </ion-col>
-        <ion-col *ngIf="tipPayment" size-xs="4" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
+        <ion-col *ngIf="tipPayment && !mobile" size-xs="4" size-lg="10" size-md="9.5" size-sm="10" class="ion-align-self-center">
           <ion-card-subtitle class="card-title">Tip Payments</ion-card-subtitle>
         </ion-col>
-        <ion-col size-xs="4" size-lg="2" size-md="3" class="ion-align-self-center new-entry" *ngIf="mobile">
-          <ion-button *ngIf="!tipPayment" class="new-entry-button" (click)="onAddNew()">
-            <ion-icon slot="start" name="add-outline"></ion-icon>
-            New Entry
+        <ion-col size-xs="5" size-lg="2" size-md="3" class="ion-align-self-center new-entry ion-text-end" *ngIf="mobile">
+          <ion-button (click)="viewPaymentStats()" class="new-entry-button" *ngIf="!tipPayment">
+            <ion-icon slot="start" name="cash-outline"></ion-icon>
+            Payment Stats
           </ion-button>
-          <ion-button *ngIf="tipPayment" class="new-entry-button" (click)="onAddNew()">
-            <ion-icon slot="start" name="add-outline"></ion-icon>
-            New Payment
+          <ion-button (click)="viewPaymentStats()" class="new-entry-button" *ngIf="tipPayment">
+            <ion-icon slot="start" name="cash-outline"></ion-icon>
+            Tip Balances
           </ion-button>
         </ion-col>
-        <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center">
+        <ion-col size-xs="4" size-lg="2" size-md="2.5" size-sm="3" class="ion-text-center" *ngIf="!mobile">
 
-          <ion-select [interfaceOptions]="{ cssClass: 'tips-alert' }" (ionChange)="listTypeChange($event)" value="tips">
+          <ion-select  [interfaceOptions]="{ cssClass: 'tips-alert' }" (ionChange)="listTypeChange($event)" value="tips">
             <ion-select-option value="tips">Tips</ion-select-option>
             <ion-select-option value="tipPayments">Tip Payments</ion-select-option>
           </ion-select>
@@ -39,26 +45,37 @@
 
           </ion-col>
 
-          <ion-col class="desktopSearch" size="7" size-xs="3" size-lg="6">
+          <ion-col class="desktopSearch" size="7" size-xs="3" size-lg="7" size-md="5">
             <ion-searchbar class="desktopSearch" (ionChange)="onChange($event)" placeholder="Search by Name"></ion-searchbar>
 
           </ion-col>
-          <ion-col size-lg="6" size="5" size-xs="12" class="ion-text-end" *ngIf="!searchbarOpened">
+          <ion-col *ngIf="!searchbarOpened && mobile" size-xs="4">
             <ion-button *ngIf="!searchbarOpened" (click)="searchbarOpened=true" class="mobile-search search-icon">
               <ion-icon slot="start" name="search" class="btn-icon"></ion-icon>
               Search
             </ion-button>
-            <ion-button (click)="viewPaymentStats()" class="new-entry-button" *ngIf="!tipPayment">
+          </ion-col>
+          <ion-col size-lg="5" size="5" size-xs="8" size-md="7" class="ion-text-end ion-align-self-center" *ngIf="!searchbarOpened">
+
+            <ion-button (click)="viewPaymentStats()" class="new-entry-button" *ngIf="!tipPayment && !mobile">
               <ion-icon slot="start" name="cash-outline"></ion-icon>
               Payment Stats
             </ion-button>
-            <ion-button (click)="viewPaymentStats()" class="new-entry-button" *ngIf="tipPayment">
+            <ion-button (click)="viewPaymentStats()" class="new-entry-button" *ngIf="tipPayment && !mobile">
               <ion-icon slot="start" name="cash-outline"></ion-icon>
               Tip Balances
             </ion-button>
             <ion-button (click)="onFilterDates()" class="new-filter-button">
               <ion-icon slot="start" name="funnel-outline"></ion-icon>
               Filter Dates
+            </ion-button>
+            <ion-button *ngIf="!tipPayment && mobile" class="new-entry-button" (click)="onAddNew()">
+              <ion-icon slot="start" name="add-outline"></ion-icon>
+              New Entry
+            </ion-button>
+            <ion-button *ngIf="tipPayment && mobile" class="new-entry-button" (click)="onAddNew()">
+              <ion-icon slot="start" name="add-outline"></ion-icon>
+              New Payment
             </ion-button>
 
             <ion-button *ngIf="!tipPayment && !mobile" class="new-entry-button" (click)="onAddNew()">
@@ -85,18 +102,18 @@
         <ion-row>
           <ion-col class="card-details" >
 
-            <ion-item class="list-item th" *ngIf="!mobile">
-              <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+            <ion-item class="list-item th">
+              <ion-label class="ion-label nh" color="primary" style="font-weight: 300;">
                 Name
               </ion-label>
-              <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+              <ion-label class="ion-label dh" color="primary" style="font-weight: 300;">
                 Entry Date
               </ion-label>
-              <ion-label class="ion-label" color="primary" style="font-weight: 300;">
+              <ion-label class="ion-label ah" color="primary" style="font-weight: 300;">
                 Amount
               </ion-label>
-              <ion-icon></ion-icon>
-              <ion-icon></ion-icon>
+              <ion-icon *ngIf="!mobile"></ion-icon>
+              <ion-icon *ngIf="!mobile"></ion-icon>
             </ion-item>
             <div *ngIf="isLoading" class="ion-text-center">
               <ion-spinner color="primary"></ion-spinner>
@@ -109,36 +126,23 @@
             </div>
             <div class="virtualScroll">
               <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="!tipPayment && !isLoading && filtered.length > 0">
-                <ion-item class="list-item th" *ngIf="filtered.length > 0 && mobile">
-                  <ion-label class="ion-label name" color="primary" style="font-weight: 300;">
-                    Name
-                  </ion-label>
-                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                    Entry Date
-                  </ion-label>
-                  <ion-label class="ion-label" color="primary" style="font-weight: 300;">
-                    Amount
-                  </ion-label>
-                  <ion-icon></ion-icon>
-                  <ion-icon></ion-icon>
-                </ion-item>
                 <ion-item *cdkVirtualFor="let cashbook of filtered.reverse()" class="ion-item list-item"
                   (click)="onView(cashbook.id, 'tip')">
-                  <ion-label class="ion-label name">{{cashbook.payeeName}}</ion-label>
-                  <ion-label class="ion-label">{{cashbook.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
-                  <ion-label class="ion-label">€{{cashbook.entryAmount}}</ion-label>
-                  <ion-icon name="create" color="primary" (click)="onEdit(cashbook.id, 'tip', $event)"></ion-icon>
-                  <ion-icon name="trash" color="danger" (click)="onDeleteEntry(cashbook.id, $event)"></ion-icon>
+                  <ion-label class="ion-label name ion-text-wrap nh">{{cashbook.payeeName}}</ion-label>
+                  <ion-label class="ion-label dh">{{cashbook.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
+                  <ion-label class="ion-label ah">€{{cashbook.entryAmount}}</ion-label>
+                  <ion-icon *ngIf="!mobile" name="create" color="primary" (click)="onEdit(cashbook.id, 'tip', $event)"></ion-icon>
+                  <ion-icon *ngIf="!mobile" name="trash" color="danger" (click)="onDeleteEntry(cashbook.id, $event)"></ion-icon>
                 </ion-item>
               </cdk-virtual-scroll-viewport>
               <cdk-virtual-scroll-viewport itemSize="65.8" class="viewport" *ngIf="tipPayment && !isLoading && filteredTP.length > 0">
                 <ion-item *cdkVirtualFor="let tipPayment of filteredTP.reverse()" class="ion-item list-item"
                   (click)="onView(tipPayment.id, 'tipPayment')">
-                  <ion-label class="ion-label name">{{tipPayment.payeeName}}</ion-label>
-                  <ion-label class="ion-label">{{tipPayment.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
-                  <ion-label class="ion-label">€{{tipPayment.entryAmount}}</ion-label>
-                  <ion-icon name="create" color="primary" (click)="onEdit(tipPayment.id,  'tipPayment', $event)"></ion-icon>
-                  <ion-icon name="trash" color="danger" (click)="onDeleteTipPayment(tipPayment.id, $event)"></ion-icon>
+                  <ion-label class="ion-label name ion-text-wrap nh">{{tipPayment.payeeName}}</ion-label>
+                  <ion-label class="ion-label dh">{{tipPayment.entryDate | date: 'dd/MM/yyyy'}}</ion-label>
+                  <ion-label class="ion-label ah">€{{tipPayment.entryAmount}}</ion-label>
+                  <ion-icon *ngIf="!mobile" name="create" color="primary" (click)="onEdit(tipPayment.id,  'tipPayment', $event)"></ion-icon>
+                  <ion-icon *ngIf="!mobile" name="trash" color="danger" (click)="onDeleteTipPayment(tipPayment.id, $event)"></ion-icon>
                 </ion-item>
               </cdk-virtual-scroll-viewport>
             </div>

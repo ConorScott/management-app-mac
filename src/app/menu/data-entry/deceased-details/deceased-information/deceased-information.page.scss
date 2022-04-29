@@ -91,7 +91,8 @@ ion-back-button{
   padding-left: 16px;
 }
 .notice-label{
-  font-size: 1.125rem !important;
+  font-size: 1.25rem !important;
+  opacity: 1 !important;
 }
 ion-item ion-textarea{
   font-size: .875rem;
@@ -118,16 +119,16 @@ ion-item ion-textarea{
     margin-bottom:0px;
   }
   .radio-notice{
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     border-radius: 3rem;
+  }
+  .ios .radio-notice{
+    font-size: 0.65rem;
   }
   .new-entry-button{
     font-size: 0.75rem;
   }
-  .notice-label{
-    opacity: 1 !important;
-    font-size: .875rem !important;
-  }
+
   ion-col{
     padding: 0 5px;
   }
@@ -138,6 +139,26 @@ ion-item ion-textarea{
   .sub{
     margin-bottom:0px;
   }
+  .notice-par{
+    font-size:12px !important;
+  }
+  ion-item ion-label{
+    font-size:.8rem !important;
+  }
+  .notice-label{
+    opacity: 1 !important;
+  }
+
+}
+@media only screen and (min-width: 577px) and (max-width:767px){
+  ion-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  ion-item ion-label{
+    font-size:.8rem !important;
+  }
 }
 @media only screen and (min-width: 768px) and (max-width:991px)
 {
@@ -145,6 +166,9 @@ ion-item ion-textarea{
     width: 95%;
     margin-left: auto;
     margin-right: auto;
+  }
+  ion-item ion-label{
+    font-size:.83rem !important;
   }
   ion-col{
     padding:0px;

@@ -100,18 +100,7 @@ export class DebtorsPage implements OnInit, OnDestroy {
 
   }
 
-  onEdit(debtorId: string, event: any) {
-    event.stopPropagation();
-    this.router.navigate([
-      '/',
-      'menu',
-      'tabs',
-      'debtors',
-      'edit',
-      debtorId,
-    ]);
-    console.log('Editing item', debtorId);
-  }
+
 
   onView(debtorId: string) {
     this.router.navigate(['/', 'menu', 'tabs', 'debtors', 'view', debtorId]);

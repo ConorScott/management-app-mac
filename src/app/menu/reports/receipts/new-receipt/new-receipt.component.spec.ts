@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ViewPaymentModalPage } from './view-payment-modal.page';
+import { NewReceiptComponent } from './new-receipt.component';
 
-describe('ViewPaymentModalPage', () => {
-  let component: ViewPaymentModalPage;
-  let fixture: ComponentFixture<ViewPaymentModalPage>;
+describe('NewReceiptComponent', () => {
+  let component: NewReceiptComponent;
+  let fixture: ComponentFixture<NewReceiptComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewPaymentModalPage ],
+      declarations: [ NewReceiptComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ViewPaymentModalPage);
+    fixture = TestBed.createComponent(NewReceiptComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

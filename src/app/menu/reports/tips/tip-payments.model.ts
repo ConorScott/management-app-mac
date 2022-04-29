@@ -5,6 +5,7 @@ export class TipPayments {
     public entryAmount: number,
     public entryDesc: string,
     public payeeName: string,
-    public paymentDate?: Date
+    public paymentDate: Date,
+    public payeeId: string
   ) {}
 }
