@@ -37,7 +37,6 @@
     "@angular/platform-browser-dynamic": "~13.2.2",
     "@angular/router": "~13.2.2",
     "@angular/service-worker": "~13.2.2",
-    "@capacitor-community/native-market": "^0.1.4",
     "@capacitor/android": "^3.4.3",
     "@capacitor/core": "^3.4.3",
     "@capacitor/ios": "3.4.3",

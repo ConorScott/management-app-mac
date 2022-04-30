@@ -1,9 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { CashBook } from './cashbbok.model';
 
 interface CashBookData {
@@ -24,7 +28,9 @@ export class CashbookService {
     return this._cashbook.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService, private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) { }
 
   addCashBook(entryDate: Date, entryAmount: number, entryDesc: string, payeeName: string) {
     let generateId: string;
@@ -42,10 +48,17 @@ export class CashbookService {
       take(1),
       switchMap((token) => {
         newEntry = new CashBook(Math.random().toString(), entryDate, entryAmount, entryDesc, payeeName);
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cashbook.json?auth=${token}`,
-          { ...newEntry, id: null }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cashbook.json?auth=${token}`;
+        let data = {...newEntry, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cashbook.json?auth=${token}`,
+            { ...newEntry, id: null }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -132,31 +145,36 @@ export class CashbookService {
   }
 
   fetchCashBook() {
-
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) => this.http.get<{ [key: string]: CashBookData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cashbook.json?auth=${token}`
-        )),
-      map((resData) => {
-        const cashbook = [];
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key)) {
-            cashbook.push(new CashBook(
-              key,
-              resData[key].entryDate,
-              resData[key].entryAmount,
-              resData[key].entryDesc,
-              resData[key].payeeName
-              ));
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('cashbook'))
+    } else {
+      return this.authService.token.pipe(
+        take(1),
+        switchMap((token) => this.http.get<{ [key: string]: CashBookData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cashbook.json?auth=${token}`
+          )),
+        map((resData) => {
+          const cashbook = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key)) {
+              cashbook.push(new CashBook(
+                key,
+                resData[key].entryDate,
+                resData[key].entryAmount,
+                resData[key].entryDesc,
+                resData[key].payeeName
+                ));
+            }
           }
-        }
-        return cashbook.reverse();
-      }),
-      tap((cashbook) => {
-        this._cashbook.next(cashbook);
-      })
-    );
+          return cashbook.reverse();
+        }),
+        tap((cashbook) => {
+          this.apiService.setLocalData('cashbook', cashbook);
+          this._cashbook.next(cashbook);
+        })
+      );
+    }
+
   }
 
   getCashBook(id: string) {

@@ -4,13 +4,17 @@
 import { HttpClient } from '@angular/common/http';
 import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/auth/user.model';
 import { StoreUser } from './storeUser.model';
 import firebase from 'firebase/compat/app';
 import { environment } from 'src/environments/environment';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
+import { ApiService } from 'src/app/services/api.service';
 
 interface UserData {
   id: string;
@@ -35,7 +39,9 @@ export class UserService {
     return this._user.asObservable();
   }
 
-  constructor(private authService: AuthService, private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient,private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) {}
 
   addUser(
     uid: string,
@@ -60,10 +66,17 @@ export class UserService {
       take(1),
       switchMap((token) => {
         newUser = new StoreUser(Math.random().toString(),uid, email, password, name, role, createdAt);
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
-          { ...newUser, id:null }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`;
+        let data = {...newUser, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`,
+            { ...newUser, id:null }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -103,36 +116,42 @@ export class UserService {
   }
 
   fetchUsers() {
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) => {
-        return this.http.get<{ [key: string]: UserData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`
-        );
-      }),
-      map((resData) => {
-        const user = [];
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key)) {
-            user.push(
-              new StoreUser(
-                key,
-                resData[key].uid,
-                resData[key].email,
-                resData[key].password,
-                resData[key].name,
-                resData[key].role,
-                resData[key].createdAt
-              )
-            );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('users'))
+    } else {
+      return this.authService.token.pipe(
+        take(1),
+        switchMap((token) => {
+          return this.http.get<{ [key: string]: UserData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users.json?auth=${token}`
+          );
+        }),
+        map((resData) => {
+          const user = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key)) {
+              user.push(
+                new StoreUser(
+                  key,
+                  resData[key].uid,
+                  resData[key].email,
+                  resData[key].password,
+                  resData[key].name,
+                  resData[key].role,
+                  resData[key].createdAt
+                )
+              );
+            }
           }
-        }
-        return user;
-      }),
-      tap((user) => {
-        this._user.next(user);
-      })
-    );
+          return user;
+        }),
+        tap((user) => {
+          this.apiService.setLocalData('users', user);
+          this._user.next(user);
+        })
+      );
+    }
+
   }
 
   updateUser(

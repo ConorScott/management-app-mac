@@ -10,7 +10,7 @@ const STORAGE_REQ_KEY = 'storedreq';
 interface StoredRequest {
   url: string,
   type: string,
-  // data: any,
+  data: any,
   time: number,
   id: string
 }
@@ -47,7 +47,7 @@ export class OfflineManagerService {
     )
   }
 
-  storeRequest(url, type) {
+  storeRequest(url, type, data) {
     let toast = this.toastController.create({
       message: `Your data is stored locally because you seem to be offline.`,
       duration: 3000,
@@ -58,11 +58,12 @@ export class OfflineManagerService {
     let action: StoredRequest = {
       url: url,
       type: type,
+      data: data,
       time: new Date().getTime(),
       id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
     };
     // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-
+    console.log(action)
     return this.storage.get(STORAGE_REQ_KEY).then(storedOperations => {
       let storedObj = JSON.parse(storedOperations);
 
@@ -81,7 +82,7 @@ export class OfflineManagerService {
 
     for (let op of operations) {
       console.log('Make one request: ', op);
-      let oneObs = this.http.request(op.type, op.url);
+      let oneObs = this.http.request(op.type, op.url, {body: op.data});
       obs.push(oneObs);
     }
 

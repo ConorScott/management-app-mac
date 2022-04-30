@@ -3,7 +3,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Receipt } from './receipt.model';
@@ -17,6 +17,10 @@ import { times } from 'src/fonts/times-normal.Base64.encoded';
 import { timesBold } from 'src/fonts/times-bold.Base64.encoded';
 import { helvetica } from 'src/fonts/helvetica-normal.Base64.encoded';
 import { helveticaBold } from 'src/fonts/helvetica-bold.Base64.encoded';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
+import { ApiService } from 'src/app/services/api.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
@@ -47,7 +51,9 @@ export class ReceiptService {
 
   constructor(private http: HttpClient, private authService: AuthService, private _decimalPipe: DecimalPipe, private file: File,
     private fileOpener: FileOpener,
-    public printer: Printer) { }
+    public printer: Printer,  private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) { }
 
   addReceipt(receipt: Receipt, debtorId) {
     console.log(debtorId);
@@ -75,11 +81,18 @@ export class ReceiptService {
           receipt.payeeName,
           receiptDate
         );
-        return this.http
-      .post<{name: string}>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`,
-        { ...newReceipt, id:null}
-      );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`;
+        let data = {...newReceipt, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http
+          .post<{name: string}>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`,
+            { ...newReceipt, id:null}
+          );
+        }
+
       }),switchMap((resData) => {
         generatedId = resData.name;
         return this.receipt;
@@ -117,11 +130,18 @@ export class ReceiptService {
           receipt.payeeName,
           receiptDate
         );
-        return this.http
-      .post<{name: string}>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`,
-        { ...newReceipt, id:null}
-      );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`;
+        let data = {...newReceipt, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http
+          .post<{name: string}>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`,
+            { ...newReceipt, id:null}
+          );
+        }
+
       }),switchMap((resData) => {
         generatedId = resData.name;
         return this.receipts;
@@ -158,11 +178,18 @@ export class ReceiptService {
          payeeName,
          receiptDate
         );
-        return this.http
-      .post<{name: string}>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`,
-        { ...newReceipt, id:null}
-      );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`;
+        let data = {...newReceipt, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http
+          .post<{name: string}>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`,
+            { ...newReceipt, id:null}
+          );
+        }
+
       }),switchMap((resData) => {
         generatedId = resData.name;
         return this.receipt;
@@ -274,66 +301,78 @@ export class ReceiptService {
   }
 
   fetchReceipts(id: string) {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: ReceiptData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`
-      );
-    }), map((resData) => {
-      const receipts = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key) &&
-        resData[key].paymentId === id) {
-          receipts.push(
-            new Receipt(
-              key,
-              resData[key].paymentId,
-              resData[key].paymentDate,
-              resData[key].amount,
-              resData[key].paymentMethod,
-              resData[key].payeeName,
-              resData[key].receiptDate
-            )
-          );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('receipts'))
+    } else {
+      return this.authService.token.pipe(take(1), switchMap(token => {
+        return this.http
+        .get<{ [key: string]: ReceiptData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`
+        );
+      }), map((resData) => {
+        const receipts = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key) &&
+          resData[key].paymentId === id) {
+            receipts.push(
+              new Receipt(
+                key,
+                resData[key].paymentId,
+                resData[key].paymentDate,
+                resData[key].amount,
+                resData[key].paymentMethod,
+                resData[key].payeeName,
+                resData[key].receiptDate
+              )
+            );
+          }
         }
-      }
-      return receipts.reverse();
-    }),
-    tap((receipt) => {
-      this._receipts.next(receipt);
-    })
-    );
+        return receipts.reverse();
+      }),
+      tap((receipt) => {
+        this.apiService.setLocalData('receipts', receipt);
+        this._receipts.next(receipt);
+      })
+      );
+    }
+
   }
 
   fetchAllPayments() {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: ReceiptData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`
-      );
-    }), map((resData) => {
-      const receipts = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key)) {
-          receipts.push(
-            new Receipt(
-              key,
-              resData[key].paymentId,
-              resData[key].paymentDate,
-              resData[key].amount,
-              resData[key].paymentMethod,
-              resData[key].payeeName,
-              resData[key].receiptDate
-            )
-          );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('allReceipts'))
+    } else {
+      return this.authService.token.pipe(take(1), switchMap(token => {
+        return this.http
+        .get<{ [key: string]: ReceiptData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/receipts.json?auth=${token}`
+        );
+      }), map((resData) => {
+        const receipts = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            receipts.push(
+              new Receipt(
+                key,
+                resData[key].paymentId,
+                resData[key].paymentDate,
+                resData[key].amount,
+                resData[key].paymentMethod,
+                resData[key].payeeName,
+                resData[key].receiptDate
+              )
+            );
+          }
         }
-      }
-      return receipts.reverse();
-    }),
-    tap((receipt) => {
-      this._receipt.next(receipt);
-    })
-    );
+        return receipts.reverse();
+      }),
+      tap((receipt) => {
+        this.apiService.setLocalData('allReceipts', receipt);
+        this._receipt.next(receipt);
+      })
+      );
+    }
+
   }
 
   getDonations(id: string) {

@@ -2,9 +2,13 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { TipPayee } from './tip-payee.model';
 import { TipPayments } from './tip-payments.model';
 interface TipPaymentData {
@@ -39,7 +43,9 @@ export class TipPaymentsService {
     return this._tipPayee.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) {}
 
   // addTipPaymentInfo(
   //   entryDate: Date,
@@ -112,10 +118,17 @@ export class TipPaymentsService {
           entryDate,
           payeeId
         );
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`,
-          { ...newEntry, id: null }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`;
+        let data = {...newEntry, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`,
+            { ...newEntry, id: null }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -130,68 +143,81 @@ export class TipPaymentsService {
   }
 
   fetchTipPayments() {
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) =>
-        this.http.get<{ [key: string]: TipPaymentData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`
-        )
-      ),
-      map((resData) => {
-        const tips = [];
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key)) {
-            tips.push(
-              new TipPayments(
-                key,
-                resData[key].entryDate,
-                resData[key].entryAmount,
-                resData[key].entryDesc,
-                resData[key].payeeName,
-                resData[key].paymentDate,
-                resData[key].payeeId
-              )
-            );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('tipPayments'))
+    } else {
+      return this.authService.token.pipe(
+        take(1),
+        switchMap((token) =>
+          this.http.get<{ [key: string]: TipPaymentData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`
+          )
+        ),
+        map((resData) => {
+          const tips = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key)) {
+              tips.push(
+                new TipPayments(
+                  key,
+                  resData[key].entryDate,
+                  resData[key].entryAmount,
+                  resData[key].entryDesc,
+                  resData[key].payeeName,
+                  resData[key].paymentDate,
+                  resData[key].payeeId
+                )
+              );
+            }
           }
-        }
-        return tips;
-      }),
-      tap((tip) => {
-        this._tipPayment.next(tip);
-      })
-    );
+          return tips;
+        }),
+        tap((tip) => {
+          this.apiService.setLocalData('tipPayments', tip);
+          this._tipPayment.next(tip);
+        })
+      );
+    }
+
   }
 
   fetchTipPaymentId(payeeId) {
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) =>
-        this.http.get<{ [key: string]: TipPaymentData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`
-        )
-      ),
-      map((resData) => {
-        const tips = [];
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key) && resData[key].payeeId === payeeId) {
-            tips.push(
-              new TipPayments(
-                key,
-                resData[key].entryDate,
-                resData[key].entryAmount,
-                resData[key].entryDesc,
-                resData[key].payeeName,
-                resData[key].paymentDate,
-                resData[key].payeeId
-              )
-            );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('tipId'))
+    } else {
+      return this.authService.token.pipe(
+        take(1),
+        switchMap((token) =>
+          this.http.get<{ [key: string]: TipPaymentData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/tipPayments.json?auth=${token}`
+          )
+        ),
+        map((resData) => {
+          const tips = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key) && resData[key].payeeId === payeeId) {
+              tips.push(
+                new TipPayments(
+                  key,
+                  resData[key].entryDate,
+                  resData[key].entryAmount,
+                  resData[key].entryDesc,
+                  resData[key].payeeName,
+                  resData[key].paymentDate,
+                  resData[key].payeeId
+                )
+              );
+            }
           }
-        }
-        return tips;
-      })
-      // tap((tip) => {
-      // })
-    );
+          return tips;
+        }),
+        tap((tip) => {
+          this.apiService.setLocalData('tipId', tip);
+
+        })
+      );
+    }
+
   }
 
   getTips(id: string) {

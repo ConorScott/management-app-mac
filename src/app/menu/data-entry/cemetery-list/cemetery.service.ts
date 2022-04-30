@@ -3,9 +3,13 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { Cemetery } from './cemetery.model';
 
 interface CemeteryData {
@@ -22,7 +26,9 @@ export class CemeteryService {
     return this._cemetery.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) {}
 
   addCemetery(cemeteryName: string) {
     let generateId: string;
@@ -40,10 +46,17 @@ export class CemeteryService {
       take(1),
       switchMap((token) => {
         newCemetery = new Cemetery(Math.random().toString(), cemeteryName);
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cemeterys.json?auth=${token}`,
-          { ...newCemetery, id: null }
-        );
+        let url = `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cemeterys.json?auth=${token}`;
+        let data = {...newCemetery, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cemeterys.json?auth=${token}`,
+            { ...newCemetery, id: null }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -58,27 +71,32 @@ export class CemeteryService {
   }
 
   fetchCemeterys() {
-
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) => {
-        return this.http.get<{ [key: string]: CemeteryData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cemeterys.json?auth=${token}`
-        );
-      }),
-      map((resData) => {
-        const cemetery = [];
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key)) {
-            cemetery.push(new Cemetery(key, resData[key].cemeteryName));
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('cemetery'))
+    } else {
+      return this.authService.token.pipe(
+        take(1),
+        switchMap((token) => {
+          return this.http.get<{ [key: string]: CemeteryData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/cemeterys.json?auth=${token}`
+          );
+        }),
+        map((resData) => {
+          const cemetery = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key)) {
+              cemetery.push(new Cemetery(key, resData[key].cemeteryName));
+            }
           }
-        }
-        return cemetery;
-      }),
-      tap((cemetery) => {
-        this._cemetery.next(cemetery);
-      })
-    );
+          return cemetery;
+        }),
+        tap((cemetery) => {
+          this.apiService.setLocalData('cemetery', cemetery);
+          this._cemetery.next(cemetery);
+        })
+      );
+    }
+
   }
 
   getCemeterys(id: string) {

@@ -51,8 +51,9 @@ export class ChurchService {
           churchName
         );
         let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/churches.json?auth=${token}`;
+        let data = {...newChurch, id: null};
         if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
-          return from(this.offlineManager.storeRequest(url, 'POST'));
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
         } else {
           return this.http
         .post<{name: string}>(
@@ -98,7 +99,7 @@ export class ChurchService {
             return church;
           }),
           tap((church) => {
-            this.apiService.setLocalData('church ', church);
+            this.apiService.setLocalData('church', church);
             this._church.next(church);
           })
         );

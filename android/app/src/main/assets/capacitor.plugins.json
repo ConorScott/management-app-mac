@@ -1,9 +1,5 @@
 [
 	{
-		"pkg": "@capacitor-community/native-market",
-		"classpath": "com.getcapacitor.community.nativemarket.NativeMarket"
-	},
-	{
 		"pkg": "@capacitor/storage",
 		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
 	}

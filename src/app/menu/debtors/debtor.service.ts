@@ -3,9 +3,13 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, from, of, Subject } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { Payment } from 'src/app/shared/payment.model';
 import { PaymentService } from '../reports/payments/payment.service';
 import { Debtor } from './debtor.model';
@@ -51,7 +55,9 @@ export class DebtorService {
     return this._debtor.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService, private paymentService: PaymentService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private paymentService: PaymentService, private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) {}
 
   addDebtor(
     invoiceId: string,
@@ -144,11 +150,18 @@ export class DebtorService {
         otherDetailsPrice,
         totalBalance
       );
-      return this.http
+      let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors.json?auth=${token}`;
+      let data = {...newDebtor, id: null};
+      if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+        return from(this.offlineManager.storeRequest(url, 'PUT', data));
+      } else {
+        return this.http
         .put<{ name: string }>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors/${invoiceId}.json?auth=${token}`,
           { ...newDebtor, id: null }
         );
+      }
+
     }),
         switchMap(resData => {
           generatedId = resData.name;
@@ -163,53 +176,59 @@ export class DebtorService {
   }
 
   fetchDebtors() {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: DebtorData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors.json?auth=${token}`
-      );
-    }),map((resData) => {
-      const invoice = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key)) {
-          invoice.push(
-            new Debtor(
-              key,
-              resData[key].deceasedName,
-              resData[key].responsible,
-              resData[key].invoiceDate,
-              resData[key].servicesPrice,
-              resData[key].coffinDetails,
-              resData[key].coffinPrice,
-              resData[key].casketCoverPrice,
-              resData[key].coronerDoctorCertPrice,
-              resData[key].cremationPrice,
-              resData[key].urnPrice,
-              resData[key].churchOfferringPrice,
-              resData[key].sacristianPrice,
-              resData[key].flowersPrice,
-              resData[key].graveOpenPrice,
-              resData[key].gravePurchasePrice,
-              resData[key].graveMarkerPrice,
-              resData[key].graveMatsTimbersPrice,
-              resData[key].clothsPrice,
-              resData[key].hairdresserPrice,
-              resData[key].radioNoticePrice,
-              resData[key].paperNoticePrice,
-              resData[key].organistPrice,
-              resData[key].soloistPrice,
-              resData[key].otherDetailsPrice,
-              resData[key].totalBalance
-            )
-          );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('debtor'))
+    } else {
+      return this.authService.token.pipe(take(1), switchMap(token => {
+        return this.http
+        .get<{ [key: string]: DebtorData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/debtors.json?auth=${token}`
+        );
+      }),map((resData) => {
+        const invoice = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            invoice.push(
+              new Debtor(
+                key,
+                resData[key].deceasedName,
+                resData[key].responsible,
+                resData[key].invoiceDate,
+                resData[key].servicesPrice,
+                resData[key].coffinDetails,
+                resData[key].coffinPrice,
+                resData[key].casketCoverPrice,
+                resData[key].coronerDoctorCertPrice,
+                resData[key].cremationPrice,
+                resData[key].urnPrice,
+                resData[key].churchOfferringPrice,
+                resData[key].sacristianPrice,
+                resData[key].flowersPrice,
+                resData[key].graveOpenPrice,
+                resData[key].gravePurchasePrice,
+                resData[key].graveMarkerPrice,
+                resData[key].graveMatsTimbersPrice,
+                resData[key].clothsPrice,
+                resData[key].hairdresserPrice,
+                resData[key].radioNoticePrice,
+                resData[key].paperNoticePrice,
+                resData[key].organistPrice,
+                resData[key].soloistPrice,
+                resData[key].otherDetailsPrice,
+                resData[key].totalBalance
+              )
+            );
+          }
         }
-      }
-      return invoice.reverse();
-    }),
-    tap((debtor) => {
-      this._debtor.next(debtor);
-    })
-    );
+        return invoice.reverse();
+      }),
+      tap((debtor) => {
+        this.apiService.setLocalData('debtor', debtor);
+        this._debtor.next(debtor);
+      })
+      );
+    }
+
   }
 
   getDebtor(id: string) {

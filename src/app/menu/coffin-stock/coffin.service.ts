@@ -3,9 +3,13 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { Coffin } from './coffin.model';
 
 interface CoffinData {
@@ -30,7 +34,9 @@ export class CoffinService {
     return this._coffinBallina.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService,  private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) {}
 
   addCoffin(coffinName: string, stockLevel: number, stockLocation: string) {
     let generateId: string;
@@ -53,11 +59,18 @@ export class CoffinService {
           stockLevel,
           stockLocation
         );
-        return this.http
-        .post<{name: string}>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`,
-          { ...newCoffin, id: null }
-        );
+        let url = `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`;
+        let data = {...newCoffin, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http
+          .post<{name: string}>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`,
+            { ...newCoffin, id: null }
+          );
+        }
+
       }),switchMap((resData) => {
         generateId = resData.name;
         return this.coffin;
@@ -92,11 +105,18 @@ export class CoffinService {
           stockLevel,
           stockLocation
         );
-        return this.http
-        .post<{name: string}>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`,
-          { ...newCoffin, id: null }
-        );
+        let url = `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`;
+        let data = {...newCoffin, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http
+          .post<{name: string}>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`,
+            { ...newCoffin, id: null }
+          );
+        }
+
       }),switchMap((resData) => {
         generateId = resData.name;
         return this.coffinBallina;
@@ -109,89 +129,107 @@ export class CoffinService {
     );
   }
   fetchAllCoffins() {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: CoffinData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
-      );
-    }), map((resData) => {
-      const coffin = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key)) {
-          coffin.push(
-            new Coffin(
-              key,
-              resData[key].coffinName,
-              resData[key].stockLevel,
-              resData[key].stockLocation
-            )
-          );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('allCoffinStock'))
+    } else {
+      return this.authService.token.pipe(take(1), switchMap(token => {
+        return this.http
+        .get<{ [key: string]: CoffinData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
+        );
+      }), map((resData) => {
+        const coffin = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key)) {
+            coffin.push(
+              new Coffin(
+                key,
+                resData[key].coffinName,
+                resData[key].stockLevel,
+                resData[key].stockLocation
+              )
+            );
+          }
         }
-      }
-      return coffin;
-    }),
-    tap((coffin) => {
-      this._coffin.next(coffin);
-    })
-    );
+        return coffin;
+      }),
+      tap((coffin) => {
+        this.apiService.setLocalData('allCoffinStock', coffin);
+        this._coffin.next(coffin);
+      })
+      );
+    }
+
   }
 
   fetchCoffins(formType: string) {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: CoffinData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
-      );
-    }), map((resData) => {
-      const coffin = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key) &&
-        resData[key].stockLocation === formType) {
-          coffin.push(
-            new Coffin(
-              key,
-              resData[key].coffinName,
-              resData[key].stockLevel,
-              resData[key].stockLocation
-            )
-          );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('allCoffinSligo'))
+    } else {
+      return this.authService.token.pipe(take(1), switchMap(token => {
+        return this.http
+        .get<{ [key: string]: CoffinData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
+        );
+      }), map((resData) => {
+        const coffin = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key) &&
+          resData[key].stockLocation === formType) {
+            coffin.push(
+              new Coffin(
+                key,
+                resData[key].coffinName,
+                resData[key].stockLevel,
+                resData[key].stockLocation
+              )
+            );
+          }
         }
-      }
-      return coffin;
-    }),
-    tap((coffin) => {
-      this._coffin.next(coffin);
-    })
-    );
+        return coffin;
+      }),
+      tap((coffin) => {
+        this.apiService.setLocalData('allCoffinSligo', coffin);
+        this._coffin.next(coffin);
+      })
+      );
+    }
+
   }
 
   fetchCoffinsBallina(formType: string) {
-    return this.authService.token.pipe(take(1), switchMap(token => {
-      return this.http
-      .get<{ [key: string]: CoffinData }>(
-        `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
-      );
-    }), map((resData) => {
-      const coffin = [];
-      for (const key in resData) {
-        if (resData.hasOwnProperty(key) &&
-        resData[key].stockLocation === formType) {
-          coffin.push(
-            new Coffin(
-              key,
-              resData[key].coffinName,
-              resData[key].stockLevel,
-              resData[key].stockLocation
-            )
-          );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('allCoffinBallina'))
+    } else {
+      return this.authService.token.pipe(take(1), switchMap(token => {
+        return this.http
+        .get<{ [key: string]: CoffinData }>(
+          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/coffins.json?auth=${token}`
+        );
+      }), map((resData) => {
+        const coffin = [];
+        for (const key in resData) {
+          if (resData.hasOwnProperty(key) &&
+          resData[key].stockLocation === formType) {
+            coffin.push(
+              new Coffin(
+                key,
+                resData[key].coffinName,
+                resData[key].stockLevel,
+                resData[key].stockLocation
+              )
+            );
+          }
         }
-      }
-      return coffin;
-    }),
-    tap((coffin) => {
-      this._coffinBallina.next(coffin);
-    })
-    );
+        return coffin;
+      }),
+      tap((coffin) => {
+        this.apiService.setLocalData('allCoffinBallina', coffin);
+        this._coffinBallina.next(coffin);
+      })
+      );
+    }
+
   }
 
   getCoffin(id: string) {

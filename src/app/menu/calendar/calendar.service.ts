@@ -6,9 +6,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Calendar } from '@fullcalendar/angular';
 import { id } from 'date-fns/locale';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { Event } from './event.model';
 
 const colors: any = {
@@ -53,7 +57,9 @@ export class CalendarService {
     return this._calendar.asObservable();
   }
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService) {}
 
   // addEvent(title: string, start: Date, end: Date, color, allDay: boolean) {
   //   let generateId: string;
@@ -116,10 +122,17 @@ export class CalendarService {
       switchMap((token) => {
         // newCalendar = events;
         newCalendar = new Event(Math.random().toString(), uid, title, start, end, color, allDay, desc);
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
-          { ...newCalendar, id: null }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`;
+        let data = {...newCalendar, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
+            { ...newCalendar, id: null }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -153,10 +166,17 @@ export class CalendarService {
       switchMap((token) => {
         // newCalendar = events;
         newCalendar = new Event(Math.random().toString(), deceasedId, title, start, end, color, allDay);
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
-          { ...newCalendar }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`;
+        let data = {...newCalendar, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
+            { ...newCalendar }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -164,6 +184,7 @@ export class CalendarService {
       }),
       take(1),
       tap((calendar) => {
+        this.apiService.setLocalData('events', calendar);
         newCalendar.id = generateId;
         this._calendar.next(calendar.concat(newCalendar));
       })
@@ -191,10 +212,17 @@ export class CalendarService {
         // newCalendar = events;
         console.log(allDay);
         newCalendar = new Event(Math.random().toString(), uid, title, start, end, color, allDay);
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
-          { ...newCalendar, id: null }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`;
+        let data = {...newCalendar, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`,
+            { ...newCalendar, id: null }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -248,10 +276,17 @@ export class CalendarService {
           oldCalendar.color,
           allDay
         );
-        return this.http.put<Event>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events/${eventId}.json?auth=${fetchedToken}`,
-          { ...updateCalendar[updateCalendarIndex], id: null }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events/${eventId}.json?auth=${fetchedToken}`;
+        let data = {...updateCalendar[updateCalendarIndex], id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'PUT', data));
+        } else {
+          return this.http.put<Event>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events/${eventId}.json?auth=${fetchedToken}`,
+            { ...updateCalendar[updateCalendarIndex], id: null }
+          );
+        }
+
       }),
       tap(() => {
         this._calendar.next(updateCalendar);
@@ -260,37 +295,43 @@ export class CalendarService {
   }
 
   fetchEvents() {
-    return this.authService.token.pipe(
-      take(1),
-      switchMap((token) => {
-        return this.http.get<{ [key: string]: EventData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`
-        );
-      }),
-      map((resData) => {
-        const calendar = [];
-        for (const key in resData) {
-          if (resData.hasOwnProperty(key)) {
-            calendar.push(
-              new Event(
-                key,
-                resData[key].deceasedId,
-                resData[key].title,
-                new Date(resData[key].start),
-                new Date(resData[key].end),
-                resData[key].color,
-                resData[key].allDay
-              )
-            );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('events'))
+    } else {
+      return this.authService.token.pipe(
+        take(1),
+        switchMap((token) => {
+          return this.http.get<{ [key: string]: EventData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events.json?auth=${token}`
+          );
+        }),
+        map((resData) => {
+          const calendar = [];
+          for (const key in resData) {
+            if (resData.hasOwnProperty(key)) {
+              calendar.push(
+                new Event(
+                  key,
+                  resData[key].deceasedId,
+                  resData[key].title,
+                  new Date(resData[key].start),
+                  new Date(resData[key].end),
+                  resData[key].color,
+                  resData[key].allDay
+                )
+              );
+            }
           }
-        }
-        return calendar;
-      }),
-      tap((calendar) => {
-        this._calendar.next(calendar);
-        console.log(calendar);
-      })
-    );
+          return calendar;
+        }),
+        tap((calendar) => {
+          this.apiService.setLocalData('events', calendar);
+          this._calendar.next(calendar);
+          console.log(calendar);
+        })
+      );
+    }
+
   }
 
   reposeDate(deceasedName, reposeDate, reposeTime, reposeEndTime, deceasedId) {

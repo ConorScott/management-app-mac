@@ -3,9 +3,13 @@
 /* eslint-disable no-underscore-dangle */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, from, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ApiService } from 'src/app/services/api.service';
+import { ConnectionStatus, NetworkService } from 'src/app/services/network.service';
+import { OfflineManagerService } from 'src/app/services/offline-manager.service';
+import { StorageService } from 'src/app/services/storage-service.service';
 import { DebtorService } from '../../debtors/debtor.service';
 import { Invoice } from './invoice.model';
 
@@ -76,7 +80,10 @@ export class InvoiceService {
   constructor(
     private authService: AuthService,
     private http: HttpClient,
-    private debtorService: DebtorService
+    private debtorService: DebtorService,
+    private networkService: NetworkService,
+    private offlineManager: OfflineManagerService,
+    private storageService: StorageService, private apiService: ApiService
   ) {}
 
   addInvoice(
@@ -200,10 +207,17 @@ export class InvoiceService {
           createdBy,
           deathDate
         );
-        return this.http.post<{ name: string }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`,
-          { ...newInvoice, id: null }
-        );
+        let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`;
+        let data = {...newInvoice, id: null};
+        if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+          return from(this.offlineManager.storeRequest(url, 'POST', data));
+        } else {
+          return this.http.post<{ name: string }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`,
+            { ...newInvoice, id: null }
+          );
+        }
+
       }),
       switchMap((resData) => {
         generateId = resData.name;
@@ -247,90 +261,96 @@ export class InvoiceService {
   }
 
   fetchInvoices() {
-    let fetchedUserId: string;
-    return this.authService.userId.pipe(
-      take(1),
-      switchMap((userId) => {
-        if (!userId) {
-          throw new Error('User not found!');
-        }
-        fetchedUserId = userId;
-        return this.authService.token;
-      }),
-      take(1),
-      switchMap((token) => {
-        return this.http.get<{ [key: string]: InvoiceData }>(
-          `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`
-        );
-      }),
-      map((invoiceData) => {
-        const invoices = [];
-        for (const key in invoiceData) {
-          if (invoiceData.hasOwnProperty(key)) {
-            invoices.push(
-              new Invoice(
-                key,
-                invoiceData[key].deceasedName,
-                invoiceData[key].responsible,
-                invoiceData[key].invoiceDate,
-                invoiceData[key].services,
-                invoiceData[key].servicesPrice,
-                invoiceData[key].coffinDetails,
-                invoiceData[key].coffinPrice,
-                invoiceData[key].stockLocation,
-                invoiceData[key].casketCover,
-                invoiceData[key].casketCoverPrice,
-                invoiceData[key].coronerDoctorCert,
-                invoiceData[key].coronerDoctorCertPrice,
-                invoiceData[key].cremation,
-                invoiceData[key].cremationPrice,
-                invoiceData[key].urn,
-                invoiceData[key].urnPrice,
-                invoiceData[key].churchOfferring,
-                invoiceData[key].churchOfferringPrice,
-                invoiceData[key].sacristian,
-                invoiceData[key].sacristianPrice,
-                invoiceData[key].flowers,
-                invoiceData[key].flowersPrice,
-                invoiceData[key].graveOpen,
-                invoiceData[key].graveOpenPrice,
-                invoiceData[key].gravePurchaseToCouncil,
-                invoiceData[key].gravePurchasePrice,
-                invoiceData[key].graveMarker,
-                invoiceData[key].graveMarkerPrice,
-                invoiceData[key].graveMatsTimbers,
-                invoiceData[key].graveMatsTimbersPrice,
-                invoiceData[key].cloths,
-                invoiceData[key].clothsPrice,
-                invoiceData[key].hairdresser,
-                invoiceData[key].hairdresserPrice,
-                invoiceData[key].radioDeathNotices,
-                invoiceData[key].radioNoticePrice,
-                invoiceData[key].paperDeathNotices,
-                invoiceData[key].paperNoticePrice,
-                invoiceData[key].organist,
-                invoiceData[key].organistPrice,
-                invoiceData[key].soloist,
-                invoiceData[key].soloistPrice,
-                invoiceData[key].otherDetails,
-                invoiceData[key].otherDetailsPrice,
-                invoiceData[key].totalBalance,
-                invoiceData[key].address1,
-                invoiceData[key].address2,
-                invoiceData[key].address3,
-                invoiceData[key].county,
-                invoiceData[key].createdBy,
-                invoiceData[key].deathDate
-              )
-            );
+    if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+      return from(this.apiService.getLocalData('invoices'))
+    } else {
+      let fetchedUserId: string;
+      return this.authService.userId.pipe(
+        take(1),
+        switchMap((userId) => {
+          if (!userId) {
+            throw new Error('User not found!');
           }
-        }
-        return invoices.reverse();
-      }),
-      tap((invoices) => {
-        this._invoice.next(invoices);
-      })
-    );
+          fetchedUserId = userId;
+          return this.authService.token;
+        }),
+        take(1),
+        switchMap((token) => {
+          return this.http.get<{ [key: string]: InvoiceData }>(
+            `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/invoices.json?auth=${token}`
+          );
+        }),
+        map((invoiceData) => {
+          const invoices = [];
+          for (const key in invoiceData) {
+            if (invoiceData.hasOwnProperty(key)) {
+              invoices.push(
+                new Invoice(
+                  key,
+                  invoiceData[key].deceasedName,
+                  invoiceData[key].responsible,
+                  invoiceData[key].invoiceDate,
+                  invoiceData[key].services,
+                  invoiceData[key].servicesPrice,
+                  invoiceData[key].coffinDetails,
+                  invoiceData[key].coffinPrice,
+                  invoiceData[key].stockLocation,
+                  invoiceData[key].casketCover,
+                  invoiceData[key].casketCoverPrice,
+                  invoiceData[key].coronerDoctorCert,
+                  invoiceData[key].coronerDoctorCertPrice,
+                  invoiceData[key].cremation,
+                  invoiceData[key].cremationPrice,
+                  invoiceData[key].urn,
+                  invoiceData[key].urnPrice,
+                  invoiceData[key].churchOfferring,
+                  invoiceData[key].churchOfferringPrice,
+                  invoiceData[key].sacristian,
+                  invoiceData[key].sacristianPrice,
+                  invoiceData[key].flowers,
+                  invoiceData[key].flowersPrice,
+                  invoiceData[key].graveOpen,
+                  invoiceData[key].graveOpenPrice,
+                  invoiceData[key].gravePurchaseToCouncil,
+                  invoiceData[key].gravePurchasePrice,
+                  invoiceData[key].graveMarker,
+                  invoiceData[key].graveMarkerPrice,
+                  invoiceData[key].graveMatsTimbers,
+                  invoiceData[key].graveMatsTimbersPrice,
+                  invoiceData[key].cloths,
+                  invoiceData[key].clothsPrice,
+                  invoiceData[key].hairdresser,
+                  invoiceData[key].hairdresserPrice,
+                  invoiceData[key].radioDeathNotices,
+                  invoiceData[key].radioNoticePrice,
+                  invoiceData[key].paperDeathNotices,
+                  invoiceData[key].paperNoticePrice,
+                  invoiceData[key].organist,
+                  invoiceData[key].organistPrice,
+                  invoiceData[key].soloist,
+                  invoiceData[key].soloistPrice,
+                  invoiceData[key].otherDetails,
+                  invoiceData[key].otherDetailsPrice,
+                  invoiceData[key].totalBalance,
+                  invoiceData[key].address1,
+                  invoiceData[key].address2,
+                  invoiceData[key].address3,
+                  invoiceData[key].county,
+                  invoiceData[key].createdBy,
+                  invoiceData[key].deathDate
+                )
+              );
+            }
+          }
+          return invoices.reverse();
+        }),
+        tap((invoices) => {
+          this.apiService.setLocalData('invoices', invoices);
+          this._invoice.next(invoices);
+        })
+      );
+    }
+
   }
   getInvoices(id: string) {
     return this.authService.token.pipe(

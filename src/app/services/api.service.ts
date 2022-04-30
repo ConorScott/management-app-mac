@@ -37,11 +37,11 @@ export class ApiService {
   updateUser(user, data): Observable<any> {
     let url = `${API_URL}/users/${user}`;
     if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
-      return from(this.offlineManager.storeRequest(url, 'PUT'));
+      return from(this.offlineManager.storeRequest(url, 'PUT', data));
     } else {
       return this.http.put(url, data).pipe(
         catchError(err => {
-          this.offlineManager.storeRequest(url, 'PUT');
+          this.offlineManager.storeRequest(url, 'PUT', data);
           throw new Error(err);
         })
       );
