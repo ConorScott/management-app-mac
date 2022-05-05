@@ -22,34 +22,57 @@
               <ion-input class="form-input" type="text" formControlName="title"></ion-input>
             </ion-item>
           </ion-col>
-          <ion-col size="10">
+          <ion-col size="10" *ngIf="event.title.includes('Date')">
+            <ion-item lines="none">
+              <ion-label class="form-label" position="stacked">Date</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date" formControlName="start" #start></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10" *ngIf="event.title.includes('Date')">
+            <ion-item lines="none">
+              <ion-label class="form-label" position="stacked">Start Time</ion-label>
+        <ion-datetime display-format="h:mm A" picker-format="h:mm A" class="form-input-date" formControlName="start" #start></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10" *ngIf="event.title.includes('Date')">
+            <ion-item lines="none">
+              <ion-label class="form-label" position="stacked">End Time</ion-label>
+        <ion-datetime display-format="h:mm A" picker-format="h:mm A" class="form-input-date" formControlName="end" #start></ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col size="10" *ngIf="!event.title.includes('Date')">
             <ion-item lines="none">
               <ion-label class="form-label" position="stacked">Start Date</ion-label>
         <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date" formControlName="start" #start></ion-datetime>
             </ion-item>
           </ion-col>
-          <ion-col size="10" *ngIf="!allDay">
+          <ion-col size="10" *ngIf="!allDay && !event.title.includes('Date')">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">End Date</ion-label>
-              <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date"  formControlName="end"></ion-datetime>
+              <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date"  formControlName="end" [min]="form.controls['start'].value"></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col size="10" *ngIf="allDay">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Return Date</ion-label>
-              <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date"  formControlName="end"></ion-datetime>
+              <ion-datetime displayFormat="DD/MM/YYYY" class="form-input-date"  formControlName="end" [min]="form.controls['start'].value"></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col size="10" *ngIf="event.desc">
             <ion-item lines="none">
               <ion-label position="stacked" class="form-label">Event Description</ion-label>
-              <ion-textarea rows="3" class="form-input" formControlName="desc"></ion-textarea>
+              <ion-textarea rows="2" class="form-input" formControlName="desc"></ion-textarea>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-      <ion-col size="8">
+      <ion-col size="8" *ngIf="!event.title.includes('Date')">
         <ion-button class="submit-button" type="submit" expand="block" (click)="onUpdateEvent()">
+          Submit
+        </ion-button>
+      </ion-col>
+      <ion-col size="8" *ngIf="event.title.includes('Date')">
+        <ion-button class="submit-button" type="submit" expand="block" (click)="onUpdateFuneralEvent()">
           Submit
         </ion-button>
       </ion-col>

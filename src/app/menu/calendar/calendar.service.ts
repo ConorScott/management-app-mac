@@ -241,7 +241,8 @@ export class CalendarService {
     title: string,
     start: Date,
     end: Date,
-    allDay: boolean
+    allDay: boolean,
+    desc?: string
   ) {
     let updateCalendar: Event[];
     let fetchedToken: string;
@@ -274,7 +275,8 @@ export class CalendarService {
           start,
           end,
           oldCalendar.color,
-          allDay
+          allDay,
+          desc
         );
         let url =`https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/events/${eventId}.json?auth=${fetchedToken}`;
         let data = {...updateCalendar[updateCalendarIndex], id: null};

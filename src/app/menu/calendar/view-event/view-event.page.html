@@ -3,8 +3,8 @@
   <ion-card>
     <ion-card-header>
       <ion-item lines="none" class="card-title-header">
-        <ion-label class="card-title">
-          Event Details:
+        <ion-label class="card-title ion-text-wrap">
+          {{title}}
         </ion-label>
         <ion-icon name="close-outline" slot="end" (click)="onCancel()"></ion-icon>
       </ion-item>
@@ -19,12 +19,6 @@
       <ion-grid>
 
         <ion-item lines="none" *ngIf="!dayOff">
-          <ion-label class="form-label">Title:</ion-label>
-          <ion-label class="label" text-wrap>{{title}}</ion-label>
-        </ion-item>
-
-
-        <ion-item lines="none" *ngIf="!dayOff">
           <ion-label class="form-label">Start Time:</ion-label>
           <ion-label class="label">{{start | date: "shortTime"}}</ion-label>
         </ion-item>
@@ -33,8 +27,8 @@
           <ion-label class="label">{{end | date: "shortTime"}}</ion-label>
         </ion-item>
         <ion-item lines="none" *ngIf="!dayOff && desc">
-          <ion-label position="stacked" class="form-label">Event Description:</ion-label>
-          <ion-textarea rows="3" class="label">{{desc}}</ion-textarea>
+          <ion-label position="stacked" class="form-label-desc">Event Description:</ion-label>
+          <ion-textarea rows="1" class="label">{{desc}}</ion-textarea>
         </ion-item>
 
         <ion-item lines="none" *ngIf="dayOff">

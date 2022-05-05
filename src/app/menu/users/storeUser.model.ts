@@ -6,6 +6,6 @@ export class StoreUser {
     public password: string,
     public name: string,
     public role: string,
-    public createdAt: Date = new Date(),
+    public createdAt: Date,
     ){}
 }

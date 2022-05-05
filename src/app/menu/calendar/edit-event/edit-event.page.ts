@@ -27,6 +27,7 @@ export class EditEventPage implements OnInit {
   returnDate: Date;
   endDate: Date;
   dateString: string;
+  massEvent = false;
   private eventSub: Subscription;
 
   constructor(
@@ -103,8 +104,13 @@ export class EditEventPage implements OnInit {
   }
 
   onUpdateEvent() {
-    this.endDate = new Date(this.form.value.end);
-    this.endDate.setHours(this.endDate.getHours() - 24);
+    if(this.event.color.primary === '#f29c96'){
+      this.endDate = this.form.value.end;
+    } else {
+      this.endDate = new Date(this.form.value.end);
+      this.endDate.setHours(this.endDate.getHours() - 24);
+    }
+
 
         this.loadingCtrl
       .create({
@@ -118,6 +124,39 @@ export class EditEventPage implements OnInit {
             this.form.value.title,
             this.form.value.start,
             this.endDate,
+            this.allDay,
+            this.form.value.desc
+          )
+          .subscribe(() => {
+            loadingEl.dismiss();
+            this.form.reset();
+            this.eventSub.unsubscribe();
+            this.modal.dismiss();
+          });
+      });
+  }
+
+  onUpdateFuneralEvent() {
+    const startDate = this.form.value.start.split('T')[0];
+    const startTime = this.form.value.start.split('T')[1];
+    const endDate = this.form.value.end.split('T')[0];
+    const endTime = this.form.value.end.split('T')[1];
+    const eventStart = startDate + 'T' + startTime;
+    const eventEnd = startDate + 'T' + endTime;
+
+
+        this.loadingCtrl
+      .create({
+        message: 'Updating Event',
+      })
+      .then((loadingEl) => {
+        loadingEl.present();
+        this.calendarService
+          .updateEventTimes(
+            this.eventId,
+            this.form.value.title,
+            new Date(eventStart),
+            new Date(eventEnd),
             this.allDay
           )
           .subscribe(() => {

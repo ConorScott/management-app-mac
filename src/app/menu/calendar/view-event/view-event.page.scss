@@ -26,23 +26,33 @@ ion-content::part(background){
 ion-card{
   top: 50%;
     transform: translateY(-50%);
-    width: 100%;
+    width: 90%;
+    margin: auto;
 }
 .form-label{
   color: #525f7f;
   font-weight: 600;
   font-size: .875rem;
   min-width: 0%;
-    max-width: 60%;
+    max-width: 30%;
+}
+.form-label-desc{
+  color: #525f7f;
+  font-weight: 600;
+  font-size: 1.1rem;
+  min-width: 0%;
+    max-width: 30%;
+    overflow: visible;
 }
 
 .label{
   font-size: .875rem;
-  min-width: 60%;
-    max-width: 60%;
+  min-width: 70%;
+    max-width: 70%;
 }
 .card-title{
   color: #525f7f;
+  font-size:18px;
 }
 ion-icon:hover {
   -ms-transform: scale(1.5); /* IE 9 */
@@ -61,6 +71,15 @@ ion-icon:hover {
     font-size: 1.175rem;
     min-width: 60%;
     max-width: 60%;
+}
+.card-title-header .card-title{
+  margin: 0;
+}
+.today-date::part(native){
+  --min-height: 20px !important;
+}
+.today-date ion-label{
+  font-size: 16px;
 }
 @media only screen and (max-width: 576px)
 {

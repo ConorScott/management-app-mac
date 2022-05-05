@@ -188,7 +188,8 @@ export class UserService {
           email,
           password,
           name,
-          role
+          role,
+          oldUser.createdAt
         );
         return this.http.put<StoreUser>(
           `https://management-app-df9b2-default-rtdb.europe-west1.firebasedatabase.app/users/${userId}.json?auth=${fetchedToken}`,
@@ -215,7 +216,8 @@ export class UserService {
           resData.email,
           resData.password,
           resData.name,
-          resData.role
+          resData.role,
+          resData.createdAt
         );
       })
     );
