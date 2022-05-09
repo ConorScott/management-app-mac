@@ -2,10 +2,12 @@ import {
   app,
   BrowserWindow,
   Menu,
+  ipcMain,
   MenuItem,
   nativeImage,
   Tray,
 } from "electron";
+import { autoUpdater} from "electron-updater"
 import { join } from "path";
 import electronIsDev from "electron-is-dev";
 import electronServe from "electron-serve";
@@ -84,6 +86,21 @@ class ElectronCapacitorApp {
           "electron-rt.js"
         ),
       },
+    });
+
+    this.MainWindow.maximize();
+
+    this.MainWindow.once('ready-to-show', () => {
+      console.log('working check');
+      autoUpdater.checkForUpdatesAndNotify();
+    });
+
+    autoUpdater.on('update-available', () => {
+
+      this.MainWindow.webContents.send('update_available');
+    });
+    autoUpdater.on('update-downloaded', () => {
+      this.MainWindow.webContents.send('update_downloaded');
     });
 
     if (CapacitorFileConfig.backgroundColor) {
@@ -198,3 +215,14 @@ app.on("activate", async function () {
 });
 
 // Place all ipc or other electron api calls and custom functionality under this line
+ipcMain.on('app_version', (event) => {
+  console.log('working version');
+  event.sender.send('app_version', { version: app.getVersion() });
+});
+
+
+
+ipcMain.on('restart_app', () => {
+  console.log('working');
+  autoUpdater.quitAndInstall();
+});
