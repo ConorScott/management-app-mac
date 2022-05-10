@@ -1,6 +1,6 @@
 {
   "appId": "com.mcgowans.managementapp",
-  "appName": "mcgowans-management-app",
+  "appName": "McGowans",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
